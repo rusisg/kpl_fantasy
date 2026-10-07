@@ -1,0 +1,289 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================
+// ENUMS
+// ============================================
+enum Position {
+  GK
+  DEF
+  MID
+  FWD
+}
+
+enum ChipType {
+  WILDCARD
+  TRIPLE_CAPTAIN
+  BENCH_BOOST
+  FREE_HIT
+}
+
+enum FixtureStatus {
+  SCHEDULED
+  LIVE
+  FINISHED
+  POSTPONED
+  CANCELLED
+}
+
+// ============================================
+// CORE MODELS
+// ============================================
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  password      String?   // Hashed
+  emailVerified DateTime?
+  squad         Squad?
+  leagues       LeagueMember[]
+  createdLeagues League[] @relation("CreatedLeagues")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+}
+
+model Club {
+  id           String    @id @default(cuid())
+  name         String    // "FC Astana"
+  shortName    String    @unique // "AST"
+  logoUrl      String?
+  players      Player[]
+  homeFixtures Fixture[] @relation("HomeFixtures")
+  awayFixtures Fixture[] @relation("AwayFixtures")
+
+  @@index([shortName])
+}
+
+model Player {
+  id              String                @id @default(cuid())
+  firstName       String
+  lastName        String
+  clubId          String
+  club            Club                  @relation(fields: [clubId], references: [id])
+  position        Position
+  price           Decimal               @db.Decimal(4, 1) // 4.0 to 15.0
+  totalPoints     Int                   @default(0)
+  squadPlayers    SquadPlayer[]
+  performances    PlayerPerformance[]
+  priceHistory    PlayerPriceHistory[]
+  transfersIn     Transfer[]            @relation("TransfersIn")
+  transfersOut    Transfer[]            @relation("TransfersOut")
+  snapshotPlayers SquadSnapshotPlayer[]
+
+  @@index([clubId])
+  @@index([position])
+}
+
+model Gameweek {
+  id           Int                 @id // 1, 2, 3...
+  deadline     DateTime
+  isCurrent    Boolean             @default(false)
+  isFinished   Boolean             @default(false)
+  fixtures     Fixture[]
+  snapshots    SquadSnapshot[]
+  performances PlayerPerformance[]
+  transfers    Transfer[]
+
+  @@index([isCurrent])
+  @@index([isFinished])
+}
+
+model Fixture {
+  id           String        @id @default(cuid())
+  gameweekId   Int
+  gameweek     Gameweek      @relation(fields: [gameweekId], references: [id])
+  homeClubId   String
+  homeClub     Club          @relation("HomeFixtures", fields: [homeClubId], references: [id])
+  awayClubId   String
+  awayClub     Club          @relation("AwayFixtures", fields: [awayClubId], references: [id])
+  kickoffTime  DateTime
+  homeScore    Int?
+  awayScore    Int?
+  status       FixtureStatus @default(SCHEDULED)
+  homeStats    Json?
+  awayStats    Json?
+  performances PlayerPerformance[]
+
+  @@index([gameweekId])
+  @@index([homeClubId, awayClubId])
+  @@index([status])
+}
+
+// ============================================
+// SQUAD & TRANSFER MODELS
+// ============================================
+model Squad {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id])
+  name                  String
+  budget                Decimal   @default(100.0) @db.Decimal(5, 1)
+  freeTransfers         Int       @default(1)
+  wildcardUsed          Boolean   @default(false)
+  wildcard2Used         Boolean   @default(false)
+  tripleCaptainUsed     Boolean   @default(false)
+  benchBoostUsed        Boolean   @default(false)
+  freeHitUsed           Boolean   @default(false)
+  lastTransfersGameweek Int?
+  players               SquadPlayer[]
+  snapshots             SquadSnapshot[]
+  transfers             Transfer[]
+  leagueMemberships     LeagueMember[]
+
+  @@index([userId])
+}
+
+model SquadPlayer {
+  id            String    @id @default(cuid())
+  squadId       String
+  squad         Squad     @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  playerId      String
+  player        Player    @relation(fields: [playerId], references: [id])
+  positionOrder Int       // 1-15
+  isCaptain     Boolean   @default(false)
+  isViceCaptain Boolean   @default(false)
+
+  @@unique([squadId, playerId])
+  @@index([squadId, positionOrder])
+}
+
+model Transfer {
+  id          String    @id @default(cuid())
+  squadId     String
+  squad       Squad     @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  gameweekId  Int
+  gameweek    Gameweek  @relation(fields: [gameweekId], references: [id])
+  playerInId  String
+  playerIn    Player    @relation("TransfersIn", fields: [playerInId], references: [id])
+  playerOutId String
+  playerOut   Player    @relation("TransfersOut", fields: [playerOutId], references: [id])
+  isWildcard  Boolean   @default(false)
+  isFreeHit   Boolean   @default(false)
+  cost        Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  @@index([squadId, gameweekId])
+  @@index([gameweekId])
+}
+
+// ============================================
+// GAMEWEEK SNAPSHOT (IMMUTABLE HISTORY)
+// ============================================
+model SquadSnapshot {
+  id          String                @id @default(cuid())
+  squadId     String
+  squad       Squad                 @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  gameweekId  Int
+  gameweek    Gameweek              @relation(fields: [gameweekId], references: [id])
+  totalPoints Int                   @default(0)
+  rank        Int?
+  chipPlayed  ChipType?
+  players     SquadSnapshotPlayer[]
+
+  @@unique([squadId, gameweekId])
+  @@index([gameweekId])
+  @@index([squadId])
+}
+
+model SquadSnapshotPlayer {
+  id            String        @id @default(cuid())
+  snapshotId    String
+  snapshot      SquadSnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+  playerId      String
+  player        Player        @relation(fields: [playerId], references: [id])
+  positionOrder Int           // 1-11 starting, 12-15 bench
+  isCaptain     Boolean       @default(false)
+  isViceCaptain Boolean       @default(false)
+  multiplier    Int           @default(1) // 1, 2 (C), 3 (TC)
+  points        Int           @default(0)
+
+  @@unique([snapshotId, playerId])
+  @@index([snapshotId, positionOrder])
+}
+
+// ============================================
+// PLAYER PERFORMANCE (POINT CALCULATION SOURCE)
+// ============================================
+model PlayerPerformance {
+  id              String   @id @default(cuid())
+  playerId        String
+  player          Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  gameweekId      Int
+  gameweek        Gameweek @relation(fields: [gameweekId], references: [id])
+  fixtureId       String
+  fixture         Fixture  @relation(fields: [fixtureId], references: [id])
+
+  minutes         Int      @default(0)
+  goalsScored     Int      @default(0)
+  assists         Int      @default(0)
+  cleanSheets     Int      @default(0)
+  goalsConceded   Int      @default(0)
+  saves           Int      @default(0)
+  penaltiesSaved  Int      @default(0)
+  penaltiesMissed Int      @default(0)
+  yellowCards     Int      @default(0)
+  redCards        Int      @default(0)
+  ownGoals        Int      @default(0)
+  bonusPoints     Int      @default(0)
+  bps             Int      @default(0)
+  totalPoints     Int      @default(0)
+
+  @@unique([playerId, gameweekId])
+  @@index([gameweekId])
+  @@index([fixtureId])
+}
+
+// ============================================
+// PRICE HISTORY
+// ============================================
+model PlayerPriceHistory {
+  id       String   @id @default(cuid())
+  playerId String
+  player   Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  gameweek Int
+  price    Decimal  @db.Decimal(4, 1)
+  date     DateTime @default(now())
+
+  @@unique([playerId, gameweek])
+  @@index([gameweek])
+}
+
+// ============================================
+// MINI-LEAGUES
+// ============================================
+model League {
+  id          String         @id @default(cuid())
+  name        String
+  code        String         @unique
+  isPrivate   Boolean        @default(true)
+  createdById String
+  createdBy   User           @relation("CreatedLeagues", fields: [createdById], references: [id])
+  members     LeagueMember[]
+  createdAt   DateTime       @default(now())
+
+  @@index([code])
+}
+
+model LeagueMember {
+  id       String   @id @default(cuid())
+  leagueId String
+  league   League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  squadId  String
+  squad    Squad    @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  userId   String?
+  user     User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  joinedAt DateTime @default(now())
+
+  @@unique([leagueId, squadId])
+  @@index([squadId])
+}
