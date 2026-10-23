@@ -17,15 +17,20 @@ const CLUBS = [
   { name: "Kyzylzhar SK", shortName: "KYZ" },
   { name: "Kaisar Kyzylorda", shortName: "KSR" },
   { name: "FC Shakhter Karagandy", shortName: "SHA" },
-  { name: "FC Zhetysu", shortName: "ZHE" },
+  { name: "FC Zhetysu", shortName: "ZHT" },
   { name: "FC Atyrau", shortName: "ATY" },
-  { name: "FC Elimai", shortName: "ELI" },
+  { name: "FC Yelimay", shortName: "ELI" },
   { name: "FC Turan", shortName: "TUR" },
-  { name: "FC Zhenis", shortName: "ZHN" },
+  { name: "FK Zhenis", shortName: "ZHN" },
   { name: "FC Okzhetpes", shortName: "OKZ" },
 ];
 
-const SAMPLE_PLAYERS_PER_CLUB: { firstName: string; lastName: string; position: Position; price: number }[] = [
+const SAMPLE_PLAYERS_PER_CLUB: {
+  firstName: string;
+  lastName: string;
+  position: Position;
+  price: number;
+}[] = [
   // Goalkeepers
   { firstName: "Aleksandr", lastName: "Mokin", position: Position.GK, price: 5.0 },
   { firstName: "Stas", lastName: "Pokatilov", position: Position.GK, price: 4.5 },
@@ -48,6 +53,12 @@ const SAMPLE_PLAYERS_PER_CLUB: { firstName: string; lastName: string; position: 
 ];
 
 async function main() {
+  if (process.env.NODE_ENV === "production" && !process.argv.includes("--force")) {
+    throw new Error(
+      "Refusing to run destructive seed in production without --force flag."
+    );
+  }
+
   console.log("🌱 Starting KPL Fantasy database seeding...");
 
   // 1. Clean existing records
@@ -68,7 +79,9 @@ async function main() {
   const startDate = new Date();
   const gameweeks = [];
   for (let i = 1; i <= 38; i++) {
-    const deadline = new Date(startDate.getTime() + (i - 1) * 7 * 24 * 60 * 60 * 1000);
+    const deadline = new Date(
+      startDate.getTime() + (i - 1) * 7 * 24 * 60 * 60 * 1000
+    );
     gameweeks.push({
       id: i,
       deadline,
@@ -90,6 +103,7 @@ async function main() {
     });
 
     const playerRecords = SAMPLE_PLAYERS_PER_CLUB.map((p) => ({
+      externalId: `seed-${clubData.shortName.toLowerCase()}-${p.lastName.toLowerCase()}`,
       firstName: p.firstName,
       lastName: p.lastName,
       position: p.position,
@@ -102,7 +116,9 @@ async function main() {
     totalPlayersCreated += playerRecords.length;
   }
 
-  console.log(`✅ Seeded ${CLUBS.length} KPL Clubs and ${totalPlayersCreated} Players.`);
+  console.log(
+    `✅ Seeded ${CLUBS.length} KPL Clubs and ${totalPlayersCreated} Players.`
+  );
   console.log("🚀 Seeding completed successfully!");
 }
 

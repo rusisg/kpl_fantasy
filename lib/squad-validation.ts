@@ -1,4 +1,4 @@
-import { Position } from "@prisma/client";
+import { Position } from "./types";
 
 // ============================================
 // CONSTANTS & CONSTRAINTS
@@ -66,12 +66,25 @@ export function validateFullSquad(players: SquadPlayerInput[]): ValidationResult
     });
   }
 
-  // 2. Budget Limit Check
-  const totalPrice = players.reduce((sum, p) => sum + Number(p.price), 0);
-  if (totalPrice > SQUAD_LIMITS.MAX_BUDGET) {
+  // 1b. Duplicate Player Check
+  const uniqueIds = new Set(players.map((p) => p.id));
+  if (uniqueIds.size !== players.length) {
+    errors.push({
+      field: "players",
+      message: "Squad cannot contain duplicate players.",
+    });
+  }
+
+  // 2. Budget Limit Check (integer tenths to avoid IEEE-754 drift)
+  const totalTenths = players.reduce(
+    (sum, p) => sum + Math.round(Number(p.price) * 10),
+    0
+  );
+  const maxBudgetTenths = Math.round(SQUAD_LIMITS.MAX_BUDGET * 10);
+  if (totalTenths > maxBudgetTenths) {
     errors.push({
       field: "budget",
-      message: `Total squad value (${totalPrice.toFixed(1)}M) exceeds the maximum allowed budget of ${SQUAD_LIMITS.MAX_BUDGET}M.`,
+      message: `Total squad value (${(totalTenths / 10).toFixed(1)}M) exceeds the maximum allowed budget of ${SQUAD_LIMITS.MAX_BUDGET}M.`,
     });
   }
 

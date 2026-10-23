@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
+import { Prisma, Position } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
-import { Position } from "@prisma/client";
 
 export async function GET(request: Request) {
   try {
@@ -10,9 +10,12 @@ export async function GET(request: Request) {
     const searchParam = searchParams.get("search");
     const maxPriceParam = searchParams.get("maxPrice");
 
-    const whereClause: any = {};
+    const whereClause: Prisma.PlayerWhereInput = {};
 
-    if (positionParam && Object.values(Position).includes(positionParam as Position)) {
+    if (
+      positionParam &&
+      Object.values(Position).includes(positionParam as Position)
+    ) {
       whereClause.position = positionParam as Position;
     }
 

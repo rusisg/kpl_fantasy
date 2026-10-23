@@ -110,6 +110,7 @@ model VerificationToken {
 
 model Player {
   id              String                @id @default(cuid())
+  externalId      String?               @unique
   firstName       String
   lastName        String
   clubId          String
@@ -124,6 +125,7 @@ model Player {
   transfersOut    Transfer[]            @relation("TransfersOut")
   snapshotPlayers SquadSnapshotPlayer[]
 
+  @@unique([clubId, firstName, lastName])
   @@index([clubId])
   @@index([position])
 }
@@ -198,6 +200,7 @@ model SquadPlayer {
   isViceCaptain Boolean   @default(false)
 
   @@unique([squadId, playerId])
+  @@unique([squadId, positionOrder])
   @@index([squadId, positionOrder])
 }
 

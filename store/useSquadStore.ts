@@ -1,28 +1,25 @@
 import { create } from "zustand";
-import { Position } from "@prisma/client";
+import {
+  Position,
+  ClubInfo,
+  PlayerMarketItem,
+  SelectedSlotPlayer,
+  SquadPlayerRecord,
+} from "../lib/types";
 import { SQUAD_LIMITS } from "../lib/squad-validation";
 
-export interface ClubInfo {
-  id: string;
-  name: string;
-  shortName: string;
-}
+export type { ClubInfo, PlayerMarketItem, SelectedSlotPlayer };
 
-export interface PlayerMarketItem {
-  id: string;
-  firstName: string;
-  lastName: string;
-  position: Position;
-  price: number;
-  clubId: string;
-  club: ClubInfo;
-}
-
-export interface SelectedSlotPlayer extends PlayerMarketItem {
-  positionOrder: number; // 1-11 starting XI, 12-15 bench
-  isCaptain?: boolean;
-  isViceCaptain?: boolean;
-}
+/**
+ * Default tactical slot allocation (4-4-2 starting XI + 1 GK, 1 DEF, 1 MID, 1 FWD bench)
+ * so adding 15 players in any order always forms a legal starting XI (1 GK, 4 DEF, 4 MID, 2 FWD).
+ */
+const POSITION_SLOTS: Record<Position, number[]> = {
+  [Position.GK]: [1, 12],
+  [Position.DEF]: [2, 3, 4, 5, 13],
+  [Position.MID]: [6, 7, 8, 9, 14],
+  [Position.FWD]: [10, 11, 15],
+};
 
 interface SquadState {
   squadName: string;
@@ -48,9 +45,17 @@ interface SquadState {
   swapPlayers: (orderA: number, orderB: number) => void;
   setCaptain: (playerId: string) => void;
   setViceCaptain: (playerId: string) => void;
-  setFilters: (filters: { position?: Position | "ALL"; clubId?: string | "ALL"; search?: string }) => void;
+  setFilters: (filters: {
+    position?: Position | "ALL";
+    clubId?: string | "ALL";
+    search?: string;
+  }) => void;
   resetSquad: () => void;
-  loadSquadFromApi: (squadData: { name: string; squadPlayers: any[] }) => void;
+  loadSquadFromApi: (squadData: {
+    name: string;
+    players?: SquadPlayerRecord[];
+    squadPlayers?: SquadPlayerRecord[];
+  }) => void;
 }
 
 export const useSquadStore = create<SquadState>((set, get) => ({
@@ -64,15 +69,20 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   searchQuery: "",
 
   totalSpent: () => {
-    return Number(
-      get()
-        .selectedPlayers.reduce((sum, p) => sum + Number(p.price), 0)
-        .toFixed(1)
+    const tenths = get().selectedPlayers.reduce(
+      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      0
     );
+    return Number((tenths / 10).toFixed(1));
   },
 
   remainingBudget: () => {
-    return Number((SQUAD_LIMITS.MAX_BUDGET - get().totalSpent()).toFixed(1));
+    const maxTenths = Math.round(SQUAD_LIMITS.MAX_BUDGET * 10);
+    const spentTenths = get().selectedPlayers.reduce(
+      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      0
+    );
+    return Number(((maxTenths - spentTenths) / 10).toFixed(1));
   },
 
   clubCounts: () => {
@@ -103,8 +113,13 @@ export const useSquadStore = create<SquadState>((set, get) => ({
     const existing = state.selectedPlayers.find((p) => p.id === player.id);
     if (existing) return false;
 
-    // Check budget limit
-    if (state.remainingBudget() - player.price < 0) {
+    const playerPrice = Number(player.price);
+
+    // Check budget limit (integer tenths)
+    if (
+      Math.round(state.remainingBudget() * 10) - Math.round(playerPrice * 10) <
+      0
+    ) {
       return false;
     }
 
@@ -121,11 +136,16 @@ export const useSquadStore = create<SquadState>((set, get) => ({
       return false;
     }
 
-    // Find next available order slot (1-15) if not provided
+    // Assign position-aware slot so starting XI (1-11) always maintains a legal 4-4-2 formation
     const usedOrders = new Set(state.selectedPlayers.map((p) => p.positionOrder));
     let assignedOrder = targetOrder;
 
     if (!assignedOrder || usedOrders.has(assignedOrder)) {
+      const preferredSlots = POSITION_SLOTS[player.position];
+      assignedOrder = preferredSlots.find((slot) => !usedOrders.has(slot));
+    }
+
+    if (!assignedOrder) {
       for (let order = 1; order <= 15; order++) {
         if (!usedOrders.has(order)) {
           assignedOrder = order;
@@ -138,6 +158,7 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
     const newPlayer: SelectedSlotPlayer = {
       ...player,
+      price: playerPrice,
       positionOrder: assignedOrder,
     };
 
@@ -149,7 +170,11 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
     if (assignedOrder <= 11 && !nextCaptain) {
       nextCaptain = player.id;
-    } else if (assignedOrder <= 11 && !nextViceCaptain && player.id !== nextCaptain) {
+    } else if (
+      assignedOrder <= 11 &&
+      !nextViceCaptain &&
+      player.id !== nextCaptain
+    ) {
       nextViceCaptain = player.id;
     }
 
@@ -181,9 +206,6 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   swapPlayers: (orderA, orderB) => {
     const state = get();
-    const playerA = state.selectedPlayers.find((p) => p.positionOrder === orderA);
-    const playerB = state.selectedPlayers.find((p) => p.positionOrder === orderB);
-
     const nextSelected = state.selectedPlayers.map((p) => {
       if (p.positionOrder === orderA) return { ...p, positionOrder: orderB };
       if (p.positionOrder === orderB) return { ...p, positionOrder: orderA };
@@ -209,7 +231,9 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   setViceCaptain: (playerId) => {
     const state = get();
     const player = state.selectedPlayers.find((p) => p.id === playerId);
-    if (!player || player.positionOrder > 11 || playerId === state.captainId) return;
+    if (!player || player.positionOrder > 11 || playerId === state.captainId) {
+      return;
+    }
 
     set({ viceCaptainId: playerId });
   },
@@ -234,7 +258,9 @@ export const useSquadStore = create<SquadState>((set, get) => ({
     let captainId: string | null = null;
     let viceCaptainId: string | null = null;
 
-    const loadedPlayers: SelectedSlotPlayer[] = squadData.squadPlayers.map((sp) => {
+    const rawPlayers = squadData.players ?? squadData.squadPlayers ?? [];
+
+    const loadedPlayers: SelectedSlotPlayer[] = rawPlayers.map((sp) => {
       if (sp.isCaptain) captainId = sp.player.id;
       if (sp.isViceCaptain) viceCaptainId = sp.player.id;
 

@@ -1,28 +1,70 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
+import { resolveAuthenticatedUserId } from "../../../lib/session";
+import { Position } from "../../../lib/types";
 import {
+  SQUAD_LIMITS,
   validateFullSquad,
   validateStartingLineup,
   validateCaptaincy,
   SelectedSquadPlayerInput,
 } from "../../../lib/squad-validation";
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
+const SquadSlotSchema = z.object({
+  id: z.string().trim().min(1, "Player ID is required"),
+  positionOrder: z.number().int().min(1).max(15),
+});
 
+export const SquadSavePayloadSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(1, "Squad name is required")
+      .max(50, "Squad name must be 50 characters or fewer")
+      .default("My KPL XI"),
+    players: z
+      .array(SquadSlotSchema)
+      .length(15, "Squad must contain exactly 15 players"),
+    captainId: z.string().trim().min(1, "Captain ID is required"),
+    viceCaptainId: z.string().trim().min(1, "Vice-Captain ID is required"),
+  })
+  .refine(
+    (data) => {
+      const orders = new Set(data.players.map((p) => p.positionOrder));
+      return orders.size === 15;
+    },
+    {
+      message: "Each squad slot must have a unique positionOrder from 1 to 15.",
+      path: ["players"],
+    }
+  )
+  .refine(
+    (data) => {
+      const ids = new Set(data.players.map((p) => p.id));
+      return ids.size === 15;
+    },
+    {
+      message: "Squad cannot contain duplicate player IDs.",
+      path: ["players"],
+    }
+  );
+
+export async function GET() {
+  try {
+    const userId = await resolveAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json(
-        { success: false, error: "Missing required parameter: userId" },
-        { status: 400 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
       );
     }
 
     const squad = await prisma.squad.findUnique({
       where: { userId },
       include: {
-        squadPlayers: {
+        players: {
           include: {
             player: {
               include: {
@@ -59,18 +101,44 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { userId, name, players, captainId, viceCaptainId } = body;
-
-    if (!userId || !players || !Array.isArray(players) || players.length !== 15) {
+    const userId = await resolveAuthenticatedUserId();
+    if (!userId) {
       return NextResponse.json(
-        { success: false, error: "Payload must contain userId and 15 squad players." },
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, error: "Invalid JSON request body." },
         { status: 400 }
       );
     }
 
+    const parsed = SquadSavePayloadSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const errors = parsed.error.issues.map((issue) => ({
+        field: issue.path.join(".") || "payload",
+        message: issue.message,
+      }));
+      return NextResponse.json(
+        {
+          success: false,
+          error: errors[0]?.message ?? "Invalid squad payload.",
+          errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const { name, players, captainId, viceCaptainId } = parsed.data;
+
     // 1. Fetch current player prices & clubIds directly from database
-    const playerIds = players.map((p: SelectedSquadPlayerInput) => p.id);
+    const playerIds = players.map((p) => p.id);
     const dbPlayers = await prisma.player.findMany({
       where: { id: { in: playerIds } },
     });
@@ -85,20 +153,18 @@ export async function POST(request: Request) {
     const playerMap = new Map(dbPlayers.map((p) => [p.id, p]));
 
     // Construct enriched inputs with verified DB attributes
-    const enrichedPlayers: SelectedSquadPlayerInput[] = players.map(
-      (p: SelectedSquadPlayerInput) => {
-        const dbPlayer = playerMap.get(p.id)!;
-        return {
-          id: dbPlayer.id,
-          position: dbPlayer.position,
-          price: Number(dbPlayer.price),
-          clubId: dbPlayer.clubId,
-          positionOrder: p.positionOrder,
-          isCaptain: p.id === captainId,
-          isViceCaptain: p.id === viceCaptainId,
-        };
-      }
-    );
+    const enrichedPlayers: SelectedSquadPlayerInput[] = players.map((p) => {
+      const dbPlayer = playerMap.get(p.id)!;
+      return {
+        id: dbPlayer.id,
+        position: dbPlayer.position as Position,
+        price: Number(dbPlayer.price),
+        clubId: dbPlayer.clubId,
+        positionOrder: p.positionOrder,
+        isCaptain: p.id === captainId,
+        isViceCaptain: p.id === viceCaptainId,
+      };
+    });
 
     // 2. Perform Full Squad Validation
     const squadValidation = validateFullSquad(enrichedPlayers);
@@ -120,7 +186,11 @@ export async function POST(request: Request) {
     }
 
     // 4. Perform Captaincy Validation
-    const captaincyValidation = validateCaptaincy(startingXI, captainId, viceCaptainId);
+    const captaincyValidation = validateCaptaincy(
+      startingXI,
+      captainId,
+      viceCaptainId
+    );
     if (!captaincyValidation.isValid) {
       return NextResponse.json(
         { success: false, errors: captaincyValidation.errors },
@@ -128,19 +198,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Calculate remaining budget
-    const totalSpent = enrichedPlayers.reduce((sum, p) => sum + Number(p.price), 0);
-    const remainingBudget = Number((100.0 - totalSpent).toFixed(1));
+    // 5. Calculate remaining budget (integer tenths)
+    const totalSpentTenths = enrichedPlayers.reduce(
+      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      0
+    );
+    const maxBudgetTenths = Math.round(SQUAD_LIMITS.MAX_BUDGET * 10);
+    const remainingBudget = Number(
+      ((maxBudgetTenths - totalSpentTenths) / 10).toFixed(1)
+    );
 
     // 6. Upsert Squad and SquadPlayers inside a Prisma transaction
     const savedSquad = await prisma.$transaction(async (tx) => {
-      // Find or verify user exists
+      // Ensure the authenticated user record exists in local dev mode
       let user = await tx.user.findUnique({ where: { id: userId } });
       if (!user) {
+        if (process.env.NODE_ENV === "production") {
+          throw new Error("Authenticated user record not found.");
+        }
         user = await tx.user.create({
           data: {
             id: userId,
-            email: `user_${userId}@kplfantasy.kz`,
+            email: `${userId}@local.kplfantasy.dev`,
             name: name || "Manager",
           },
         });
@@ -151,11 +230,11 @@ export async function POST(request: Request) {
         create: {
           userId: user.id,
           name: name || "My KPL XI",
-          remainingBudget,
+          budget: remainingBudget,
         },
         update: {
           name: name || "My KPL XI",
-          remainingBudget,
+          budget: remainingBudget,
         },
       });
 
@@ -178,10 +257,12 @@ export async function POST(request: Request) {
       return tx.squad.findUnique({
         where: { id: squadRecord.id },
         include: {
-          squadPlayers: {
+          players: {
             include: {
               player: {
-                include: { club: { select: { id: true, name: true, shortName: true } } },
+                include: {
+                  club: { select: { id: true, name: true, shortName: true } },
+                },
               },
             },
             orderBy: { positionOrder: "asc" },

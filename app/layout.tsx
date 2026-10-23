@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KPL Fantasy — Official Kazakhstan Premier League Game",
-  description: "Build your fantasy squad, manage transfers, and compete in mini-leagues for the Kazakhstan Premier League.",
+  title: "KPL Fantasy — Unofficial Kazakhstan Premier League Fantasy Football Simulator",
+  description:
+    "Unofficial fan-made fantasy football simulator for the Kazakhstan Premier League (KPL). Not affiliated with or endorsed by the QFL or KFF.",
 };
 
 export default function RootLayout({
