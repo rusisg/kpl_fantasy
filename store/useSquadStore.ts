@@ -5,6 +5,8 @@ import {
   PlayerMarketItem,
   SelectedSlotPlayer,
   SquadPlayerRecord,
+  ActiveGameweekInfo,
+  UserProfileInfo,
 } from "../lib/types";
 import { SQUAD_LIMITS } from "../lib/squad-validation";
 
@@ -22,10 +24,14 @@ const POSITION_SLOTS: Record<Position, number[]> = {
 };
 
 interface SquadState {
+  squadId: string | null;
   squadName: string;
+  squadTotalPoints: number;
   selectedPlayers: SelectedSlotPlayer[];
   captainId: string | null;
   viceCaptainId: string | null;
+  userProfile: UserProfileInfo | null;
+  activeGameweek: ActiveGameweekInfo | null;
 
   // Filter state for player picker
   activePositionFilter: Position | "ALL";
@@ -40,6 +46,8 @@ interface SquadState {
 
   // Actions
   setSquadName: (name: string) => void;
+  setUserProfile: (profile: UserProfileInfo | null) => void;
+  setActiveGameweek: (gw: ActiveGameweekInfo | null) => void;
   addPlayer: (player: PlayerMarketItem, targetOrder?: number) => boolean;
   removePlayer: (playerId: string) => void;
   swapPlayers: (orderA: number, orderB: number) => void;
@@ -52,17 +60,23 @@ interface SquadState {
   }) => void;
   resetSquad: () => void;
   loadSquadFromApi: (squadData: {
+    id?: string;
     name: string;
+    totalPoints?: number;
     players?: SquadPlayerRecord[];
     squadPlayers?: SquadPlayerRecord[];
   }) => void;
 }
 
 export const useSquadStore = create<SquadState>((set, get) => ({
-  squadName: "My KPL XI",
+  squadId: null,
+  squadName: "",
+  squadTotalPoints: 0,
   selectedPlayers: [],
   captainId: null,
   viceCaptainId: null,
+  userProfile: null,
+  activeGameweek: null,
 
   activePositionFilter: "ALL",
   activeClubFilter: "ALL",
@@ -70,7 +84,7 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   totalSpent: () => {
     const tenths = get().selectedPlayers.reduce(
-      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      (sum, p) => sum + Math.round(Number(p.purchasePrice ?? p.price) * 10),
       0
     );
     return Number((tenths / 10).toFixed(1));
@@ -79,7 +93,7 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   remainingBudget: () => {
     const maxTenths = Math.round(SQUAD_LIMITS.MAX_BUDGET * 10);
     const spentTenths = get().selectedPlayers.reduce(
-      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      (sum, p) => sum + Math.round(Number(p.purchasePrice ?? p.price) * 10),
       0
     );
     return Number(((maxTenths - spentTenths) / 10).toFixed(1));
@@ -107,9 +121,13 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   },
 
   setSquadName: (name) => set({ squadName: name }),
+  setUserProfile: (userProfile) => set({ userProfile }),
+  setActiveGameweek: (activeGameweek) => set({ activeGameweek }),
 
   addPlayer: (player, targetOrder) => {
     const state = get();
+    if (state.activeGameweek?.isLocked) return false;
+
     const existing = state.selectedPlayers.find((p) => p.id === player.id);
     if (existing) return false;
 
@@ -159,6 +177,7 @@ export const useSquadStore = create<SquadState>((set, get) => ({
     const newPlayer: SelectedSlotPlayer = {
       ...player,
       price: playerPrice,
+      purchasePrice: playerPrice,
       positionOrder: assignedOrder,
     };
 
@@ -189,6 +208,8 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   removePlayer: (playerId) => {
     const state = get();
+    if (state.activeGameweek?.isLocked) return;
+
     const nextSelected = state.selectedPlayers.filter((p) => p.id !== playerId);
 
     let nextCaptain = state.captainId;
@@ -206,6 +227,8 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   swapPlayers: (orderA, orderB) => {
     const state = get();
+    if (state.activeGameweek?.isLocked) return;
+
     const nextSelected = state.selectedPlayers.map((p) => {
       if (p.positionOrder === orderA) return { ...p, positionOrder: orderB };
       if (p.positionOrder === orderB) return { ...p, positionOrder: orderA };
@@ -217,6 +240,8 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   setCaptain: (playerId) => {
     const state = get();
+    if (state.activeGameweek?.isLocked) return;
+
     const player = state.selectedPlayers.find((p) => p.id === playerId);
     if (!player || player.positionOrder > 11) return; // Captain must be in starting XI
 
@@ -230,6 +255,8 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   setViceCaptain: (playerId) => {
     const state = get();
+    if (state.activeGameweek?.isLocked) return;
+
     const player = state.selectedPlayers.find((p) => p.id === playerId);
     if (!player || player.positionOrder > 11 || playerId === state.captainId) {
       return;
@@ -264,12 +291,18 @@ export const useSquadStore = create<SquadState>((set, get) => ({
       if (sp.isCaptain) captainId = sp.player.id;
       if (sp.isViceCaptain) viceCaptainId = sp.player.id;
 
+      const marketPrice = Number(sp.player.price);
+      const rawPurchase = Number(sp.purchasePrice ?? 0);
+      const purchasePrice = rawPurchase > 0 ? rawPurchase : marketPrice;
+
       return {
         id: sp.player.id,
         firstName: sp.player.firstName,
         lastName: sp.player.lastName,
         position: sp.player.position,
-        price: Number(sp.player.price),
+        price: marketPrice,
+        purchasePrice,
+        totalPoints: sp.player.totalPoints ?? 0,
         clubId: sp.player.club.id,
         club: sp.player.club,
         positionOrder: sp.positionOrder,
@@ -279,7 +312,9 @@ export const useSquadStore = create<SquadState>((set, get) => ({
     });
 
     set({
+      squadId: squadData.id ?? null,
       squadName: squadData.name,
+      squadTotalPoints: squadData.totalPoints ?? 0,
       selectedPlayers: loadedPlayers,
       captainId,
       viceCaptainId,

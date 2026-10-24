@@ -1,18 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Position } from "../../lib/types";
+import { Position, ClubInfo } from "../../lib/types";
 import { useSquadStore, PlayerMarketItem } from "../../store/useSquadStore";
 import OnboardingModal from "../../components/OnboardingModal";
+import Navbar from "../../components/Navbar";
 
 interface ApiErrorItem {
   field?: string;
   message: string;
 }
 
+function formatDeadlineBanner(deadlineIso?: string, isLocked?: boolean): string {
+  if (!deadlineIso) return "Schedule Pending";
+  const date = new Date(deadlineIso);
+  const formatted = date.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return isLocked ? `Locked (${formatted})` : `Deadline: ${formatted}`;
+}
+
 export default function SquadBuilderPage() {
   const {
     squadName,
+    setSquadName,
     selectedPlayers,
     addPlayer,
     removePlayer,
@@ -25,23 +39,77 @@ export default function SquadBuilderPage() {
     activeClubFilter,
     searchQuery,
     setFilters,
+    userProfile,
+    setUserProfile,
+    activeGameweek,
+    setActiveGameweek,
+    loadSquadFromApi,
   } = useSquadStore();
 
   const [marketPlayers, setMarketPlayers] = useState<PlayerMarketItem[]>([]);
-  const [clubs, setClubs] = useState<{ id: string; name: string; shortName: string }[]>([]);
+  const [clubs, setClubs] = useState<ClubInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [initialHydrating, setInitialHydrating] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
-  const [needsOnboarding, setNeedsOnboarding] = useState(true);
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
+
+  // Hydrate user profile, active gameweek, saved squad, and canonical clubs from PostgreSQL
+  useEffect(() => {
+    async function hydrateInitialState() {
+      setInitialHydrating(true);
+      try {
+        const [squadRes, clubsRes] = await Promise.all([
+          fetch("/api/squad"),
+          fetch("/api/clubs"),
+        ]);
+
+        const [squadJson, clubsJson] = await Promise.all([
+          squadRes.json(),
+          clubsRes.json(),
+        ]);
+
+        if (clubsJson.success && Array.isArray(clubsJson.data)) {
+          setClubs(clubsJson.data);
+        }
+
+        if (squadJson.success) {
+          if (squadJson.user) {
+            setUserProfile(squadJson.user);
+          }
+          if (squadJson.gameweek) {
+            setActiveGameweek(squadJson.gameweek);
+          }
+          if (squadJson.data) {
+            loadSquadFromApi(squadJson.data);
+            setNeedsOnboarding(false);
+          } else {
+            setNeedsOnboarding(true);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to hydrate squad state:", err);
+      } finally {
+        setInitialHydrating(false);
+      }
+    }
+    hydrateInitialState();
+  }, [loadSquadFromApi, setActiveGameweek, setUserProfile]);
 
   useEffect(() => {
     async function fetchMarket() {
       setLoading(true);
       try {
         const params = new URLSearchParams();
-        if (activePositionFilter !== "ALL") params.append("position", activePositionFilter);
-        if (activeClubFilter !== "ALL") params.append("clubId", activeClubFilter);
-        if (searchQuery) params.append("search", searchQuery);
+        if (activePositionFilter !== "ALL") {
+          params.append("position", activePositionFilter);
+        }
+        if (activeClubFilter !== "ALL") {
+          params.append("clubId", activeClubFilter);
+        }
+        if (searchQuery) {
+          params.append("search", searchQuery);
+        }
 
         const res = await fetch(`/api/players?${params.toString()}`);
         const data = await res.json();
@@ -57,28 +125,19 @@ export default function SquadBuilderPage() {
     fetchMarket();
   }, [activePositionFilter, activeClubFilter, searchQuery]);
 
-  useEffect(() => {
-    async function fetchClubs() {
-      try {
-        const res = await fetch("/api/players");
-        const data = await res.json();
-        if (data.success) {
-          const clubMap = new Map<string, { id: string; name: string; shortName: string }>();
-          data.data.forEach((p: PlayerMarketItem) => {
-            if (p.club && !clubMap.has(p.club.id)) {
-              clubMap.set(p.club.id, p.club);
-            }
-          });
-          setClubs(Array.from(clubMap.values()));
-        }
-      } catch (err) {
-        console.error("Failed to load clubs:", err);
-      }
-    }
-    fetchClubs();
-  }, []);
+  const isDeadlineLocked = Boolean(activeGameweek?.isLocked);
 
   const handleSaveSquad = async () => {
+    if (isDeadlineLocked) {
+      setSaveMessage(
+        "❌ Gameweek deadline has passed. Squad modifications are locked."
+      );
+      return;
+    }
+    if (!squadName.trim()) {
+      setSaveMessage("⚠️ Please enter a squad name before saving.");
+      return;
+    }
     if (selectedPlayers.length !== 15) {
       setSaveMessage("⚠️ Squad must contain exactly 15 players.");
       return;
@@ -92,7 +151,7 @@ export default function SquadBuilderPage() {
 
     try {
       const payload = {
-        name: squadName,
+        name: squadName.trim(),
         players: selectedPlayers.map((p) => ({
           id: p.id,
           positionOrder: p.positionOrder,
@@ -108,8 +167,9 @@ export default function SquadBuilderPage() {
       });
 
       const data = await res.json();
-      if (data.success) {
-        setSaveMessage("🎉 Squad saved successfully!");
+      if (data.success && data.data) {
+        loadSquadFromApi(data.data);
+        setSaveMessage("🎉 Squad saved to database!");
       } else {
         const errText = Array.isArray(data.errors)
           ? (data.errors as ApiErrorItem[]).map((e) => e.message).join(" ")
@@ -134,35 +194,78 @@ export default function SquadBuilderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 p-4 md:p-8 font-sans selection:bg-emerald-500 selection:text-white">
-      <OnboardingModal isOpen={needsOnboarding} onClose={() => setNeedsOnboarding(false)} />
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white">
+      <Navbar />
 
-      <div className="max-w-[1400px] mx-auto space-y-6">
-        {/* Playful FPL Header */}
+      <OnboardingModal
+        isOpen={!initialHydrating && needsOnboarding}
+        clubs={clubs}
+        onClose={() => setNeedsOnboarding(false)}
+        onComplete={({ squad, user }) => {
+          if (user) setUserProfile(user);
+          if (squad) loadSquadFromApi(squad);
+          setSaveMessage("🎉 Auto-drafted 15-player KPL squad saved!");
+        }}
+      />
+
+      <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-6">
+        {/* Dynamic Database-Driven Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl shadow-lg flex items-center justify-center border-2 border-emerald-300">
-              <span className="text-xl font-black text-white">KPL</span>
+              <span className="text-lg font-black text-white">
+                {userProfile?.favoriteClub?.shortName || "KPL"}
+              </span>
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tight text-white">
-                {squadName || "My Fantasy Squad"}
-              </h1>
-              <span className="text-sm font-bold text-emerald-400 uppercase tracking-widest">
-                Gameweek 1 • Unofficial Simulator
-              </span>
+              <div className="flex items-center gap-3 flex-wrap">
+                <input
+                  type="text"
+                  value={squadName}
+                  disabled={isDeadlineLocked}
+                  onChange={(e) => setSquadName(e.target.value)}
+                  placeholder="Enter Squad Name..."
+                  aria-label="Squad Name"
+                  className="text-2xl md:text-3xl font-black tracking-tight text-white bg-transparent border-b border-transparent hover:border-slate-600 focus:border-emerald-400 focus:outline-none px-1 -ml-1 rounded transition-colors"
+                />
+                {userProfile?.favoriteClub && (
+                  <span className="text-xs font-bold bg-slate-900 border border-slate-700 text-slate-300 px-3 py-1 rounded-full">
+                    ♥ {userProfile.favoriteClub.name}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-3 mt-1 text-xs font-bold uppercase tracking-widest">
+                <span className="text-emerald-400">
+                  {activeGameweek
+                    ? `Gameweek ${activeGameweek.id}`
+                    : "Pre-Season"}
+                </span>
+                <span className="text-slate-600">•</span>
+                <span
+                  className={
+                    isDeadlineLocked ? "text-amber-400" : "text-slate-400"
+                  }
+                >
+                  {formatDeadlineBanner(
+                    activeGameweek?.deadline,
+                    activeGameweek?.isLocked
+                  )}
+                </span>
+              </div>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 bg-slate-950/50 p-2 rounded-2xl border border-slate-800">
-            <div className="px-6 py-2 text-center border-r border-slate-800">
+            <div className="px-5 py-2 text-center border-r border-slate-800">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
                 Players
               </div>
               <div className="text-2xl font-black text-white">
                 <span
                   className={
-                    selectedPlayers.length === 15 ? "text-emerald-400" : "text-white"
+                    selectedPlayers.length === 15
+                      ? "text-emerald-400"
+                      : "text-white"
                   }
                 >
                   {selectedPlayers.length}
@@ -171,7 +274,7 @@ export default function SquadBuilderPage() {
               </div>
             </div>
 
-            <div className="px-6 py-2 text-center">
+            <div className="px-5 py-2 text-center border-r border-slate-800">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
                 Bank
               </div>
@@ -181,13 +284,25 @@ export default function SquadBuilderPage() {
               </div>
             </div>
 
-            <div className="pl-2 pr-2">
+            <div className="flex items-center gap-2 pl-1 pr-2">
+              <button
+                type="button"
+                onClick={() => setNeedsOnboarding(true)}
+                disabled={isDeadlineLocked}
+                className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-black px-4 py-3.5 rounded-xl border border-slate-700 transition-colors disabled:opacity-50"
+              >
+                Auto-Draft
+              </button>
               <button
                 onClick={handleSaveSquad}
-                disabled={saving}
-                className="bg-gradient-to-b from-emerald-400 to-emerald-600 text-white font-bold px-8 py-3.5 rounded-xl hover:from-emerald-300 hover:to-emerald-500 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] disabled:opacity-50 border border-emerald-300/50"
+                disabled={saving || isDeadlineLocked}
+                className="bg-gradient-to-b from-emerald-400 to-emerald-600 text-white font-bold px-7 py-3.5 rounded-xl hover:from-emerald-300 hover:to-emerald-500 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] disabled:opacity-50 border border-emerald-300/50"
               >
-                {saving ? "Saving..." : "Save Squad"}
+                {isDeadlineLocked
+                  ? "GW Locked"
+                  : saving
+                    ? "Saving..."
+                    : "Save Squad"}
               </button>
             </div>
           </div>
@@ -195,6 +310,8 @@ export default function SquadBuilderPage() {
 
         {saveMessage && (
           <div
+            role="status"
+            aria-live="polite"
             className={`p-4 rounded-2xl text-sm font-bold shadow-lg ${
               saveMessage.startsWith("🎉")
                 ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
@@ -229,7 +346,10 @@ export default function SquadBuilderPage() {
 
               {([Position.FWD, Position.MID, Position.DEF, Position.GK] as Position[]).map(
                 (pos) => (
-                  <div key={pos} className="relative z-10 flex items-center justify-around py-2">
+                  <div
+                    key={pos}
+                    className="relative z-10 flex items-center justify-around py-2"
+                  >
                     {startersByPos[pos].length === 0 ? (
                       <div className="text-xs text-white/80 font-black tracking-widest uppercase bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 shadow-inner">
                         Select {pos}
@@ -263,34 +383,39 @@ export default function SquadBuilderPage() {
                             </div>
 
                             <div className="bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded mt-1 py-0.5">
-                              £{player.price}
+                              £{(player.purchasePrice ?? player.price).toFixed(1)}
                             </div>
                           </div>
 
-                          {/* Hover Actions Panel */}
-                          <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-slate-900/90 backdrop-blur p-1.5 rounded-full z-20 shadow-xl border border-slate-700">
-                            <button
-                              onClick={() => setCaptain(player.id)}
-                              className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-emerald-400 hover:bg-emerald-500 hover:text-white text-[10px] font-black transition-colors"
-                              title="Make Captain"
-                            >
-                              C
-                            </button>
-                            <button
-                              onClick={() => setViceCaptain(player.id)}
-                              className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-300 hover:text-slate-900 text-[10px] font-black transition-colors"
-                              title="Make Vice-Captain"
-                            >
-                              V
-                            </button>
-                            <button
-                              onClick={() => removePlayer(player.id)}
-                              className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-red-400 hover:bg-red-500 hover:text-white text-[10px] font-black transition-colors"
-                              title="Remove Player"
-                            >
-                              ✕
-                            </button>
-                          </div>
+                          {/* Hover / Focus Actions Panel */}
+                          {!isDeadlineLocked && (
+                            <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 bg-slate-900/90 backdrop-blur p-1.5 rounded-full z-20 shadow-xl border border-slate-700">
+                              <button
+                                onClick={() => setCaptain(player.id)}
+                                aria-label={`Make ${player.lastName} Captain`}
+                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-emerald-400 hover:bg-emerald-500 hover:text-white text-[10px] font-black transition-colors"
+                                title="Make Captain"
+                              >
+                                C
+                              </button>
+                              <button
+                                onClick={() => setViceCaptain(player.id)}
+                                aria-label={`Make ${player.lastName} Vice-Captain`}
+                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-300 hover:text-slate-900 text-[10px] font-black transition-colors"
+                                title="Make Vice-Captain"
+                              >
+                                V
+                              </button>
+                              <button
+                                onClick={() => removePlayer(player.id)}
+                                aria-label={`Remove ${player.lastName}`}
+                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-red-400 hover:bg-red-500 hover:text-white text-[10px] font-black transition-colors"
+                                title="Remove Player"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ))
                     )}
@@ -311,16 +436,24 @@ export default function SquadBuilderPage() {
                     key={player.id}
                     className="bg-slate-900 border border-slate-700 p-3 rounded-2xl text-center relative group shadow-inner"
                   >
-                    <div className="text-xs font-black truncate text-white">{player.lastName}</div>
-                    <div className="text-[11px] font-bold text-slate-400 mt-1">
-                      {player.position} <span className="text-emerald-400 ml-1">£{player.price}</span>
+                    <div className="text-xs font-black truncate text-white">
+                      {player.lastName}
                     </div>
-                    <button
-                      onClick={() => removePlayer(player.id)}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-black opacity-0 group-hover:opacity-100 transition-opacity shadow-md border-2 border-slate-900"
-                    >
-                      ✕
-                    </button>
+                    <div className="text-[11px] font-bold text-slate-400 mt-1">
+                      {player.position}{" "}
+                      <span className="text-emerald-400 ml-1">
+                        £{(player.purchasePrice ?? player.price).toFixed(1)}
+                      </span>
+                    </div>
+                    {!isDeadlineLocked && (
+                      <button
+                        onClick={() => removePlayer(player.id)}
+                        aria-label={`Remove ${player.lastName}`}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-black opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity shadow-md border-2 border-slate-900"
+                      >
+                        ✕
+                      </button>
+                    )}
                   </div>
                 ))}
                 {Array.from({ length: 4 - bench.length }).map((_, i) => (
@@ -351,22 +484,22 @@ export default function SquadBuilderPage() {
                 className="w-full bg-slate-900 border border-slate-700 text-white px-5 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder:text-slate-500"
               />
 
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {(["ALL", Position.GK, Position.DEF, Position.MID, Position.FWD] as const).map(
-                  (pos) => (
-                    <button
-                      key={pos}
-                      onClick={() => setFilters({ position: pos })}
-                      className={`px-5 py-2 rounded-full text-xs font-black transition-all whitespace-nowrap ${
-                        activePositionFilter === pos
-                          ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
-                          : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
-                      }`}
-                    >
-                      {pos}
-                    </button>
-                  )
-                )}
+              <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                {(
+                  ["ALL", Position.GK, Position.DEF, Position.MID, Position.FWD] as const
+                ).map((pos) => (
+                  <button
+                    key={pos}
+                    onClick={() => setFilters({ position: pos })}
+                    className={`px-5 py-2 rounded-full text-xs font-black transition-all whitespace-nowrap ${
+                      activePositionFilter === pos
+                        ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
+                        : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
+                    }`}
+                  >
+                    {pos}
+                  </button>
+                ))}
               </div>
 
               <select
@@ -374,17 +507,17 @@ export default function SquadBuilderPage() {
                 onChange={(e) => setFilters({ clubId: e.target.value })}
                 className="w-full bg-slate-900 border border-slate-700 text-white px-5 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:border-emerald-500 appearance-none transition-all"
               >
-                <option value="ALL">All Clubs</option>
+                <option value="ALL">All KPL Clubs</option>
                 {clubs.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.name}
+                    {c.name} ({c.shortName})
                   </option>
                 ))}
               </select>
             </div>
 
             {/* Market List */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto space-y-2 pr-2">
               {loading ? (
                 <div className="text-center py-10 text-slate-500 text-sm font-bold">
                   Scouting players...
@@ -395,7 +528,9 @@ export default function SquadBuilderPage() {
                 </div>
               ) : (
                 marketPlayers.map((player) => {
-                  const isSelected = selectedPlayers.some((p) => p.id === player.id);
+                  const isSelected = selectedPlayers.some(
+                    (p) => p.id === player.id
+                  );
                   return (
                     <div
                       key={player.id}
@@ -417,13 +552,18 @@ export default function SquadBuilderPage() {
 
                       <div className="flex items-center gap-4">
                         <span className="text-sm font-black text-emerald-400">
-                          £{player.price}
+                          £{Number(player.price).toFixed(1)}
                         </span>
                         <button
                           onClick={() => addPlayer(player)}
-                          disabled={isSelected}
-                          className={`w-8 h-8 rounded-full flex items-center justify-center font-black transition-all ${
+                          disabled={isSelected || isDeadlineLocked}
+                          aria-label={
                             isSelected
+                              ? `${player.lastName} already selected`
+                              : `Add ${player.lastName}`
+                          }
+                          className={`w-8 h-8 rounded-full flex items-center justify-center font-black transition-all ${
+                            isSelected || isDeadlineLocked
                               ? "bg-slate-800 text-slate-600 cursor-not-allowed"
                               : "bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white"
                           }`}

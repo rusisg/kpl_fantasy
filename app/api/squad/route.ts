@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { resolveAuthenticatedUserId } from "../../../lib/session";
+import { resolveAuthenticatedUser } from "../../../lib/session";
 import { Position } from "../../../lib/types";
 import {
   SQUAD_LIMITS,
@@ -22,8 +22,7 @@ export const SquadSavePayloadSchema = z
       .string()
       .trim()
       .min(1, "Squad name is required")
-      .max(50, "Squad name must be 50 characters or fewer")
-      .default("My KPL XI"),
+      .max(50, "Squad name must be 50 characters or fewer"),
     players: z
       .array(SquadSlotSchema)
       .length(15, "Squad must contain exactly 15 players"),
@@ -51,44 +50,70 @@ export const SquadSavePayloadSchema = z
     }
   );
 
+async function getActiveGameweekInfo() {
+  let gw = await prisma.gameweek.findFirst({
+    where: { isCurrent: true },
+    orderBy: { id: "asc" },
+  });
+  if (!gw) {
+    gw = await prisma.gameweek.findFirst({
+      where: { isFinished: false },
+      orderBy: { id: "asc" },
+    });
+  }
+  if (!gw) return null;
+
+  return {
+    id: gw.id,
+    deadline: gw.deadline.toISOString(),
+    isCurrent: gw.isCurrent,
+    isFinished: gw.isFinished,
+    isLocked: gw.isFinished || gw.deadline.getTime() <= Date.now(),
+  };
+}
+
 export async function GET() {
   try {
-    const userId = await resolveAuthenticatedUserId();
-    if (!userId) {
+    const user = await resolveAuthenticatedUser();
+    if (!user) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
       );
     }
 
-    const squad = await prisma.squad.findUnique({
-      where: { userId },
-      include: {
-        players: {
-          include: {
-            player: {
-              include: {
-                club: {
-                  select: { id: true, name: true, shortName: true },
+    const [squad, gameweek] = await Promise.all([
+      prisma.squad.findUnique({
+        where: { userId: user.id },
+        include: {
+          players: {
+            include: {
+              player: {
+                include: {
+                  club: {
+                    select: { id: true, name: true, shortName: true, logoUrl: true },
+                  },
                 },
               },
             },
+            orderBy: { positionOrder: "asc" },
           },
-          orderBy: { positionOrder: "asc" },
         },
-      },
-    });
-
-    if (!squad) {
-      return NextResponse.json({
-        success: true,
-        data: null,
-      });
-    }
+      }),
+      getActiveGameweekInfo(),
+    ]);
 
     return NextResponse.json({
       success: true,
       data: squad,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        favoriteClubId: user.favoriteClubId,
+        favoriteClub: user.favoriteClub,
+      },
+      gameweek,
     });
   } catch (error) {
     console.error("GET /api/squad error:", error);
@@ -101,11 +126,23 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const userId = await resolveAuthenticatedUserId();
-    if (!userId) {
+    const user = await resolveAuthenticatedUser();
+    if (!user) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
+      );
+    }
+
+    // 1. Check active Gameweek deadline lock
+    const activeGameweek = await getActiveGameweekInfo();
+    if (activeGameweek?.isLocked) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Gameweek ${activeGameweek.id} deadline has passed. Squad modifications are locked.`,
+        },
+        { status: 423 }
       );
     }
 
@@ -137,11 +174,17 @@ export async function POST(request: Request) {
 
     const { name, players, captainId, viceCaptainId } = parsed.data;
 
-    // 1. Fetch current player prices & clubIds directly from database
+    // 2. Fetch current player prices & clubIds directly from database, plus existing SquadPlayers for purchasePrice retention
     const playerIds = players.map((p) => p.id);
-    const dbPlayers = await prisma.player.findMany({
-      where: { id: { in: playerIds } },
-    });
+    const [dbPlayers, existingSquad] = await Promise.all([
+      prisma.player.findMany({
+        where: { id: { in: playerIds } },
+      }),
+      prisma.squad.findUnique({
+        where: { userId: user.id },
+        include: { players: true },
+      }),
+    ]);
 
     if (dbPlayers.length !== 15) {
       return NextResponse.json(
@@ -151,22 +194,36 @@ export async function POST(request: Request) {
     }
 
     const playerMap = new Map(dbPlayers.map((p) => [p.id, p]));
+    const existingPurchasePriceMap = new Map<string, number>();
+    if (existingSquad) {
+      for (const sp of existingSquad.players) {
+        const lockedPrice = Number(sp.purchasePrice);
+        if (lockedPrice > 0) {
+          existingPurchasePriceMap.set(sp.playerId, lockedPrice);
+        }
+      }
+    }
 
-    // Construct enriched inputs with verified DB attributes
-    const enrichedPlayers: SelectedSquadPlayerInput[] = players.map((p) => {
-      const dbPlayer = playerMap.get(p.id)!;
-      return {
-        id: dbPlayer.id,
-        position: dbPlayer.position as Position,
-        price: Number(dbPlayer.price),
-        clubId: dbPlayer.clubId,
-        positionOrder: p.positionOrder,
-        isCaptain: p.id === captainId,
-        isViceCaptain: p.id === viceCaptainId,
-      };
-    });
+    // Construct enriched inputs using retained purchasePrice (if already owned) or current market price (if newly bought)
+    const enrichedPlayers: (SelectedSquadPlayerInput & { purchasePrice: number })[] =
+      players.map((p) => {
+        const dbPlayer = playerMap.get(p.id)!;
+        const effectivePurchasePrice =
+          existingPurchasePriceMap.get(dbPlayer.id) ?? Number(dbPlayer.price);
 
-    // 2. Perform Full Squad Validation
+        return {
+          id: dbPlayer.id,
+          position: dbPlayer.position as Position,
+          price: effectivePurchasePrice,
+          purchasePrice: effectivePurchasePrice,
+          clubId: dbPlayer.clubId,
+          positionOrder: p.positionOrder,
+          isCaptain: p.id === captainId,
+          isViceCaptain: p.id === viceCaptainId,
+        };
+      });
+
+    // 3. Perform Full Squad Validation
     const squadValidation = validateFullSquad(enrichedPlayers);
     if (!squadValidation.isValid) {
       return NextResponse.json(
@@ -175,7 +232,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Separate Starting XI (order 1-11) and Bench (order 12-15)
+    // 4. Separate Starting XI (order 1-11) and Bench (order 12-15)
     const startingXI = enrichedPlayers.filter((p) => p.positionOrder <= 11);
     const lineupValidation = validateStartingLineup(startingXI);
     if (!lineupValidation.isValid) {
@@ -185,7 +242,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. Perform Captaincy Validation
+    // 5. Perform Captaincy Validation
     const captaincyValidation = validateCaptaincy(
       startingXI,
       captainId,
@@ -198,9 +255,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Calculate remaining budget (integer tenths)
+    // 6. Calculate remaining budget (integer tenths based on locked purchasePrice)
     const totalSpentTenths = enrichedPlayers.reduce(
-      (sum, p) => sum + Math.round(Number(p.price) * 10),
+      (sum, p) => sum + Math.round(Number(p.purchasePrice) * 10),
       0
     );
     const maxBudgetTenths = Math.round(SQUAD_LIMITS.MAX_BUDGET * 10);
@@ -208,46 +265,57 @@ export async function POST(request: Request) {
       ((maxBudgetTenths - totalSpentTenths) / 10).toFixed(1)
     );
 
-    // 6. Upsert Squad and SquadPlayers inside a Prisma transaction
+    // 7. Upsert Squad, log Transfers (if modifying an existing squad), and write SquadPlayers with purchasePrice
     const savedSquad = await prisma.$transaction(async (tx) => {
-      // Ensure the authenticated user record exists in local dev mode
-      let user = await tx.user.findUnique({ where: { id: userId } });
-      if (!user) {
-        if (process.env.NODE_ENV === "production") {
-          throw new Error("Authenticated user record not found.");
-        }
-        user = await tx.user.create({
-          data: {
-            id: userId,
-            email: `${userId}@local.kplfantasy.dev`,
-            name: name || "Manager",
-          },
-        });
-      }
-
       const squadRecord = await tx.squad.upsert({
         where: { userId: user.id },
         create: {
           userId: user.id,
-          name: name || "My KPL XI",
+          name,
           budget: remainingBudget,
         },
         update: {
-          name: name || "My KPL XI",
+          name,
           budget: remainingBudget,
         },
       });
 
-      // Clear previous squad player links
+      // Log transfers if an existing squad swapped players in an active gameweek
+      if (existingSquad && existingSquad.players.length === 15 && activeGameweek) {
+        const previousIds = new Set(existingSquad.players.map((sp) => sp.playerId));
+        const nextIds = new Set(enrichedPlayers.map((p) => p.id));
+
+        const playersOut = existingSquad.players
+          .map((sp) => sp.playerId)
+          .filter((id) => !nextIds.has(id));
+        const playersIn = enrichedPlayers
+          .map((p) => p.id)
+          .filter((id) => !previousIds.has(id));
+
+        const pairCount = Math.min(playersOut.length, playersIn.length);
+        if (pairCount > 0) {
+          await tx.transfer.createMany({
+            data: Array.from({ length: pairCount }, (_, idx) => ({
+              squadId: squadRecord.id,
+              gameweekId: activeGameweek.id,
+              playerOutId: playersOut[idx],
+              playerInId: playersIn[idx],
+              cost: 0,
+            })),
+          });
+        }
+      }
+
+      // Replace squad player slots with locked purchasePrice
       await tx.squadPlayer.deleteMany({
         where: { squadId: squadRecord.id },
       });
 
-      // Insert new squad players
       await tx.squadPlayer.createMany({
         data: enrichedPlayers.map((p) => ({
           squadId: squadRecord.id,
           playerId: p.id,
+          purchasePrice: p.purchasePrice,
           positionOrder: p.positionOrder,
           isCaptain: p.id === captainId,
           isViceCaptain: p.id === viceCaptainId,
@@ -261,7 +329,9 @@ export async function POST(request: Request) {
             include: {
               player: {
                 include: {
-                  club: { select: { id: true, name: true, shortName: true } },
+                  club: {
+                    select: { id: true, name: true, shortName: true, logoUrl: true },
+                  },
                 },
               },
             },

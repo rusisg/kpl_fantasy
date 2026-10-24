@@ -19,10 +19,20 @@ export const POSITIONS: readonly Position[] = [
   Position.FWD,
 ] as const;
 
+export const ChipType = {
+  WILDCARD: "WILDCARD",
+  TRIPLE_CAPTAIN: "TRIPLE_CAPTAIN",
+  BENCH_BOOST: "BENCH_BOOST",
+  FREE_HIT: "FREE_HIT",
+} as const;
+
+export type ChipType = (typeof ChipType)[keyof typeof ChipType];
+
 export interface ClubInfo {
   id: string;
   name: string;
   shortName: string;
+  logoUrl?: string | null;
 }
 
 export interface PlayerMarketItem {
@@ -31,12 +41,14 @@ export interface PlayerMarketItem {
   lastName: string;
   position: Position;
   price: number;
+  totalPoints?: number;
   clubId: string;
   club: ClubInfo;
 }
 
 export interface SelectedSlotPlayer extends PlayerMarketItem {
   positionOrder: number; // 1-11 starting XI, 12-15 bench
+  purchasePrice?: number;
   isCaptain?: boolean;
   isViceCaptain?: boolean;
 }
@@ -44,6 +56,7 @@ export interface SelectedSlotPlayer extends PlayerMarketItem {
 export interface SquadPlayerRecord {
   id?: string;
   playerId: string;
+  purchasePrice?: number | string;
   positionOrder: number;
   isCaptain: boolean;
   isViceCaptain: boolean;
@@ -53,9 +66,26 @@ export interface SquadPlayerRecord {
     lastName: string;
     position: Position;
     price: number | string;
+    totalPoints?: number;
     clubId: string;
     club: ClubInfo;
   };
+}
+
+export interface ActiveGameweekInfo {
+  id: number;
+  deadline: string;
+  isCurrent: boolean;
+  isFinished: boolean;
+  isLocked: boolean;
+}
+
+export interface UserProfileInfo {
+  id: string;
+  name: string | null;
+  email: string;
+  favoriteClubId: string | null;
+  favoriteClub: ClubInfo | null;
 }
 
 export interface SquadApiResponse {
@@ -63,5 +93,30 @@ export interface SquadApiResponse {
   userId: string;
   name: string;
   budget: number | string;
+  totalPoints: number;
   players: SquadPlayerRecord[];
+}
+
+export interface LeagueStandingRow {
+  rank: number;
+  memberId: string;
+  squadId: string;
+  userId: string | null;
+  teamName: string;
+  managerName: string;
+  gameweekPoints: number;
+  totalPoints: number;
+  isCurrentUser: boolean;
+}
+
+export interface LeagueSummary {
+  id: string;
+  name: string;
+  code: string;
+  isPrivate: boolean;
+  createdById: string;
+  createdAt: string;
+  memberCount: number;
+  userRank: number | null;
+  standings: LeagueStandingRow[];
 }
