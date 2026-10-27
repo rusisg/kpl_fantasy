@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import {
   Position,
+  ChipType,
   ClubInfo,
   PlayerMarketItem,
   SelectedSlotPlayer,
@@ -8,7 +9,7 @@ import {
   ActiveGameweekInfo,
   UserProfileInfo,
 } from "../lib/types";
-import { SQUAD_LIMITS } from "../lib/squad-validation";
+import { SQUAD_LIMITS, validateStartingLineup } from "../lib/squad-validation";
 
 export type { ClubInfo, PlayerMarketItem, SelectedSlotPlayer };
 
@@ -28,10 +29,19 @@ interface SquadState {
   squadName: string;
   squadTotalPoints: number;
   selectedPlayers: SelectedSlotPlayer[];
+  savedPlayerIds: string[];
   captainId: string | null;
   viceCaptainId: string | null;
   userProfile: UserProfileInfo | null;
   activeGameweek: ActiveGameweekInfo | null;
+
+  // Transfers & Chips state
+  freeTransfers: number;
+  activeChip: ChipType | null;
+  usedChips: ChipType[];
+  isUnlimitedTransfers: boolean;
+  transfersThisGw: number;
+  pointsHitThisGw: number;
 
   // Filter state for player picker
   activePositionFilter: Position | "ALL";
@@ -43,6 +53,9 @@ interface SquadState {
   remainingBudget: () => number;
   clubCounts: () => Record<string, number>;
   positionCounts: () => Record<Position, number>;
+  pendingTransfersCount: () => number;
+  pendingTransferCost: () => number;
+  canSwapPlayers: (orderA: number, orderB: number) => boolean;
 
   // Actions
   setSquadName: (name: string) => void;
@@ -50,7 +63,7 @@ interface SquadState {
   setActiveGameweek: (gw: ActiveGameweekInfo | null) => void;
   addPlayer: (player: PlayerMarketItem, targetOrder?: number) => boolean;
   removePlayer: (playerId: string) => void;
-  swapPlayers: (orderA: number, orderB: number) => void;
+  swapPlayers: (orderA: number, orderB: number) => boolean;
   setCaptain: (playerId: string) => void;
   setViceCaptain: (playerId: string) => void;
   setFilters: (filters: {
@@ -63,6 +76,12 @@ interface SquadState {
     id?: string;
     name: string;
     totalPoints?: number;
+    freeTransfers?: number;
+    activeChip?: ChipType | null;
+    usedChips?: ChipType[];
+    isUnlimitedTransfers?: boolean;
+    transfersThisGw?: number;
+    pointsHitThisGw?: number;
     players?: SquadPlayerRecord[];
     squadPlayers?: SquadPlayerRecord[];
   }) => void;
@@ -73,10 +92,18 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   squadName: "",
   squadTotalPoints: 0,
   selectedPlayers: [],
+  savedPlayerIds: [],
   captainId: null,
   viceCaptainId: null,
   userProfile: null,
   activeGameweek: null,
+
+  freeTransfers: 1,
+  activeChip: null,
+  usedChips: [],
+  isUnlimitedTransfers: true,
+  transfersThisGw: 0,
+  pointsHitThisGw: 0,
 
   activePositionFilter: "ALL",
   activeClubFilter: "ALL",
@@ -118,6 +145,54 @@ export const useSquadStore = create<SquadState>((set, get) => ({
       counts[p.position] = (counts[p.position] || 0) + 1;
     });
     return counts;
+  },
+
+  pendingTransfersCount: () => {
+    const state = get();
+    if (state.savedPlayerIds.length === 0) return 0;
+    const savedSet = new Set(state.savedPlayerIds);
+    return state.selectedPlayers.filter((p) => !savedSet.has(p.id)).length;
+  },
+
+  pendingTransferCost: () => {
+    const state = get();
+    if (state.isUnlimitedTransfers || state.savedPlayerIds.length === 0) {
+      return 0;
+    }
+    const pendingCount = state.pendingTransfersCount();
+    const extraTransfers = Math.max(0, pendingCount - state.freeTransfers);
+    return state.pointsHitThisGw + extraTransfers * 4;
+  },
+
+  canSwapPlayers: (orderA, orderB) => {
+    if (orderA === orderB) return false;
+    const state = get();
+    if (state.activeGameweek?.isLocked) return false;
+
+    const playerA = state.selectedPlayers.find((p) => p.positionOrder === orderA);
+    const playerB = state.selectedPlayers.find((p) => p.positionOrder === orderB);
+    if (!playerA || !playerB) return false;
+
+    // Swapping two bench outfielders (13..15) is always valid (changes bench priority)
+    if (
+      orderA > 11 &&
+      orderB > 11 &&
+      playerA.position !== Position.GK &&
+      playerB.position !== Position.GK
+    ) {
+      return true;
+    }
+
+    // Swapping two starters (<= 11) is unnecessary unless reordering
+    const simulated = state.selectedPlayers.map((p) => {
+      if (p.positionOrder === orderA) return { ...p, positionOrder: orderB };
+      if (p.positionOrder === orderB) return { ...p, positionOrder: orderA };
+      return p;
+    });
+
+    const simulatedStarters = simulated.filter((p) => p.positionOrder <= 11);
+    if (simulatedStarters.length < 11) return true;
+    return validateStartingLineup(simulatedStarters).isValid;
   },
 
   setSquadName: (name) => set({ squadName: name }),
@@ -227,7 +302,11 @@ export const useSquadStore = create<SquadState>((set, get) => ({
 
   swapPlayers: (orderA, orderB) => {
     const state = get();
-    if (state.activeGameweek?.isLocked) return;
+    if (!state.canSwapPlayers(orderA, orderB)) return false;
+
+    const playerA = state.selectedPlayers.find((p) => p.positionOrder === orderA);
+    const playerB = state.selectedPlayers.find((p) => p.positionOrder === orderB);
+    if (!playerA || !playerB) return false;
 
     const nextSelected = state.selectedPlayers.map((p) => {
       if (p.positionOrder === orderA) return { ...p, positionOrder: orderB };
@@ -235,7 +314,25 @@ export const useSquadStore = create<SquadState>((set, get) => ({
       return p;
     });
 
-    set({ selectedPlayers: nextSelected });
+    // If a starter with Captain or Vice-Captain is swapped to the bench (> 11),
+    // pass the armband to the player coming onto the pitch in their place.
+    let nextCaptain = state.captainId;
+    let nextViceCaptain = state.viceCaptainId;
+
+    if (orderA <= 11 && orderB > 11) {
+      if (nextCaptain === playerA.id) nextCaptain = playerB.id;
+      if (nextViceCaptain === playerA.id) nextViceCaptain = playerB.id;
+    } else if (orderB <= 11 && orderA > 11) {
+      if (nextCaptain === playerB.id) nextCaptain = playerA.id;
+      if (nextViceCaptain === playerB.id) nextViceCaptain = playerA.id;
+    }
+
+    set({
+      selectedPlayers: nextSelected,
+      captainId: nextCaptain,
+      viceCaptainId: nextViceCaptain,
+    });
+    return true;
   },
 
   setCaptain: (playerId) => {
@@ -276,6 +373,7 @@ export const useSquadStore = create<SquadState>((set, get) => ({
   resetSquad: () => {
     set({
       selectedPlayers: [],
+      savedPlayerIds: [],
       captainId: null,
       viceCaptainId: null,
     });
@@ -316,8 +414,15 @@ export const useSquadStore = create<SquadState>((set, get) => ({
       squadName: squadData.name,
       squadTotalPoints: squadData.totalPoints ?? 0,
       selectedPlayers: loadedPlayers,
+      savedPlayerIds: loadedPlayers.map((p) => p.id),
       captainId,
       viceCaptainId,
+      freeTransfers: squadData.freeTransfers ?? 1,
+      activeChip: squadData.activeChip ?? null,
+      usedChips: squadData.usedChips ?? [],
+      isUnlimitedTransfers: squadData.isUnlimitedTransfers ?? true,
+      transfersThisGw: squadData.transfersThisGw ?? 0,
+      pointsHitThisGw: squadData.pointsHitThisGw ?? 0,
     });
   },
 }));

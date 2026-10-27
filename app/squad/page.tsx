@@ -1,18 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Position, ClubInfo } from "../../lib/types";
+import { ChipType, ClubInfo, Position } from "../../lib/types";
 import { useSquadStore, PlayerMarketItem } from "../../store/useSquadStore";
 import OnboardingModal from "../../components/OnboardingModal";
 import Navbar from "../../components/Navbar";
+import { KffAttributionFooter } from "../../components/PageShell";
+import { TranslationKey, useTranslation } from "../../lib/i18n";
 
 interface ApiErrorItem {
   field?: string;
   message: string;
 }
 
-function formatDeadlineBanner(deadlineIso?: string, isLocked?: boolean): string {
-  if (!deadlineIso) return "Schedule Pending";
+const ALL_CHIPS: ChipType[] = [
+  ChipType.WILDCARD,
+  ChipType.FREE_HIT,
+  ChipType.BENCH_BOOST,
+  ChipType.TRIPLE_CAPTAIN,
+];
+
+function formatDeadlineBanner(
+  t: (key: TranslationKey, vars?: Record<string, string | number>) => string,
+  deadlineIso?: string,
+  isLocked?: boolean
+): string {
+  if (!deadlineIso) return t("nav.schedulePending");
   const date = new Date(deadlineIso);
   const formatted = date.toLocaleString(undefined, {
     month: "short",
@@ -20,19 +33,30 @@ function formatDeadlineBanner(deadlineIso?: string, isLocked?: boolean): string 
     hour: "2-digit",
     minute: "2-digit",
   });
-  return isLocked ? `Locked (${formatted})` : `Deadline: ${formatted}`;
+  return isLocked
+    ? t("squad.lockedBanner", { date: formatted })
+    : t("squad.deadline", { date: formatted });
 }
 
 export default function SquadBuilderPage() {
   const {
+    squadId,
     squadName,
     setSquadName,
     selectedPlayers,
     addPlayer,
     removePlayer,
+    swapPlayers,
+    canSwapPlayers,
     setCaptain,
     setViceCaptain,
     remainingBudget,
+    freeTransfers,
+    activeChip,
+    usedChips,
+    isUnlimitedTransfers,
+    pendingTransfersCount,
+    pendingTransferCost,
     captainId,
     viceCaptainId,
     activePositionFilter,
@@ -46,13 +70,17 @@ export default function SquadBuilderPage() {
     loadSquadFromApi,
   } = useSquadStore();
 
+  const { t } = useTranslation();
+
   const [marketPlayers, setMarketPlayers] = useState<PlayerMarketItem[]>([]);
   const [clubs, setClubs] = useState<ClubInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [initialHydrating, setInitialHydrating] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [chipBusy, setChipBusy] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
+  const [swapSourceOrder, setSwapSourceOrder] = useState<number | null>(null);
 
   // Hydrate user profile, active gameweek, saved squad, and canonical clubs from PostgreSQL
   useEffect(() => {
@@ -169,6 +197,7 @@ export default function SquadBuilderPage() {
       const data = await res.json();
       if (data.success && data.data) {
         loadSquadFromApi(data.data);
+        setSwapSourceOrder(null);
         setSaveMessage("🎉 Squad saved to database!");
       } else {
         const errText = Array.isArray(data.errors)
@@ -183,8 +212,66 @@ export default function SquadBuilderPage() {
     }
   };
 
-  const startingXI = selectedPlayers.filter((p) => p.positionOrder <= 11);
-  const bench = selectedPlayers.filter((p) => p.positionOrder > 11);
+  const handleToggleChip = async (chip: ChipType) => {
+    if (isDeadlineLocked || chipBusy) return;
+    if (!squadId) {
+      setSaveMessage("⚠️ Please save your 15-player squad before playing a chip.");
+      return;
+    }
+    const nextChip = activeChip === chip ? null : chip;
+    setChipBusy(true);
+    setSaveMessage(null);
+    try {
+      const res = await fetch("/api/squad/chip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chip: nextChip }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.data) {
+        loadSquadFromApi(data.data);
+        setSaveMessage(
+          nextChip
+            ? `🎉 ${t(`chip.${nextChip}` as TranslationKey)} chip activated!`
+            : "🎉 Chip cancelled."
+        );
+      } else {
+        setSaveMessage(`❌ ${data.error || "Failed to update chip."}`);
+      }
+    } catch {
+      setSaveMessage("❌ Network error while updating chip.");
+    } finally {
+      setChipBusy(false);
+    }
+  };
+
+  const handleSlotSwapClick = (targetOrder: number) => {
+    if (isDeadlineLocked) return;
+    if (swapSourceOrder === null) {
+      setSwapSourceOrder(targetOrder);
+      return;
+    }
+    if (swapSourceOrder === targetOrder) {
+      setSwapSourceOrder(null);
+      return;
+    }
+    const swapped = swapPlayers(swapSourceOrder, targetOrder);
+    if (swapped) {
+      setSwapSourceOrder(null);
+    }
+  };
+
+  const swapSourcePlayer =
+    swapSourceOrder !== null
+      ? selectedPlayers.find((p) => p.positionOrder === swapSourceOrder) ?? null
+      : null;
+
+  const startingXI = selectedPlayers
+    .filter((p) => p.positionOrder <= 11)
+    .sort((a, b) => a.positionOrder - b.positionOrder);
+  const bench = selectedPlayers
+    .filter((p) => p.positionOrder > 11)
+    .sort((a, b) => a.positionOrder - b.positionOrder);
 
   const startersByPos = {
     [Position.GK]: startingXI.filter((p) => p.position === Position.GK),
@@ -192,6 +279,12 @@ export default function SquadBuilderPage() {
     [Position.MID]: startingXI.filter((p) => p.position === Position.MID),
     [Position.FWD]: startingXI.filter((p) => p.position === Position.FWD),
   };
+
+  const pendingTransfers = pendingTransfersCount();
+  const transferHit = pendingTransferCost();
+  const effectiveFreeTransfers = isUnlimitedTransfers
+    ? t("squad.unlimited")
+    : Math.max(0, freeTransfers - pendingTransfers);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white">
@@ -210,7 +303,7 @@ export default function SquadBuilderPage() {
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-6">
         {/* Dynamic Database-Driven Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 shadow-xl backdrop-blur-md">
+        <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl shadow-lg flex items-center justify-center border-2 border-emerald-300">
               <span className="text-lg font-black text-white">
@@ -224,7 +317,7 @@ export default function SquadBuilderPage() {
                   value={squadName}
                   disabled={isDeadlineLocked}
                   onChange={(e) => setSquadName(e.target.value)}
-                  placeholder="Enter Squad Name..."
+                  placeholder={t("squad.placeholderName")}
                   aria-label="Squad Name"
                   className="text-2xl md:text-3xl font-black tracking-tight text-white bg-transparent border-b border-transparent hover:border-slate-600 focus:border-emerald-400 focus:outline-none px-1 -ml-1 rounded transition-colors"
                 />
@@ -237,8 +330,8 @@ export default function SquadBuilderPage() {
               <div className="flex items-center gap-3 mt-1 text-xs font-bold uppercase tracking-widest">
                 <span className="text-emerald-400">
                   {activeGameweek
-                    ? `Gameweek ${activeGameweek.id}`
-                    : "Pre-Season"}
+                    ? t("squad.gameweek", { id: activeGameweek.id })
+                    : t("squad.preSeason")}
                 </span>
                 <span className="text-slate-600">•</span>
                 <span
@@ -247,6 +340,7 @@ export default function SquadBuilderPage() {
                   }
                 >
                   {formatDeadlineBanner(
+                    t,
                     activeGameweek?.deadline,
                     activeGameweek?.isLocked
                   )}
@@ -255,10 +349,10 @@ export default function SquadBuilderPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 bg-slate-950/50 p-2 rounded-2xl border border-slate-800">
-            <div className="px-5 py-2 text-center border-r border-slate-800">
+          <div className="flex flex-wrap items-center gap-3 bg-slate-950/50 p-2 rounded-2xl border border-slate-800">
+            <div className="px-4 py-2 text-center border-r border-slate-800">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                Players
+                {t("squad.players")}
               </div>
               <div className="text-2xl font-black text-white">
                 <span
@@ -274,13 +368,36 @@ export default function SquadBuilderPage() {
               </div>
             </div>
 
-            <div className="px-5 py-2 text-center border-r border-slate-800">
+            <div className="px-4 py-2 text-center border-r border-slate-800">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                Bank
+                {t("squad.bank")}
               </div>
               <div className="text-2xl font-black text-emerald-400">
                 £{remainingBudget().toFixed(1)}
                 <span className="text-lg">m</span>
+              </div>
+            </div>
+
+            <div className="px-4 py-2 text-center border-r border-slate-800">
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                {t("squad.freeTransfers")}
+              </div>
+              <div className="text-2xl font-black text-white">
+                {effectiveFreeTransfers}
+              </div>
+            </div>
+
+            <div className="px-4 py-2 text-center border-r border-slate-800">
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                {t("squad.cost")}
+              </div>
+              <div
+                className={`text-2xl font-black tabular-nums ${
+                  transferHit > 0 ? "text-red-400" : "text-slate-300"
+                }`}
+              >
+                {transferHit > 0 ? `-${transferHit}` : "0"}{" "}
+                <span className="text-xs font-bold">{t("nav.pts")}</span>
               </div>
             </div>
 
@@ -291,7 +408,7 @@ export default function SquadBuilderPage() {
                 disabled={isDeadlineLocked}
                 className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-black px-4 py-3.5 rounded-xl border border-slate-700 transition-colors disabled:opacity-50"
               >
-                Auto-Draft
+                {t("squad.autoDraft")}
               </button>
               <button
                 onClick={handleSaveSquad}
@@ -299,14 +416,68 @@ export default function SquadBuilderPage() {
                 className="bg-gradient-to-b from-emerald-400 to-emerald-600 text-white font-bold px-7 py-3.5 rounded-xl hover:from-emerald-300 hover:to-emerald-500 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] disabled:opacity-50 border border-emerald-300/50"
               >
                 {isDeadlineLocked
-                  ? "GW Locked"
+                  ? t("squad.gwLocked")
                   : saving
-                    ? "Saving..."
-                    : "Save Squad"}
+                    ? t("squad.saving")
+                    : t("squad.saveSquad")}
               </button>
             </div>
           </div>
         </header>
+
+        {/* Chips Bar */}
+        <section
+          aria-label="Fantasy Chips"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3"
+        >
+          {ALL_CHIPS.map((chip) => {
+            const isActive = activeChip === chip;
+            const isUsed = usedChips.includes(chip);
+            const anotherActive = activeChip !== null && !isActive;
+
+            return (
+              <div
+                key={chip}
+                className={`flex items-center justify-between gap-3 p-4 rounded-2xl border transition-all ${
+                  isActive
+                    ? "bg-emerald-500/15 border-emerald-400 shadow-lg shadow-emerald-500/10"
+                    : isUsed
+                      ? "bg-slate-900/40 border-slate-800 opacity-60"
+                      : "bg-slate-800/50 border-slate-700/60"
+                }`}
+              >
+                <div className="min-w-0">
+                  <div className="text-xs font-black uppercase tracking-wider text-white truncate">
+                    {t(`chip.${chip}` as TranslationKey)}
+                  </div>
+                  <div className="text-[11px] font-medium text-slate-400 truncate mt-0.5">
+                    {t(`chip.${chip}.desc` as TranslationKey)}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  disabled={
+                    isDeadlineLocked || isUsed || anotherActive || chipBusy
+                  }
+                  onClick={() => handleToggleChip(chip)}
+                  className={`px-3 py-2 rounded-xl text-[11px] font-black uppercase tracking-wider whitespace-nowrap transition-colors ${
+                    isActive
+                      ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950"
+                      : isUsed
+                        ? "bg-slate-800 text-slate-500 cursor-not-allowed"
+                        : "bg-slate-900 hover:bg-slate-700 text-emerald-400 border border-slate-700 disabled:opacity-40"
+                  }`}
+                >
+                  {isActive
+                    ? t("chip.active")
+                    : isUsed
+                      ? t("chip.used")
+                      : t("chip.play")}
+                </button>
+              </div>
+            );
+          })}
+        </section>
 
         {saveMessage && (
           <div
@@ -319,6 +490,21 @@ export default function SquadBuilderPage() {
             }`}
           >
             {saveMessage}
+          </div>
+        )}
+
+        {swapSourcePlayer && (
+          <div className="flex items-center justify-between gap-4 px-5 py-3 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs font-black">
+            <span>
+              ⇄ {t("squad.swapBanner", { name: swapSourcePlayer.lastName })}
+            </span>
+            <button
+              type="button"
+              onClick={() => setSwapSourceOrder(null)}
+              className="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white border border-slate-700"
+            >
+              {t("squad.cancelSwap")}
+            </button>
           </div>
         )}
 
@@ -352,72 +538,112 @@ export default function SquadBuilderPage() {
                   >
                     {startersByPos[pos].length === 0 ? (
                       <div className="text-xs text-white/80 font-black tracking-widest uppercase bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 shadow-inner">
-                        Select {pos}
+                        {t("squad.selectPos", { pos })}
                       </div>
                     ) : (
-                      startersByPos[pos].map((player) => (
-                        <div
-                          key={player.id}
-                          className="group relative flex flex-col items-center drop-shadow-xl hover:scale-105 transition-transform duration-200"
-                        >
-                          {/* Kit Card */}
-                          <div className="bg-gradient-to-br from-slate-100 to-slate-300 text-slate-900 border border-white p-1 text-center w-[5.5rem] rounded-xl shadow-lg relative cursor-pointer">
-                            {/* Captain/Vice Badges */}
-                            {player.id === captainId && (
-                              <div className="absolute -top-3 -right-2 bg-emerald-500 text-white text-[11px] font-black w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white z-10">
-                                C
+                      startersByPos[pos].map((player) => {
+                        const isSwapSource =
+                          swapSourceOrder === player.positionOrder;
+                        const isValidSwapTarget =
+                          swapSourceOrder !== null &&
+                          swapSourceOrder !== player.positionOrder &&
+                          canSwapPlayers(swapSourceOrder, player.positionOrder);
+
+                        return (
+                          <div
+                            key={player.id}
+                            className="group relative flex flex-col items-center drop-shadow-xl hover:scale-105 transition-transform duration-200"
+                          >
+                            {/* Kit Card */}
+                            <div
+                              onClick={() => {
+                                if (swapSourceOrder !== null) {
+                                  handleSlotSwapClick(player.positionOrder);
+                                }
+                              }}
+                              className={`bg-gradient-to-br from-slate-100 to-slate-300 text-slate-900 border p-1 text-center w-[5.5rem] rounded-xl shadow-lg relative cursor-pointer transition-all ${
+                                isSwapSource
+                                  ? "ring-4 ring-amber-400 border-amber-300 scale-105"
+                                  : isValidSwapTarget
+                                    ? "ring-4 ring-emerald-400 border-emerald-300 animate-pulse"
+                                    : "border-white"
+                              }`}
+                            >
+                              {/* Captain/Vice Badges */}
+                              {player.id === captainId && (
+                                <div className="absolute -top-3 -right-2 bg-emerald-500 text-white text-[11px] font-black w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white z-10">
+                                  C
+                                </div>
+                              )}
+                              {player.id === viceCaptainId && (
+                                <div className="absolute -top-3 -right-2 bg-slate-800 text-white text-[11px] font-black w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white z-10">
+                                  V
+                                </div>
+                              )}
+
+                              <div className="bg-slate-800 text-white text-[10px] font-black uppercase rounded-t-lg py-1 mb-1 shadow-inner">
+                                {player.club?.shortName}
+                              </div>
+
+                              <div className="text-xs font-black truncate px-1 text-slate-800">
+                                {player.lastName}
+                              </div>
+
+                              <div className="bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded mt-1 py-0.5">
+                                £{(player.purchasePrice ?? player.price).toFixed(1)}
+                              </div>
+                            </div>
+
+                            {/* Hover / Focus Actions Panel */}
+                            {!isDeadlineLocked && (
+                              <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 bg-slate-900/90 backdrop-blur p-1.5 rounded-full z-20 shadow-xl border border-slate-700">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handleSlotSwapClick(player.positionOrder)
+                                  }
+                                  aria-label={`Substitute ${player.lastName}`}
+                                  className={`w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black transition-colors ${
+                                    isSwapSource
+                                      ? "bg-amber-400 text-slate-950"
+                                      : "bg-slate-800 text-amber-400 hover:bg-amber-400 hover:text-slate-950"
+                                  }`}
+                                  title="Substitute / Swap"
+                                >
+                                  ⇄
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setCaptain(player.id)}
+                                  aria-label={`Make ${player.lastName} Captain`}
+                                  className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-emerald-400 hover:bg-emerald-500 hover:text-white text-[10px] font-black transition-colors"
+                                  title="Make Captain"
+                                >
+                                  C
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setViceCaptain(player.id)}
+                                  aria-label={`Make ${player.lastName} Vice-Captain`}
+                                  className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-300 hover:text-slate-900 text-[10px] font-black transition-colors"
+                                  title="Make Vice-Captain"
+                                >
+                                  V
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => removePlayer(player.id)}
+                                  aria-label={`Remove ${player.lastName}`}
+                                  className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-red-400 hover:bg-red-500 hover:text-white text-[10px] font-black transition-colors"
+                                  title="Remove Player"
+                                >
+                                  ✕
+                                </button>
                               </div>
                             )}
-                            {player.id === viceCaptainId && (
-                              <div className="absolute -top-3 -right-2 bg-slate-800 text-white text-[11px] font-black w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white z-10">
-                                V
-                              </div>
-                            )}
-
-                            <div className="bg-slate-800 text-white text-[10px] font-black uppercase rounded-t-lg py-1 mb-1 shadow-inner">
-                              {player.club?.shortName}
-                            </div>
-
-                            <div className="text-xs font-black truncate px-1 text-slate-800">
-                              {player.lastName}
-                            </div>
-
-                            <div className="bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded mt-1 py-0.5">
-                              £{(player.purchasePrice ?? player.price).toFixed(1)}
-                            </div>
                           </div>
-
-                          {/* Hover / Focus Actions Panel */}
-                          {!isDeadlineLocked && (
-                            <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 bg-slate-900/90 backdrop-blur p-1.5 rounded-full z-20 shadow-xl border border-slate-700">
-                              <button
-                                onClick={() => setCaptain(player.id)}
-                                aria-label={`Make ${player.lastName} Captain`}
-                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-emerald-400 hover:bg-emerald-500 hover:text-white text-[10px] font-black transition-colors"
-                                title="Make Captain"
-                              >
-                                C
-                              </button>
-                              <button
-                                onClick={() => setViceCaptain(player.id)}
-                                aria-label={`Make ${player.lastName} Vice-Captain`}
-                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-300 hover:text-slate-900 text-[10px] font-black transition-colors"
-                                title="Make Vice-Captain"
-                              >
-                                V
-                              </button>
-                              <button
-                                onClick={() => removePlayer(player.id)}
-                                aria-label={`Remove ${player.lastName}`}
-                                className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-800 text-red-400 hover:bg-red-500 hover:text-white text-[10px] font-black transition-colors"
-                                title="Remove Player"
-                              >
-                                ✕
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      ))
+                        );
+                      })
                     )}
                   </div>
                 )
@@ -428,38 +654,84 @@ export default function SquadBuilderPage() {
             <div className="bg-slate-800/80 backdrop-blur border border-slate-700/50 rounded-3xl p-6 shadow-xl">
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-300 mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                Substitutes
+                {t("squad.substitutes")}
               </h3>
               <div className="grid grid-cols-4 gap-4">
-                {bench.map((player) => (
-                  <div
-                    key={player.id}
-                    className="bg-slate-900 border border-slate-700 p-3 rounded-2xl text-center relative group shadow-inner"
-                  >
-                    <div className="text-xs font-black truncate text-white">
-                      {player.lastName}
+                {bench.map((player, idx) => {
+                  const isSwapSource = swapSourceOrder === player.positionOrder;
+                  const isValidSwapTarget =
+                    swapSourceOrder !== null &&
+                    swapSourceOrder !== player.positionOrder &&
+                    canSwapPlayers(swapSourceOrder, player.positionOrder);
+                  const subLabel =
+                    player.position === Position.GK ? "GKP" : `${idx}. Sub`;
+
+                  return (
+                    <div
+                      key={player.id}
+                      onClick={() => {
+                        if (swapSourceOrder !== null) {
+                          handleSlotSwapClick(player.positionOrder);
+                        }
+                      }}
+                      className={`bg-slate-900 border p-3 rounded-2xl text-center relative group shadow-inner cursor-pointer transition-all ${
+                        isSwapSource
+                          ? "border-amber-400 ring-2 ring-amber-400"
+                          : isValidSwapTarget
+                            ? "border-emerald-400 ring-2 ring-emerald-400 animate-pulse"
+                            : "border-slate-700"
+                      }`}
+                    >
+                      <div className="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-0.5">
+                        {subLabel}
+                      </div>
+                      <div className="text-xs font-black truncate text-white">
+                        {player.lastName}
+                      </div>
+                      <div className="text-[11px] font-bold text-slate-400 mt-1">
+                        {player.position}{" "}
+                        <span className="text-emerald-400 ml-1">
+                          £{(player.purchasePrice ?? player.price).toFixed(1)}
+                        </span>
+                      </div>
+                      {!isDeadlineLocked && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSlotSwapClick(player.positionOrder);
+                            }}
+                            aria-label={`Substitute ${player.lastName}`}
+                            title="Substitute / Swap"
+                            className={`absolute -top-2 -left-2 rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-black shadow-md border-2 border-slate-900 transition-opacity ${
+                              isSwapSource
+                                ? "bg-amber-400 text-slate-950 opacity-100"
+                                : "bg-amber-500 text-slate-950 opacity-0 group-hover:opacity-100 focus:opacity-100"
+                            }`}
+                          >
+                            ⇄
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removePlayer(player.id);
+                            }}
+                            aria-label={`Remove ${player.lastName}`}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-black opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity shadow-md border-2 border-slate-900"
+                          >
+                            ✕
+                          </button>
+                        </>
+                      )}
                     </div>
-                    <div className="text-[11px] font-bold text-slate-400 mt-1">
-                      {player.position}{" "}
-                      <span className="text-emerald-400 ml-1">
-                        £{(player.purchasePrice ?? player.price).toFixed(1)}
-                      </span>
-                    </div>
-                    {!isDeadlineLocked && (
-                      <button
-                        onClick={() => removePlayer(player.id)}
-                        aria-label={`Remove ${player.lastName}`}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-black opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity shadow-md border-2 border-slate-900"
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
                 {Array.from({ length: 4 - bench.length }).map((_, i) => (
                   <div
                     key={i}
-                    className="border-2 border-dashed border-slate-700 rounded-2xl p-3 flex flex-col items-center justify-center text-slate-600 h-[68px]"
+                    className="border-2 border-dashed border-slate-700 rounded-2xl p-3 flex flex-col items-center justify-center text-slate-600 h-[76px]"
                   >
                     <span className="text-xl font-bold">+</span>
                   </div>
@@ -471,14 +743,14 @@ export default function SquadBuilderPage() {
           {/* Player Market (5 cols) */}
           <div className="lg:col-span-5 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-[2.5rem] p-6 shadow-xl flex flex-col h-[calc(100vh-14rem)] min-h-[700px]">
             <h2 className="text-xl font-black text-white mb-6 flex items-center gap-2">
-              <span className="text-2xl">🛒</span> Player Market
+              <span className="text-2xl">🛒</span> {t("squad.market")}
             </h2>
 
             {/* Filter Pills */}
             <div className="space-y-4 mb-6">
               <input
                 type="text"
-                placeholder="Search players..."
+                placeholder={t("squad.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setFilters({ search: e.target.value })}
                 className="w-full bg-slate-900 border border-slate-700 text-white px-5 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder:text-slate-500"
@@ -507,7 +779,7 @@ export default function SquadBuilderPage() {
                 onChange={(e) => setFilters({ clubId: e.target.value })}
                 className="w-full bg-slate-900 border border-slate-700 text-white px-5 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:border-emerald-500 appearance-none transition-all"
               >
-                <option value="ALL">All KPL Clubs</option>
+                <option value="ALL">{t("squad.allClubs")}</option>
                 {clubs.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name} ({c.shortName})
@@ -520,11 +792,11 @@ export default function SquadBuilderPage() {
             <div className="flex-1 overflow-y-auto space-y-2 pr-2">
               {loading ? (
                 <div className="text-center py-10 text-slate-500 text-sm font-bold">
-                  Scouting players...
+                  {t("squad.scouting")}
                 </div>
               ) : marketPlayers.length === 0 ? (
                 <div className="text-center py-10 text-slate-500 text-sm font-bold">
-                  No players match search.
+                  {t("squad.noMatch")}
                 </div>
               ) : (
                 marketPlayers.map((player) => {
@@ -579,6 +851,7 @@ export default function SquadBuilderPage() {
           </div>
         </div>
       </div>
+      <KffAttributionFooter />
     </div>
   );
 }

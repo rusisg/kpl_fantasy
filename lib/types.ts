@@ -94,6 +94,16 @@ export interface SquadApiResponse {
   name: string;
   budget: number | string;
   totalPoints: number;
+  freeTransfers?: number;
+  wildcardUsed?: boolean;
+  tripleCaptainUsed?: boolean;
+  benchBoostUsed?: boolean;
+  freeHitUsed?: boolean;
+  activeChip?: ChipType | null;
+  usedChips?: ChipType[];
+  isUnlimitedTransfers?: boolean;
+  transfersThisGw?: number;
+  pointsHitThisGw?: number;
   players: SquadPlayerRecord[];
 }
 
@@ -119,4 +129,68 @@ export interface LeagueSummary {
   memberCount: number;
   userRank: number | null;
   standings: LeagueStandingRow[];
+}
+
+export type FixtureStatus =
+  | "SCHEDULED"
+  | "LIVE"
+  | "FINISHED"
+  | "POSTPONED"
+  | "CANCELLED";
+
+export interface FixtureItem {
+  id: string;
+  kickoffTime: string;
+  status: FixtureStatus;
+  homeScore: number | null;
+  awayScore: number | null;
+  homeClub: ClubInfo;
+  awayClub: ClubInfo;
+}
+
+export interface FixturesApiData {
+  gameweek: ActiveGameweekInfo;
+  activeGameweekId: number | null;
+  firstGameweekId: number;
+  lastGameweekId: number;
+  fixtures: FixtureItem[];
+}
+
+export interface GameweekPointsPlayer {
+  playerId: string;
+  firstName: string;
+  lastName: string;
+  position: Position;
+  club: ClubInfo;
+  positionOrder: number; // 1-11 starting XI, 12-15 bench
+  isCaptain: boolean;
+  isViceCaptain: boolean;
+  multiplier: number;
+  basePoints: number; // raw points before captain multiplier
+  points: number; // effective points (basePoints * multiplier)
+  minutes: number;
+}
+
+export interface GameweekHistoryRow {
+  gameweekId: number;
+  totalPoints: number;
+  rank: number | null;
+  chipPlayed: ChipType | null;
+}
+
+export interface PointsApiData {
+  hasSquad: boolean;
+  squadName: string | null;
+  seasonTotalPoints: number;
+  selectedGameweekId: number | null;
+  history: GameweekHistoryRow[]; // every processed gameweek for this squad
+  snapshot: {
+    gameweekId: number;
+    totalPoints: number;
+    rank: number | null;
+    chipPlayed: ChipType | null;
+    gameweekAverage: number;
+    gameweekHighest: number;
+    players: GameweekPointsPlayer[];
+  } | null;
 }

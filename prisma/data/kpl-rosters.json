@@ -1,0 +1,6723 @@
+{
+  "generatedAt": "2026-10-27T19:51:19.312Z",
+  "source": "https://kffleague.kz",
+  "attribution": "При использовании материалов обязательна ссылка на официальный сайт kffleague.kz",
+  "seasonId": 200,
+  "seasonName": "Премьер-Лига 2026",
+  "clubs": [
+    {
+      "kffTeamId": 81,
+      "name": "Ордабасы",
+      "shortName": "ORD",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/ordabasy.webp",
+      "players": [
+        {
+          "externalId": "kff-539",
+          "firstName": "Абинур",
+          "lastName": "Нурымбет",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 29
+        },
+        {
+          "externalId": "kff-1324",
+          "firstName": "Нурдаулет",
+          "lastName": "Серик",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-258",
+          "firstName": "Биржан",
+          "lastName": "Токтыбай",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-2617",
+          "firstName": "Гай Марселин",
+          "lastName": "Килама Килама",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 58
+        },
+        {
+          "externalId": "kff-1905",
+          "firstName": "Нурби",
+          "lastName": "Маратулы",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-56",
+          "firstName": "Улар",
+          "lastName": "Жаксыбаев",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 4
+        },
+        {
+          "externalId": "kff-279",
+          "firstName": "Сергей",
+          "lastName": "Малый",
+          "position": "DEF",
+          "price": 7.5,
+          "totalPoints": 72
+        },
+        {
+          "externalId": "kff-387",
+          "firstName": "Эвертон",
+          "lastName": "Маседо",
+          "position": "FWD",
+          "price": 7.5,
+          "totalPoints": 44
+        },
+        {
+          "externalId": "kff-418",
+          "firstName": "Аян",
+          "lastName": "Абдухалык",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-503",
+          "firstName": "Эльхан",
+          "lastName": "Астанов",
+          "position": "MID",
+          "price": 10,
+          "totalPoints": 111
+        },
+        {
+          "externalId": "kff-544",
+          "firstName": "Кристиан-Михай",
+          "lastName": "Капацина",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-603",
+          "firstName": "Юрий",
+          "lastName": "Вакулко",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 46
+        },
+        {
+          "externalId": "kff-1540",
+          "firstName": "Жасулан",
+          "lastName": "Амир",
+          "position": "MID",
+          "price": 9.5,
+          "totalPoints": 104
+        },
+        {
+          "externalId": "kff-3380",
+          "firstName": "Берн",
+          "lastName": "Йонсен",
+          "position": "FWD",
+          "price": 11,
+          "totalPoints": 93
+        },
+        {
+          "externalId": "kff-1728",
+          "firstName": "Никола",
+          "lastName": "Антич",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 67
+        },
+        {
+          "externalId": "kff-1786",
+          "firstName": "Бекхан",
+          "lastName": "Шайзада",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 123
+        },
+        {
+          "externalId": "kff-1252",
+          "firstName": "Алекса",
+          "lastName": "Аманович",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 55
+        },
+        {
+          "externalId": "kff-2945",
+          "firstName": "Леонардо",
+          "lastName": "Натель Виера",
+          "position": "MID",
+          "price": 8.5,
+          "totalPoints": 85
+        },
+        {
+          "externalId": "kff-1365",
+          "firstName": "Магжан",
+          "lastName": "Токтыбай",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 23
+        },
+        {
+          "externalId": "kff-2944",
+          "firstName": "Давид Сандан",
+          "lastName": "Абагна",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 71
+        },
+        {
+          "externalId": "kff-3403",
+          "firstName": "Тидиан",
+          "lastName": "Кейта",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 19
+        },
+        {
+          "externalId": "kff-653",
+          "firstName": "Кажымукан",
+          "lastName": "Толепберген",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1266",
+          "firstName": "Али",
+          "lastName": "Турганов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-1511",
+          "firstName": "Султанбек",
+          "lastName": "Астанов",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 68
+        },
+        {
+          "externalId": "kff-1718",
+          "firstName": "Сергей",
+          "lastName": "Кейлер",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 47
+        }
+      ]
+    },
+    {
+      "kffTeamId": 13,
+      "name": "Кайрат",
+      "shortName": "KAI",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/kairat.png",
+      "players": [
+        {
+          "externalId": "kff-1001",
+          "firstName": "Абылай",
+          "lastName": "Төлеухан",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1109",
+          "firstName": "Исмаил",
+          "lastName": "Бекболат",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 29
+        },
+        {
+          "externalId": "kff-892",
+          "firstName": "Мансур",
+          "lastName": "Биркурманов",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 12
+        },
+        {
+          "externalId": "kff-141",
+          "firstName": "Адлан",
+          "lastName": "Нургалиев",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1841",
+          "firstName": "Шынгыс",
+          "lastName": "Дуйсенбек",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1504",
+          "firstName": "Эдмилсон",
+          "lastName": "Де Паула Сантос Фильо",
+          "position": "FWD",
+          "price": 10.5,
+          "totalPoints": 110
+        },
+        {
+          "externalId": "kff-850",
+          "firstName": "Мухамедали",
+          "lastName": "Абиш",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-435",
+          "firstName": "Амирбек",
+          "lastName": "Базарбаев",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-248",
+          "firstName": "Лев",
+          "lastName": "Кургин",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 19
+        },
+        {
+          "externalId": "kff-376",
+          "firstName": "Александр",
+          "lastName": "Мрынский",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-744",
+          "firstName": "Александр",
+          "lastName": "Мартынович",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 57
+        },
+        {
+          "externalId": "kff-770",
+          "firstName": "Олжас",
+          "lastName": "Байбек",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-777",
+          "firstName": "Луиш Карлош",
+          "lastName": "Машаду Мата",
+          "position": "DEF",
+          "price": 7.5,
+          "totalPoints": 84
+        },
+        {
+          "externalId": "kff-876",
+          "firstName": "Дамир",
+          "lastName": "Касабулат",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1180",
+          "firstName": "Темирлан",
+          "lastName": "Анарбеков",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 147
+        },
+        {
+          "externalId": "kff-1243",
+          "firstName": "Шерхан",
+          "lastName": "Калмурза",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-1435",
+          "firstName": "Азамат",
+          "lastName": "Туякбаев",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 49
+        },
+        {
+          "externalId": "kff-1495",
+          "firstName": "Еркин",
+          "lastName": "Тапалов",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 51
+        },
+        {
+          "externalId": "kff-1646",
+          "firstName": "Жорже Габриель",
+          "lastName": "Да Коста Монтейро",
+          "position": "FWD",
+          "price": 9.5,
+          "totalPoints": 75
+        },
+        {
+          "externalId": "kff-1729",
+          "firstName": "Александр",
+          "lastName": "Широбоков",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 33
+        },
+        {
+          "externalId": "kff-1872",
+          "firstName": "Әділет",
+          "lastName": "Садыбеков",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 7
+        },
+        {
+          "externalId": "kff-2560",
+          "firstName": "Яакко Тапио",
+          "lastName": "Оксанен",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 56
+        },
+        {
+          "externalId": "kff-2561",
+          "firstName": "Лукас Энрике",
+          "lastName": "Да Силва",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-2562",
+          "firstName": "Ойва Альфонс Армандо",
+          "lastName": "Юккола",
+          "position": "MID",
+          "price": 9,
+          "totalPoints": 94
+        },
+        {
+          "externalId": "kff-3470",
+          "firstName": "Густаво",
+          "lastName": "Пинто Мендонса",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-3382",
+          "firstName": "Марк",
+          "lastName": "Гуаль",
+          "position": "FWD",
+          "price": 10.5,
+          "totalPoints": 89
+        },
+        {
+          "externalId": "kff-483",
+          "firstName": "Данила",
+          "lastName": "Буч",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1782",
+          "firstName": "Данияр",
+          "lastName": "Ташпулатов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1134",
+          "firstName": "Карим",
+          "lastName": "Махаметжан",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 91,
+      "name": "Астана",
+      "shortName": "AST",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/astana.webp",
+      "players": [
+        {
+          "externalId": "kff-577",
+          "firstName": "Имран",
+          "lastName": "Тулакбаев",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1522",
+          "firstName": "Бранимир",
+          "lastName": "Калаица",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 48
+        },
+        {
+          "externalId": "kff-898",
+          "firstName": "Мирас",
+          "lastName": "Амангелди",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1467",
+          "firstName": "Ннамди Франклин",
+          "lastName": "Аханону",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 6
+        },
+        {
+          "externalId": "kff-1894",
+          "firstName": "Арман",
+          "lastName": "Варданян",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3459",
+          "firstName": "Дамир",
+          "lastName": "Тасболат",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-828",
+          "firstName": "Санжар",
+          "lastName": "Ануаров",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 7
+        },
+        {
+          "externalId": "kff-3466",
+          "firstName": "Никола",
+          "lastName": "Бурич",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 10
+        },
+        {
+          "externalId": "kff-1890",
+          "firstName": "Арсен",
+          "lastName": "Ахметов",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-775",
+          "firstName": "Айтуар",
+          "lastName": "Токен",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-947",
+          "firstName": "Тимур",
+          "lastName": "Токенов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-864",
+          "firstName": "Станислав",
+          "lastName": "Басманов",
+          "position": "FWD",
+          "price": 8.5,
+          "totalPoints": 75
+        },
+        {
+          "externalId": "kff-1441",
+          "firstName": "Ян",
+          "lastName": "Вороговский",
+          "position": "DEF",
+          "price": 7,
+          "totalPoints": 79
+        },
+        {
+          "externalId": "kff-341",
+          "firstName": "Иван",
+          "lastName": "Башич",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 61
+        },
+        {
+          "externalId": "kff-404",
+          "firstName": "Динмухамед",
+          "lastName": "Караман",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 55
+        },
+        {
+          "externalId": "kff-361",
+          "firstName": "Алибек",
+          "lastName": "Касым",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 49
+        },
+        {
+          "externalId": "kff-1617",
+          "firstName": "Максат",
+          "lastName": "Абраев",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-1532",
+          "firstName": "Марин",
+          "lastName": "Томасов",
+          "position": "MID",
+          "price": 10.5,
+          "totalPoints": 111
+        },
+        {
+          "externalId": "kff-689",
+          "firstName": "Карло",
+          "lastName": "Бартолец",
+          "position": "DEF",
+          "price": 7.5,
+          "totalPoints": 80
+        },
+        {
+          "externalId": "kff-40",
+          "firstName": "Бауыржан",
+          "lastName": "Исламхан",
+          "position": "MID",
+          "price": 8.5,
+          "totalPoints": 97
+        },
+        {
+          "externalId": "kff-1274",
+          "firstName": "Мухаммеджан",
+          "lastName": "Сейсен",
+          "position": "GK",
+          "price": 6,
+          "totalPoints": 67
+        },
+        {
+          "externalId": "kff-1301",
+          "firstName": "Абзал",
+          "lastName": "Бейсебеков",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 20
+        },
+        {
+          "externalId": "kff-2647",
+          "firstName": "Александр",
+          "lastName": "Меркель",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-1411",
+          "firstName": "Иван",
+          "lastName": "Миладинович",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 16
+        },
+        {
+          "externalId": "kff-718",
+          "firstName": "Кипрас",
+          "lastName": "Казуколовас",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-716",
+          "firstName": "Дамир",
+          "lastName": "Марат",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-1106",
+          "firstName": "Ахметали",
+          "lastName": "Калтанов",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 11
+        },
+        {
+          "externalId": "kff-2924",
+          "firstName": "Алихан",
+          "lastName": "Жексенбек",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-299",
+          "firstName": "Дмитрий",
+          "lastName": "Шомко",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-645",
+          "firstName": "Рамазан",
+          "lastName": "Каримов",
+          "position": "FWD",
+          "price": 9,
+          "totalPoints": 86
+        },
+        {
+          "externalId": "kff-792",
+          "firstName": "Руслан",
+          "lastName": "Валихан",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1327",
+          "firstName": "Йосип",
+          "lastName": "Чондрич",
+          "position": "GK",
+          "price": 5.5,
+          "totalPoints": 67
+        },
+        {
+          "externalId": "kff-1312",
+          "firstName": "Данила",
+          "lastName": "Карпиков",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3390",
+          "firstName": "Ануар",
+          "lastName": "Толенды",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 1
+        }
+      ]
+    },
+    {
+      "kffTeamId": 318,
+      "name": "Окжетпес",
+      "shortName": "OKZ",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/okzhetpes.webp",
+      "players": [
+        {
+          "externalId": "kff-1080",
+          "firstName": "Дмитрий",
+          "lastName": "Бородин",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 83
+        },
+        {
+          "externalId": "kff-234",
+          "firstName": "Михаил",
+          "lastName": "Голубничий",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1779",
+          "firstName": "Жансултан",
+          "lastName": "Мухаметханов",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 75
+        },
+        {
+          "externalId": "kff-2651",
+          "firstName": "Леонардо",
+          "lastName": "Де Ассунсау",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 69
+        },
+        {
+          "externalId": "kff-1593",
+          "firstName": "Жалгас",
+          "lastName": "Жаксылыков",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-378",
+          "firstName": "Виктор",
+          "lastName": "Зябко",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-534",
+          "firstName": "Саян",
+          "lastName": "Муканов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 28
+        },
+        {
+          "externalId": "kff-1096",
+          "firstName": "Владислав",
+          "lastName": "Васильев",
+          "position": "MID",
+          "price": 9,
+          "totalPoints": 100
+        },
+        {
+          "externalId": "kff-1896",
+          "firstName": "Нургайни",
+          "lastName": "Бурибаев",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 80
+        },
+        {
+          "externalId": "kff-618",
+          "firstName": "Шахбоз",
+          "lastName": "Умаров",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-3485",
+          "firstName": "Марсио",
+          "lastName": "Родригес Веласко",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-1554",
+          "firstName": "Василий",
+          "lastName": "Совпель",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-1850",
+          "firstName": "Равиль",
+          "lastName": "Атыханов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-2943",
+          "firstName": "Бектемир",
+          "lastName": "Абдуманнонов",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-2653",
+          "firstName": "Борис",
+          "lastName": "Лотоцький",
+          "position": "DEF",
+          "price": 7,
+          "totalPoints": 72
+        },
+        {
+          "externalId": "kff-1680",
+          "firstName": "Владимир",
+          "lastName": "Воменко",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 31
+        },
+        {
+          "externalId": "kff-1275",
+          "firstName": "Еркебулан",
+          "lastName": "Нургалиев",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 30
+        },
+        {
+          "externalId": "kff-738",
+          "firstName": "Тохтар",
+          "lastName": "Жангылышбай",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 33
+        },
+        {
+          "externalId": "kff-1625",
+          "firstName": "Александр",
+          "lastName": "Довгаль",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1584",
+          "firstName": "Бексултан",
+          "lastName": "Шамши",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1544",
+          "firstName": "Оралхан",
+          "lastName": "Омиртаев",
+          "position": "FWD",
+          "price": 9,
+          "totalPoints": 82
+        },
+        {
+          "externalId": "kff-1506",
+          "firstName": "Мохаммед",
+          "lastName": "Енсебаев",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 9
+        },
+        {
+          "externalId": "kff-1719",
+          "firstName": "Мирослав",
+          "lastName": "Лобанцев",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 129
+        },
+        {
+          "externalId": "kff-2652",
+          "firstName": "Иван",
+          "lastName": "Кузьмичев",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 61
+        },
+        {
+          "externalId": "kff-1674",
+          "firstName": "Всеволод",
+          "lastName": "Садовский",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 7
+        }
+      ]
+    },
+    {
+      "kffTeamId": 51,
+      "name": "Актобе",
+      "shortName": "AKT",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/aktobe.png",
+      "players": [
+        {
+          "externalId": "kff-1488",
+          "firstName": "Дарын",
+          "lastName": "Оспан",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1058",
+          "firstName": "Алишер",
+          "lastName": "Кенжегулов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 3
+        },
+        {
+          "externalId": "kff-324",
+          "firstName": "Игорь",
+          "lastName": "Трофимец",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 3
+        },
+        {
+          "externalId": "kff-683",
+          "firstName": "Багдат",
+          "lastName": "Каиров",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 10
+        },
+        {
+          "externalId": "kff-903",
+          "firstName": "Еркебулан",
+          "lastName": "Сейдахмет",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 14
+        },
+        {
+          "externalId": "kff-2585",
+          "firstName": "Иван",
+          "lastName": "Ордец",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 68
+        },
+        {
+          "externalId": "kff-1483",
+          "firstName": "Парасат",
+          "lastName": "Корганбаев",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3391",
+          "firstName": "Яни",
+          "lastName": "Атанасов",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-2590",
+          "firstName": "Луиш Карлуш",
+          "lastName": "Алмейда да Кунья",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 31
+        },
+        {
+          "externalId": "kff-1794",
+          "firstName": "Артур",
+          "lastName": "Шушеначев",
+          "position": "FWD",
+          "price": 9.5,
+          "totalPoints": 88
+        },
+        {
+          "externalId": "kff-793",
+          "firstName": "Тимур",
+          "lastName": "Досмагамбетов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2588",
+          "firstName": "Пабло",
+          "lastName": "Альварес Гарсия",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 51
+        },
+        {
+          "externalId": "kff-1057",
+          "firstName": "Мирас",
+          "lastName": "Уманиязов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 4
+        },
+        {
+          "externalId": "kff-1367",
+          "firstName": "Темирлан",
+          "lastName": "Ерланов",
+          "position": "DEF",
+          "price": 7,
+          "totalPoints": 64
+        },
+        {
+          "externalId": "kff-881",
+          "firstName": "Мирам",
+          "lastName": "Кикбаев",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 11
+        },
+        {
+          "externalId": "kff-1805",
+          "firstName": "Александр",
+          "lastName": "Заруцкий",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 132
+        },
+        {
+          "externalId": "kff-3460",
+          "firstName": "Абат",
+          "lastName": "Аймбетов",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-2586",
+          "firstName": "Дмитрий",
+          "lastName": "Топалов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-2587",
+          "firstName": "Агустин Эмануель",
+          "lastName": "Пасторица Какабелос",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 85
+        },
+        {
+          "externalId": "kff-795",
+          "firstName": "Георгий",
+          "lastName": "Жуков",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 48
+        },
+        {
+          "externalId": "kff-1726",
+          "firstName": "Даниель",
+          "lastName": "Соса",
+          "position": "FWD",
+          "price": 9,
+          "totalPoints": 79
+        },
+        {
+          "externalId": "kff-1150",
+          "firstName": "Гиорги",
+          "lastName": "Зария",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-2022",
+          "firstName": "Нурдаулет",
+          "lastName": "Торегали",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-63",
+          "firstName": "Виталий",
+          "lastName": "Латурнус",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 31
+        },
+        {
+          "externalId": "kff-3461",
+          "firstName": "Сенна",
+          "lastName": "Мианге",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 10
+        },
+        {
+          "externalId": "kff-1063",
+          "firstName": "Талгат",
+          "lastName": "Кусяпов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-142",
+          "firstName": "Адильхан",
+          "lastName": "Танжариков",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 54
+        },
+        {
+          "externalId": "kff-9523",
+          "firstName": "Олувасейи Бабаджиде",
+          "lastName": "Оджо",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 34
+        }
+      ]
+    },
+    {
+      "kffTeamId": 93,
+      "name": "Елимай",
+      "shortName": "ELI",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/elimai.webp",
+      "players": [
+        {
+          "externalId": "kff-1157",
+          "firstName": "Алижан",
+          "lastName": "Байгалиев",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-1920",
+          "firstName": "Адилбек",
+          "lastName": "Жумаханов",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-1908",
+          "firstName": "Фессу Меме Э.",
+          "lastName": "Плакка",
+          "position": "FWD",
+          "price": 9.5,
+          "totalPoints": 97
+        },
+        {
+          "externalId": "kff-2579",
+          "firstName": "Игор Габриэль",
+          "lastName": "Фернандес Алвес",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 32
+        },
+        {
+          "externalId": "kff-1675",
+          "firstName": "Асан",
+          "lastName": "Байгалиев",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-2582",
+          "firstName": "Паласио Москера",
+          "lastName": "Дюбан Фелипе",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 20
+        },
+        {
+          "externalId": "kff-17",
+          "firstName": "Рамазан",
+          "lastName": "Оразов",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 66
+        },
+        {
+          "externalId": "kff-1158",
+          "firstName": "Алмас",
+          "lastName": "Тулюбай",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 46
+        },
+        {
+          "externalId": "kff-236",
+          "firstName": "Роман",
+          "lastName": "Муртазаев",
+          "position": "FWD",
+          "price": 9,
+          "totalPoints": 64
+        },
+        {
+          "externalId": "kff-501",
+          "firstName": "Мирас",
+          "lastName": "Оматай",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-598",
+          "firstName": "Айбар",
+          "lastName": "Жаксылыков",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-737",
+          "firstName": "Артем",
+          "lastName": "Жилин",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-323",
+          "firstName": "Ермек",
+          "lastName": "Абдулла",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-495",
+          "firstName": "Марин",
+          "lastName": "Беланчич",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-550",
+          "firstName": "Иван",
+          "lastName": "Свиридов",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-1840",
+          "firstName": "Жан Али",
+          "lastName": "Пайруз",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-2581",
+          "firstName": "Хрвое",
+          "lastName": "Илич",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 66
+        },
+        {
+          "externalId": "kff-393",
+          "firstName": "Акмаль",
+          "lastName": "Бахтияров",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 67
+        },
+        {
+          "externalId": "kff-2592",
+          "firstName": "Иван",
+          "lastName": "Коновалов",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 145
+        },
+        {
+          "externalId": "kff-3419",
+          "firstName": "Май",
+          "lastName": "Миттендорфер",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 20
+        },
+        {
+          "externalId": "kff-3413",
+          "firstName": "Страхиня",
+          "lastName": "Танасиевич",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 23
+        },
+        {
+          "externalId": "kff-136",
+          "firstName": "Егор",
+          "lastName": "Цуприков",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 9
+        },
+        {
+          "externalId": "kff-1902",
+          "firstName": "Ади",
+          "lastName": "Адамбаев",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-3447",
+          "firstName": "Роджер Андретти",
+          "lastName": "Мурильо Сото",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 13
+        },
+        {
+          "externalId": "kff-1550",
+          "firstName": "Арсен",
+          "lastName": "Әшірбек",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 47
+        },
+        {
+          "externalId": "kff-1731",
+          "firstName": "Рожерио",
+          "lastName": "Алвес Дос Сантос",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 11
+        },
+        {
+          "externalId": "kff-1569",
+          "firstName": "Данил",
+          "lastName": "Поземин",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 90,
+      "name": "Тобыл",
+      "shortName": "TOB",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/tobol-20260225-transparent.png",
+      "players": [
+        {
+          "externalId": "kff-1827",
+          "firstName": "Азамат",
+          "lastName": "Зинадин",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 3
+        },
+        {
+          "externalId": "kff-310",
+          "firstName": "Даурен",
+          "lastName": "Жумат",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-656",
+          "firstName": "Александр",
+          "lastName": "Марочкин",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 34
+        },
+        {
+          "externalId": "kff-949",
+          "firstName": "Алибек",
+          "lastName": "Жайлаубаев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-1369",
+          "firstName": "Александр",
+          "lastName": "Зуев",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-2569",
+          "firstName": "Урош",
+          "lastName": "Милованович",
+          "position": "FWD",
+          "price": 9.5,
+          "totalPoints": 102
+        },
+        {
+          "externalId": "kff-13",
+          "firstName": "Неманья",
+          "lastName": "Кавнич",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 40
+        },
+        {
+          "externalId": "kff-557",
+          "firstName": "Данил",
+          "lastName": "Устименко",
+          "position": "GK",
+          "price": 5,
+          "totalPoints": 91
+        },
+        {
+          "externalId": "kff-650",
+          "firstName": "Жаслан",
+          "lastName": "Жумашев",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 70
+        },
+        {
+          "externalId": "kff-687",
+          "firstName": "Юрий",
+          "lastName": "Мелихов",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1090",
+          "firstName": "Наурызбек",
+          "lastName": "Жагоров",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 44
+        },
+        {
+          "externalId": "kff-1164",
+          "firstName": "Асхат",
+          "lastName": "Тагыберген",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 87
+        },
+        {
+          "externalId": "kff-1187",
+          "firstName": "Султан",
+          "lastName": "Бусурманов",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 55
+        },
+        {
+          "externalId": "kff-2563",
+          "firstName": "Абдулай",
+          "lastName": "Сиссе",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 37
+        },
+        {
+          "externalId": "kff-2565",
+          "firstName": "Луис",
+          "lastName": "Гуерра",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 80
+        },
+        {
+          "externalId": "kff-2566",
+          "firstName": "Амин Мохамед",
+          "lastName": "Талал",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-2567",
+          "firstName": "Максим",
+          "lastName": "Мякиш",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-1175",
+          "firstName": "Султан",
+          "lastName": "Бахыткириев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-75",
+          "firstName": "Иван",
+          "lastName": "Пивоваров",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1562",
+          "firstName": "Елхан",
+          "lastName": "Мурат",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-9517",
+          "firstName": "Виталий",
+          "lastName": "Лисакович",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 39
+        },
+        {
+          "externalId": "kff-3389",
+          "firstName": "Антонио",
+          "lastName": "Боршич",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-1331",
+          "firstName": "Аманжол",
+          "lastName": "Бакитжанов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-1519",
+          "firstName": "Давид",
+          "lastName": "Мухин",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-719",
+          "firstName": "Эмин",
+          "lastName": "Мусаев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-3381",
+          "firstName": "Райан",
+          "lastName": "Сенхаджи",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-1023",
+          "firstName": "Роман",
+          "lastName": "Асранкулов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-444",
+          "firstName": "Папе Алиун",
+          "lastName": "Ндиайе",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 52
+        },
+        {
+          "externalId": "kff-929",
+          "firstName": "Евгений",
+          "lastName": "Коняшкин",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 2
+        }
+      ]
+    },
+    {
+      "kffTeamId": 293,
+      "name": "Улытау",
+      "shortName": "ULY",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/ulytai.webp",
+      "players": [
+        {
+          "externalId": "kff-342",
+          "firstName": "Артур",
+          "lastName": "Бугнон",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 59
+        },
+        {
+          "externalId": "kff-1505",
+          "firstName": "Әлішер",
+          "lastName": "Мұханбетұлы",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-849",
+          "firstName": "Котаро",
+          "lastName": "Киши",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 57
+        },
+        {
+          "externalId": "kff-1050",
+          "firstName": "Дмитрий",
+          "lastName": "Непогодов",
+          "position": "GK",
+          "price": 6,
+          "totalPoints": 118
+        },
+        {
+          "externalId": "kff-3409",
+          "firstName": "Илья",
+          "lastName": "Черняк",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-1351",
+          "firstName": "Тимурбек",
+          "lastName": "Закиров",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-1414",
+          "firstName": "Ринат",
+          "lastName": "Сериккул",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-2608",
+          "firstName": "Давид Мартин",
+          "lastName": "Анане",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 65
+        },
+        {
+          "externalId": "kff-1039",
+          "firstName": "Станислав",
+          "lastName": "Щербаков",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-77",
+          "firstName": "Мағжан",
+          "lastName": "Шауымбай",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-140",
+          "firstName": "Георгий",
+          "lastName": "Бугулов",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-208",
+          "firstName": "Максим",
+          "lastName": "Чалкин",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 12
+        },
+        {
+          "externalId": "kff-446",
+          "firstName": "Абзал",
+          "lastName": "Таубай",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-647",
+          "firstName": "Даниел",
+          "lastName": "Мауленов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 13
+        },
+        {
+          "externalId": "kff-2610",
+          "firstName": "Глеб",
+          "lastName": "Бухал",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 57
+        },
+        {
+          "externalId": "kff-667",
+          "firstName": "Бакдаулет",
+          "lastName": "Зулфикаров",
+          "position": "FWD",
+          "price": 8,
+          "totalPoints": 55
+        },
+        {
+          "externalId": "kff-3408",
+          "firstName": "Давид",
+          "lastName": "Кармона Сьерра",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-1173",
+          "firstName": "Илияс",
+          "lastName": "Абдилда",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1693",
+          "firstName": "Аслан",
+          "lastName": "Ахмедов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 23
+        },
+        {
+          "externalId": "kff-2612",
+          "firstName": "Хироки",
+          "lastName": "Харада",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 74
+        },
+        {
+          "externalId": "kff-174",
+          "firstName": "Куандык",
+          "lastName": "Нурсултанов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 14
+        },
+        {
+          "externalId": "kff-1119",
+          "firstName": "Бека",
+          "lastName": "Вачиберадзе",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 47
+        },
+        {
+          "externalId": "kff-2611",
+          "firstName": "Ариагнер Стивен",
+          "lastName": "Смитх Медина",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 61
+        },
+        {
+          "externalId": "kff-198",
+          "firstName": "Вадим",
+          "lastName": "Афанасенко",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 34
+        },
+        {
+          "externalId": "kff-649",
+          "firstName": "Багдат",
+          "lastName": "Данияров",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1385",
+          "firstName": "Оркен",
+          "lastName": "Нурали",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 5
+        }
+      ]
+    },
+    {
+      "kffTeamId": 92,
+      "name": "Женис",
+      "shortName": "ZHN",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/zhenis.webp",
+      "players": [
+        {
+          "externalId": "kff-2648",
+          "firstName": "Максим",
+          "lastName": "Плотников",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 140
+        },
+        {
+          "externalId": "kff-886",
+          "firstName": "Сагадат",
+          "lastName": "Турсынбай",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 49
+        },
+        {
+          "externalId": "kff-1480",
+          "firstName": "Элдер",
+          "lastName": "Сантана Консейсан",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-1159",
+          "firstName": "Микаэль",
+          "lastName": "Аскаров",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-1431",
+          "firstName": "Марат",
+          "lastName": "Быстров",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 34
+        },
+        {
+          "externalId": "kff-239",
+          "firstName": "Николай",
+          "lastName": "Горобченко",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-824",
+          "firstName": "Лука",
+          "lastName": "Имнадзе",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-1565",
+          "firstName": "Байжан",
+          "lastName": "Маделхан",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-924",
+          "firstName": "Ардак",
+          "lastName": "Саулет",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-976",
+          "firstName": "Батыхан",
+          "lastName": "Камарадинов",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1199",
+          "firstName": "Иван",
+          "lastName": "Шараванья",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-1362",
+          "firstName": "Зураб",
+          "lastName": "Тевзадзе",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 48
+        },
+        {
+          "externalId": "kff-1446",
+          "firstName": "Исламбек",
+          "lastName": "Куат",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 46
+        },
+        {
+          "externalId": "kff-1809",
+          "firstName": "Альдаир",
+          "lastName": "Адилов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 18
+        },
+        {
+          "externalId": "kff-637",
+          "firstName": "Мади",
+          "lastName": "Хасейн",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-911",
+          "firstName": "Адилио",
+          "lastName": "Корреиа Дос Сантос",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 78
+        },
+        {
+          "externalId": "kff-2686",
+          "firstName": "Сырым",
+          "lastName": "Ерболат",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1582",
+          "firstName": "Супьян",
+          "lastName": "Масудов",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-766",
+          "firstName": "Владислав",
+          "lastName": "Наумец",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 37
+        },
+        {
+          "externalId": "kff-3385",
+          "firstName": "Андрия",
+          "lastName": "Филипович",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-2887",
+          "firstName": "Ермухаммед",
+          "lastName": "Бесенгалиев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 7
+        },
+        {
+          "externalId": "kff-3383",
+          "firstName": "Патрик",
+          "lastName": "Кпозо",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 33
+        },
+        {
+          "externalId": "kff-1404",
+          "firstName": "Самат",
+          "lastName": "Жарынбетов",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 48
+        },
+        {
+          "externalId": "kff-1108",
+          "firstName": "Нурсаят",
+          "lastName": "Шаншар",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3",
+          "firstName": "Илья",
+          "lastName": "Сотник",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1245",
+          "firstName": "Жиан",
+          "lastName": "Мартинс",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 61
+        },
+        {
+          "externalId": "kff-1739",
+          "firstName": "Тамерлан",
+          "lastName": "Абуов",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1113",
+          "firstName": "Нурсултан",
+          "lastName": "Арыстанов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2763",
+          "firstName": "Асланбек",
+          "lastName": "Марат",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1921",
+          "firstName": "Фархат",
+          "lastName": "Жагупаров",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2762",
+          "firstName": "Расиль",
+          "lastName": "Исаев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-433",
+          "firstName": "Даулет",
+          "lastName": "Худайбергенов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 47,
+      "name": "Каспий",
+      "shortName": "KAS",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/caspiy.png",
+      "players": [
+        {
+          "externalId": "kff-2618",
+          "firstName": "Андре Филип",
+          "lastName": "Сантос Амараль",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-788",
+          "firstName": "Динмухаммед",
+          "lastName": "Жомарт",
+          "position": "GK",
+          "price": 6,
+          "totalPoints": 117
+        },
+        {
+          "externalId": "kff-1163",
+          "firstName": "Идрис",
+          "lastName": "Умаев",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 30
+        },
+        {
+          "externalId": "kff-655",
+          "firstName": "Нұрали",
+          "lastName": "Елемес",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-2619",
+          "firstName": "Бернардо",
+          "lastName": "Моргадо",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-1464",
+          "firstName": "Алмас",
+          "lastName": "Арменов",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 4
+        },
+        {
+          "externalId": "kff-2884",
+          "firstName": "Ян",
+          "lastName": "Андрин",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1336",
+          "firstName": "Жанер",
+          "lastName": "Жазмаганбетов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1769",
+          "firstName": "Ануар",
+          "lastName": "Бекмырза",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 10
+        },
+        {
+          "externalId": "kff-1764",
+          "firstName": "Бейбарыс",
+          "lastName": "Калдыбай",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-829",
+          "firstName": "Максат",
+          "lastName": "Тайкенов",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 56
+        },
+        {
+          "externalId": "kff-1524",
+          "firstName": "Нурлыбек",
+          "lastName": "Аязбаев",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-276",
+          "firstName": "Ерлан",
+          "lastName": "Кадырбаев",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-364",
+          "firstName": "Бекзат",
+          "lastName": "Кабылан",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 16
+        },
+        {
+          "externalId": "kff-871",
+          "firstName": "Амандык",
+          "lastName": "Набиханов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-761",
+          "firstName": "Нурмухаммед",
+          "lastName": "Ислам",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2621",
+          "firstName": "Ноа",
+          "lastName": "Ндомбаси",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 86
+        },
+        {
+          "externalId": "kff-93",
+          "firstName": "Диержон",
+          "lastName": "Арипов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-540",
+          "firstName": "Мухаммед",
+          "lastName": "Куаныш",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2600",
+          "firstName": "Владислав",
+          "lastName": "Климович",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 67
+        },
+        {
+          "externalId": "kff-2951",
+          "firstName": "Максим",
+          "lastName": "Кучерявий",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1203",
+          "firstName": "Мейрамбек",
+          "lastName": "Серикбай",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-2602",
+          "firstName": "Павел",
+          "lastName": "Седько",
+          "position": "MID",
+          "price": 8.5,
+          "totalPoints": 96
+        },
+        {
+          "externalId": "kff-3396",
+          "firstName": "Давид Квабена",
+          "lastName": "Эптон",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 32
+        },
+        {
+          "externalId": "kff-1422",
+          "firstName": "Рамазан",
+          "lastName": "Абылайхан",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 39
+        },
+        {
+          "externalId": "kff-84",
+          "firstName": "Аян",
+          "lastName": "Байдавлетов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 7
+        },
+        {
+          "externalId": "kff-543",
+          "firstName": "Тимур",
+          "lastName": "Курбанов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-2601",
+          "firstName": "Данила",
+          "lastName": "Нечаев",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-1198",
+          "firstName": "Данияр",
+          "lastName": "Усенов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-3404",
+          "firstName": "Силла",
+          "lastName": "Кеба",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 39
+        },
+        {
+          "externalId": "kff-1307",
+          "firstName": "Мейрамбек",
+          "lastName": "Калмырза",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 24
+        },
+        {
+          "externalId": "kff-1165",
+          "firstName": "Нурсултан",
+          "lastName": "Абдулла",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-923",
+          "firstName": "Расул",
+          "lastName": "Жумабай",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-890",
+          "firstName": "Султан",
+          "lastName": "Тажикенов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 87,
+      "name": "Кызылжар",
+      "shortName": "KYZ",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/kyzylzhar.png",
+      "players": [
+        {
+          "externalId": "kff-709",
+          "firstName": "Глеб",
+          "lastName": "Логиновский",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-2624",
+          "firstName": "Эдгард Анге Этиен",
+          "lastName": "Бугре",
+          "position": "FWD",
+          "price": 8,
+          "totalPoints": 74
+        },
+        {
+          "externalId": "kff-2625",
+          "firstName": "Йоханнес",
+          "lastName": "Бьорталид",
+          "position": "FWD",
+          "price": 7.5,
+          "totalPoints": 79
+        },
+        {
+          "externalId": "kff-620",
+          "firstName": "Олжас",
+          "lastName": "Керимжанов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-1224",
+          "firstName": "Юрий",
+          "lastName": "Перцух",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 24
+        },
+        {
+          "externalId": "kff-2628",
+          "firstName": "Неделько",
+          "lastName": "Пищевич",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 47
+        },
+        {
+          "externalId": "kff-438",
+          "firstName": "Александр",
+          "lastName": "Соколенко",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-445",
+          "firstName": "Дмитрий",
+          "lastName": "Челядник",
+          "position": "GK",
+          "price": 6.5,
+          "totalPoints": 140
+        },
+        {
+          "externalId": "kff-1895",
+          "firstName": "Вадим",
+          "lastName": "Петров",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 6
+        },
+        {
+          "externalId": "kff-629",
+          "firstName": "Артем",
+          "lastName": "Черединов",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 23
+        },
+        {
+          "externalId": "kff-1615",
+          "firstName": "Тимур",
+          "lastName": "Мульдинов",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 29
+        },
+        {
+          "externalId": "kff-1742",
+          "firstName": "Глеб",
+          "lastName": "Валгушев",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-216",
+          "firstName": "Анатолий",
+          "lastName": "Козленко",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 34
+        },
+        {
+          "externalId": "kff-1489",
+          "firstName": "Мирас",
+          "lastName": "Елеукин",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 3
+        },
+        {
+          "externalId": "kff-2013",
+          "firstName": "Сулеман",
+          "lastName": "Жетписпай",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-593",
+          "firstName": "Айбол",
+          "lastName": "Абикен",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 59
+        },
+        {
+          "externalId": "kff-1189",
+          "firstName": "Димаш",
+          "lastName": "Серикулы",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-3463",
+          "firstName": "Дулат",
+          "lastName": "Талыспаев",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-484",
+          "firstName": "Александр",
+          "lastName": "Нойок",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-3464",
+          "firstName": "Слободан",
+          "lastName": "Урошевич",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 24
+        },
+        {
+          "externalId": "kff-1115",
+          "firstName": "Евгений",
+          "lastName": "Макаренко",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-988",
+          "firstName": "Аслан",
+          "lastName": "Адиль",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-269",
+          "firstName": "Әліхан",
+          "lastName": "Серікбай",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 10
+        },
+        {
+          "externalId": "kff-560",
+          "firstName": "Санжар",
+          "lastName": "Ерниязов",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3444",
+          "firstName": "Абылайхан",
+          "lastName": "Кенжадоев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-3411",
+          "firstName": "Лиридон",
+          "lastName": "Латифи",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-3091",
+          "firstName": "Стефан",
+          "lastName": "Баокен",
+          "position": "FWD",
+          "price": 7,
+          "totalPoints": 39
+        },
+        {
+          "externalId": "kff-362",
+          "firstName": "Никита",
+          "lastName": "Губарев",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 44
+        },
+        {
+          "externalId": "kff-1290",
+          "firstName": "Темирлан",
+          "lastName": "Жиеналиев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 3
+        }
+      ]
+    },
+    {
+      "kffTeamId": 595,
+      "name": "Иртыш",
+      "shortName": "IRT",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/ertis.png",
+      "players": [
+        {
+          "externalId": "kff-1871",
+          "firstName": "Альхам",
+          "lastName": "Нурлан",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 4
+        },
+        {
+          "externalId": "kff-177",
+          "firstName": "Артем",
+          "lastName": "Попов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1652",
+          "firstName": "Азамат",
+          "lastName": "Канат",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1054",
+          "firstName": "Нурдаулет",
+          "lastName": "Байбосынов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 18
+        },
+        {
+          "externalId": "kff-33",
+          "firstName": "Еркебулан",
+          "lastName": "Рахметулла",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1170",
+          "firstName": "Муроджон",
+          "lastName": "Халматов",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-1663",
+          "firstName": "Руслан",
+          "lastName": "Юденков",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 62
+        },
+        {
+          "externalId": "kff-756",
+          "firstName": "Вячеслав",
+          "lastName": "Раскатов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 2
+        },
+        {
+          "externalId": "kff-790",
+          "firstName": "Дархан",
+          "lastName": "Бердибек",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 12
+        },
+        {
+          "externalId": "kff-950",
+          "firstName": "Давид",
+          "lastName": "Есимбеков",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-3479",
+          "firstName": "Олувабори Айомипо",
+          "lastName": "Фалайе",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 7
+        },
+        {
+          "externalId": "kff-16",
+          "firstName": "Адилет",
+          "lastName": "Усенов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2605",
+          "firstName": "Мбоджи",
+          "lastName": "Мамаду",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-1051",
+          "firstName": "Бахтияр",
+          "lastName": "Толеуов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-353",
+          "firstName": "Мирас",
+          "lastName": "Рихард",
+          "position": "GK",
+          "price": 5,
+          "totalPoints": 54
+        },
+        {
+          "externalId": "kff-2643",
+          "firstName": "Жан Морел",
+          "lastName": "По",
+          "position": "MID",
+          "price": 8,
+          "totalPoints": 78
+        },
+        {
+          "externalId": "kff-2644",
+          "firstName": "Юши",
+          "lastName": "Шимамура",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 63
+        },
+        {
+          "externalId": "kff-1195",
+          "firstName": "Рамазан",
+          "lastName": "Каримов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-714",
+          "firstName": "Даниил",
+          "lastName": "Нырков",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 9
+        },
+        {
+          "externalId": "kff-245",
+          "firstName": "Тимур",
+          "lastName": "Мухаметжанов",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-817",
+          "firstName": "Даниил",
+          "lastName": "Ефременко",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3393",
+          "firstName": "Лукас",
+          "lastName": "Рамос Де Оливейра",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-249",
+          "firstName": "Демият",
+          "lastName": "Сламбеков",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-9522",
+          "firstName": "Леонардо Калил",
+          "lastName": "Абдала",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 32
+        },
+        {
+          "externalId": "kff-783",
+          "firstName": "Саги",
+          "lastName": "Маликайдар",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3407",
+          "firstName": "Самуэль",
+          "lastName": "Опэ",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 19
+        },
+        {
+          "externalId": "kff-1040",
+          "firstName": "Зикрилло",
+          "lastName": "Султаниязов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 20
+        },
+        {
+          "externalId": "kff-3438",
+          "firstName": "Марко",
+          "lastName": "Евтич",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 17
+        },
+        {
+          "externalId": "kff-3462",
+          "firstName": "Богдан",
+          "lastName": "Сарнавский",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 21
+        }
+      ]
+    },
+    {
+      "kffTeamId": 295,
+      "name": "Алтай",
+      "shortName": "ALT",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/altai.png",
+      "players": [
+        {
+          "externalId": "kff-204",
+          "firstName": "Елисей",
+          "lastName": "Горшунов",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 60
+        },
+        {
+          "externalId": "kff-2623",
+          "firstName": "Никола",
+          "lastName": "Джамбор",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 57
+        },
+        {
+          "externalId": "kff-1094",
+          "firstName": "Дмитрий",
+          "lastName": "Шмидт",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 50
+        },
+        {
+          "externalId": "kff-384",
+          "firstName": "Самюэль",
+          "lastName": "Одеоибо",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-2594",
+          "firstName": "Неманья",
+          "lastName": "Мичевич",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 43
+        },
+        {
+          "externalId": "kff-1004",
+          "firstName": "Гаврил",
+          "lastName": "Кан",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 6
+        },
+        {
+          "externalId": "kff-1176",
+          "firstName": "Сергей",
+          "lastName": "Хижниченко",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-1790",
+          "firstName": "Юнус",
+          "lastName": "Масудов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-325",
+          "firstName": "Абылайхан",
+          "lastName": "Назымханов",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 46
+        },
+        {
+          "externalId": "kff-461",
+          "firstName": "Ибрагим",
+          "lastName": "Дадаев",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 74
+        },
+        {
+          "externalId": "kff-79",
+          "firstName": "Досжан",
+          "lastName": "Кенжегулов",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-365",
+          "firstName": "Абилхаир",
+          "lastName": "Алиакбар",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 31
+        },
+        {
+          "externalId": "kff-521",
+          "firstName": "Алмас",
+          "lastName": "Сапаргалиев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-617",
+          "firstName": "Сэйф",
+          "lastName": "Попов",
+          "position": "FWD",
+          "price": 7.5,
+          "totalPoints": 69
+        },
+        {
+          "externalId": "kff-1254",
+          "firstName": "Жаннур",
+          "lastName": "Кукеев",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 23
+        },
+        {
+          "externalId": "kff-1485",
+          "firstName": "Сергей",
+          "lastName": "Иванов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-836",
+          "firstName": "Артем",
+          "lastName": "Тетерин",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-3416",
+          "firstName": "Дарко",
+          "lastName": "Додев",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-3392",
+          "firstName": "Дмитрий",
+          "lastName": "Подстрелов",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-148",
+          "firstName": "Элгуджа",
+          "lastName": "Лобжанидзе",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-127",
+          "firstName": "Захар",
+          "lastName": "Гультяев",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1608",
+          "firstName": "Денис",
+          "lastName": "Митрофанов",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-162",
+          "firstName": "Адилет",
+          "lastName": "Омарбек",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1147",
+          "firstName": "Ануар",
+          "lastName": "Сапаргалиев",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1101",
+          "firstName": "Ораз",
+          "lastName": "Сайлыбаев",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-1160",
+          "firstName": "Аслан",
+          "lastName": "Джанузаков",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-3417",
+          "firstName": "Данило",
+          "lastName": "Кучер",
+          "position": "GK",
+          "price": 5,
+          "totalPoints": 54
+        },
+        {
+          "externalId": "kff-1816",
+          "firstName": "Роман",
+          "lastName": "Брагин",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2596",
+          "firstName": "Драган",
+          "lastName": "Стоисавлевич",
+          "position": "FWD",
+          "price": 7.5,
+          "totalPoints": 81
+        }
+      ]
+    },
+    {
+      "kffTeamId": 49,
+      "name": "Атырау",
+      "shortName": "ATY",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/atyrai.webp",
+      "players": [
+        {
+          "externalId": "kff-1003",
+          "firstName": "Берик",
+          "lastName": "Шаихов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-1328",
+          "firstName": "Арсен",
+          "lastName": "Буранчиев",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 21
+        },
+        {
+          "externalId": "kff-3467",
+          "firstName": "Эбенезер",
+          "lastName": "Офори",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-3469",
+          "firstName": "Мато",
+          "lastName": "Станич",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 29
+        },
+        {
+          "externalId": "kff-3394",
+          "firstName": "Джордже",
+          "lastName": "Максимович",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-952",
+          "firstName": "Франьо",
+          "lastName": "Прце",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 28
+        },
+        {
+          "externalId": "kff-262",
+          "firstName": "Диас",
+          "lastName": "Орынбасар",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 6
+        },
+        {
+          "externalId": "kff-681",
+          "firstName": "Куаныш",
+          "lastName": "Калмуратов",
+          "position": "DEF",
+          "price": 6.5,
+          "totalPoints": 71
+        },
+        {
+          "externalId": "kff-1844",
+          "firstName": "Мукагали",
+          "lastName": "Пангерей",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1852",
+          "firstName": "Асылбек",
+          "lastName": "Сейткалиев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 14
+        },
+        {
+          "externalId": "kff-30",
+          "firstName": "Егор",
+          "lastName": "Ткаченко",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 51
+        },
+        {
+          "externalId": "kff-1537",
+          "firstName": "Егор",
+          "lastName": "Хвалько",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 49
+        },
+        {
+          "externalId": "kff-596",
+          "firstName": "Санжар",
+          "lastName": "Сатанов",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-2940",
+          "firstName": "Энрики",
+          "lastName": "Сарменге Девенс",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 59
+        },
+        {
+          "externalId": "kff-394",
+          "firstName": "Бейбит",
+          "lastName": "Кереев",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 3
+        },
+        {
+          "externalId": "kff-1325",
+          "firstName": "Нурбакыт",
+          "lastName": "Сагат",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1611",
+          "firstName": "Ян",
+          "lastName": "Труфанов",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-1898",
+          "firstName": "Нурасыл",
+          "lastName": "Тохтаров",
+          "position": "GK",
+          "price": 5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-693",
+          "firstName": "Абдулмансур",
+          "lastName": "Хасан",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 1
+        },
+        {
+          "externalId": "kff-2442",
+          "firstName": "Риливан Ойнидамола",
+          "lastName": "Рабиу",
+          "position": "MID",
+          "price": 6.5,
+          "totalPoints": 53
+        },
+        {
+          "externalId": "kff-434",
+          "firstName": "Айбар",
+          "lastName": "Абдулла",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 16
+        },
+        {
+          "externalId": "kff-802",
+          "firstName": "Ринат",
+          "lastName": "Джуматов",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-1105",
+          "firstName": "Саят",
+          "lastName": "Жумагали",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-619",
+          "firstName": "Нурсейт",
+          "lastName": "Бердеш",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-3468",
+          "firstName": "Дорде",
+          "lastName": "Пантелич",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-263",
+          "firstName": "Егор",
+          "lastName": "Хаткевич",
+          "position": "GK",
+          "price": 5.5,
+          "totalPoints": 86
+        },
+        {
+          "externalId": "kff-1215",
+          "firstName": "Константин",
+          "lastName": "Дорофеев",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 73
+        },
+        {
+          "externalId": "kff-399",
+          "firstName": "Берик",
+          "lastName": "Жаксылык",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 45,
+      "name": "Жетысу",
+      "shortName": "ZHT",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/jetisu.webp",
+      "players": [
+        {
+          "externalId": "kff-2669",
+          "firstName": "Марко",
+          "lastName": "Зиванович",
+          "position": "MID",
+          "price": 7,
+          "totalPoints": 44
+        },
+        {
+          "externalId": "kff-604",
+          "firstName": "Адам",
+          "lastName": "Адахаджиев",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 42
+        },
+        {
+          "externalId": "kff-502",
+          "firstName": "Рафкат",
+          "lastName": "Аслан",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-143",
+          "firstName": "Асхат",
+          "lastName": "Балтабеков",
+          "position": "DEF",
+          "price": 7.5,
+          "totalPoints": 88
+        },
+        {
+          "externalId": "kff-558",
+          "firstName": "Адильхан",
+          "lastName": "Добай",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 63
+        },
+        {
+          "externalId": "kff-866",
+          "firstName": "Сұлтан",
+          "lastName": "Ертіс",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-218",
+          "firstName": "Страхиния",
+          "lastName": "Йованович",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 52
+        },
+        {
+          "externalId": "kff-190",
+          "firstName": "Артур",
+          "lastName": "Егоров",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 13
+        },
+        {
+          "externalId": "kff-50",
+          "firstName": "Динмухамед",
+          "lastName": "Кашкен",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 37
+        },
+        {
+          "externalId": "kff-664",
+          "firstName": "Нурберген",
+          "lastName": "Нурбол",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-1048",
+          "firstName": "Нурбол",
+          "lastName": "Ануарбеков",
+          "position": "FWD",
+          "price": 8,
+          "totalPoints": 83
+        },
+        {
+          "externalId": "kff-1855",
+          "firstName": "Райымбек",
+          "lastName": "Толагаев",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1475",
+          "firstName": "Шохан",
+          "lastName": "Абзалов",
+          "position": "FWD",
+          "price": 6,
+          "totalPoints": 64
+        },
+        {
+          "externalId": "kff-1249",
+          "firstName": "Цотне",
+          "lastName": "Мосиашвили",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 50
+        },
+        {
+          "externalId": "kff-1463",
+          "firstName": "Рауан",
+          "lastName": "Орынбасар",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 44
+        },
+        {
+          "externalId": "kff-367",
+          "firstName": "Иован",
+          "lastName": "Пайович",
+          "position": "DEF",
+          "price": 6,
+          "totalPoints": 68
+        },
+        {
+          "externalId": "kff-166",
+          "firstName": "Степан",
+          "lastName": "Сикач",
+          "position": "GK",
+          "price": 5.5,
+          "totalPoints": 125
+        },
+        {
+          "externalId": "kff-1434",
+          "firstName": "Шынгыс",
+          "lastName": "Ануарбек",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 13
+        },
+        {
+          "externalId": "kff-1329",
+          "firstName": "Мади",
+          "lastName": "Жакипбаев",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 33
+        },
+        {
+          "externalId": "kff-1561",
+          "firstName": "Серикжан",
+          "lastName": "Мужиков",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 51
+        },
+        {
+          "externalId": "kff-975",
+          "firstName": "Алим",
+          "lastName": "Ахметов",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2941",
+          "firstName": "Диего Альфонсо",
+          "lastName": "Луна Флорес",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-1681",
+          "firstName": "Данил",
+          "lastName": "Подымский",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-1722",
+          "firstName": "Рустем",
+          "lastName": "Кадыров",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-2766",
+          "firstName": "Даниил",
+          "lastName": "Ларин",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-104",
+          "firstName": "Вячеслав",
+          "lastName": "Швырев",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-1123",
+          "firstName": "Илияс",
+          "lastName": "Сейткажым",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1496",
+          "firstName": "Бактияр",
+          "lastName": "Жамалов",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1116",
+          "firstName": "Ербол",
+          "lastName": "Курманахан",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1835",
+          "firstName": "Айбар",
+          "lastName": "Талгат",
+          "position": "DEF",
+          "price": 4,
+          "totalPoints": 0
+        }
+      ]
+    },
+    {
+      "kffTeamId": 94,
+      "name": "Кайсар",
+      "shortName": "KSR",
+      "logoUrl": "https://kffleague.kz/storage/qfl-files/public/team-logos/kaysar.webp",
+      "players": [
+        {
+          "externalId": "kff-1696",
+          "firstName": "Батырбек",
+          "lastName": "Шатан",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1095",
+          "firstName": "Саги",
+          "lastName": "Совет",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 37
+        },
+        {
+          "externalId": "kff-613",
+          "firstName": "Батырхан",
+          "lastName": "Тажибай",
+          "position": "MID",
+          "price": 5,
+          "totalPoints": 29
+        },
+        {
+          "externalId": "kff-408",
+          "firstName": "Никола",
+          "lastName": "Цуцкич",
+          "position": "MID",
+          "price": 7.5,
+          "totalPoints": 77
+        },
+        {
+          "externalId": "kff-2639",
+          "firstName": "Адам",
+          "lastName": "Ковач",
+          "position": "GK",
+          "price": 4.5,
+          "totalPoints": 38
+        },
+        {
+          "externalId": "kff-2667",
+          "firstName": "Виктор",
+          "lastName": "Мозес",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 41
+        },
+        {
+          "externalId": "kff-2789",
+          "firstName": "Имо",
+          "lastName": "Эзекиель",
+          "position": "MID",
+          "price": 6,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-946",
+          "firstName": "Динмухаммед",
+          "lastName": "Рустемулы",
+          "position": "FWD",
+          "price": 4.5,
+          "totalPoints": 5
+        },
+        {
+          "externalId": "kff-3379",
+          "firstName": "Клайдер",
+          "lastName": "Бравин Маседо",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-1433",
+          "firstName": "Тимур",
+          "lastName": "Реджепов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 14
+        },
+        {
+          "externalId": "kff-233",
+          "firstName": "Нурдаулет",
+          "lastName": "Агзамбаев",
+          "position": "FWD",
+          "price": 5.5,
+          "totalPoints": 22
+        },
+        {
+          "externalId": "kff-2942",
+          "firstName": "Микейас",
+          "lastName": "Кабрал Эваристо",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 43
+        },
+        {
+          "externalId": "kff-3410",
+          "firstName": "Густаво",
+          "lastName": "Гарбелини Заго",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1427",
+          "firstName": "Нұрали",
+          "lastName": "Жақсылық",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 25
+        },
+        {
+          "externalId": "kff-3412",
+          "firstName": "Ернар",
+          "lastName": "Парда",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-3384",
+          "firstName": "Стефан",
+          "lastName": "Букорац",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 20
+        },
+        {
+          "externalId": "kff-189",
+          "firstName": "Алияр",
+          "lastName": "Мухамед",
+          "position": "FWD",
+          "price": 6.5,
+          "totalPoints": 36
+        },
+        {
+          "externalId": "kff-1738",
+          "firstName": "Айкын",
+          "lastName": "Ажихан",
+          "position": "GK",
+          "price": 4,
+          "totalPoints": 0
+        },
+        {
+          "externalId": "kff-1043",
+          "firstName": "Султан",
+          "lastName": "Аскаров",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 45
+        },
+        {
+          "externalId": "kff-123",
+          "firstName": "Саламат",
+          "lastName": "Жумабеков",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-302",
+          "firstName": "Муслим",
+          "lastName": "Жумат",
+          "position": "MID",
+          "price": 4.5,
+          "totalPoints": 8
+        },
+        {
+          "externalId": "kff-1293",
+          "firstName": "Адилет",
+          "lastName": "Кенесбек",
+          "position": "DEF",
+          "price": 5,
+          "totalPoints": 35
+        },
+        {
+          "externalId": "kff-1374",
+          "firstName": "Нурымжан",
+          "lastName": "Салайдин",
+          "position": "GK",
+          "price": 6,
+          "totalPoints": 102
+        },
+        {
+          "externalId": "kff-798",
+          "firstName": "Абылайхан",
+          "lastName": "Толегенов",
+          "position": "DEF",
+          "price": 4.5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-3418",
+          "firstName": "Агостиньо",
+          "lastName": "Азеведо",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 15
+        },
+        {
+          "externalId": "kff-662",
+          "firstName": "Бакдаулет",
+          "lastName": "Конлимкос",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 27
+        },
+        {
+          "externalId": "kff-1445",
+          "firstName": "Ерсултан",
+          "lastName": "Калдыбеков",
+          "position": "MID",
+          "price": 5.5,
+          "totalPoints": 26
+        },
+        {
+          "externalId": "kff-855",
+          "firstName": "Рамазан",
+          "lastName": "Багдат",
+          "position": "FWD",
+          "price": 5,
+          "totalPoints": 16
+        },
+        {
+          "externalId": "kff-64",
+          "firstName": "Нияз",
+          "lastName": "Идрисов",
+          "position": "DEF",
+          "price": 5.5,
+          "totalPoints": 44
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "externalId": "kff-game-890",
+      "tour": 1,
+      "date": "2026-03-07",
+      "time": "14:00",
+      "kickoffTime": "2026-03-07T09:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ELI",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-885",
+      "tour": 1,
+      "date": "2026-03-07",
+      "time": "16:00",
+      "kickoffTime": "2026-03-07T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "KAI",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-884",
+      "tour": 1,
+      "date": "2026-03-07",
+      "time": "17:00",
+      "kickoffTime": "2026-03-07T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "TOB",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-891",
+      "tour": 1,
+      "date": "2026-03-07",
+      "time": "19:30",
+      "kickoffTime": "2026-03-07T14:30:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-889",
+      "tour": 1,
+      "date": "2026-03-08",
+      "time": "14:00",
+      "kickoffTime": "2026-03-08T09:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "KAS",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-887",
+      "tour": 1,
+      "date": "2026-03-08",
+      "time": "15:00",
+      "kickoffTime": "2026-03-08T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ULY",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-888",
+      "tour": 1,
+      "date": "2026-03-08",
+      "time": "16:00",
+      "kickoffTime": "2026-03-08T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ZHN",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-886",
+      "tour": 1,
+      "date": "2026-03-08",
+      "time": "18:00",
+      "kickoffTime": "2026-03-08T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ZHT",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-898",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "14:00",
+      "kickoffTime": "2026-03-16T09:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "KYZ",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-893",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "15:00",
+      "kickoffTime": "2026-03-16T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-897",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "17:00",
+      "kickoffTime": "2026-03-16T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ZHT",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-896",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "19:00",
+      "kickoffTime": "2026-03-16T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "AST",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-895",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "19:00",
+      "kickoffTime": "2026-03-16T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-894",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "19:00",
+      "kickoffTime": "2026-03-16T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-899",
+      "tour": 2,
+      "date": "2026-03-16",
+      "time": "20:00",
+      "kickoffTime": "2026-03-16T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-892",
+      "tour": 2,
+      "date": "2026-03-17",
+      "time": "17:00",
+      "kickoffTime": "2026-03-17T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "OKZ",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-904",
+      "tour": 3,
+      "date": "2026-03-20",
+      "time": "15:00",
+      "kickoffTime": "2026-03-20T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-903",
+      "tour": 3,
+      "date": "2026-03-20",
+      "time": "16:00",
+      "kickoffTime": "2026-03-20T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ZHN",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-906",
+      "tour": 3,
+      "date": "2026-03-20",
+      "time": "18:00",
+      "kickoffTime": "2026-03-20T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "KSR",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-902",
+      "tour": 3,
+      "date": "2026-03-20",
+      "time": "19:00",
+      "kickoffTime": "2026-03-20T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "TOB",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-905",
+      "tour": 3,
+      "date": "2026-03-21",
+      "time": "14:00",
+      "kickoffTime": "2026-03-21T09:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ULY",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-907",
+      "tour": 3,
+      "date": "2026-03-21",
+      "time": "15:00",
+      "kickoffTime": "2026-03-21T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "KAI",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-900",
+      "tour": 3,
+      "date": "2026-03-21",
+      "time": "17:00",
+      "kickoffTime": "2026-03-21T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ELI",
+      "homeScore": 1,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-901",
+      "tour": 3,
+      "date": "2026-03-22",
+      "time": "15:00",
+      "kickoffTime": "2026-03-22T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "KAS",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-911",
+      "tour": 4,
+      "date": "2026-04-04",
+      "time": "15:00",
+      "kickoffTime": "2026-04-04T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-910",
+      "tour": 4,
+      "date": "2026-04-04",
+      "time": "17:00",
+      "kickoffTime": "2026-04-04T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-913",
+      "tour": 4,
+      "date": "2026-04-04",
+      "time": "18:00",
+      "kickoffTime": "2026-04-04T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "KYZ",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-914",
+      "tour": 4,
+      "date": "2026-04-04",
+      "time": "19:00",
+      "kickoffTime": "2026-04-04T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-915",
+      "tour": 4,
+      "date": "2026-04-05",
+      "time": "15:00",
+      "kickoffTime": "2026-04-05T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-909",
+      "tour": 4,
+      "date": "2026-04-05",
+      "time": "16:00",
+      "kickoffTime": "2026-04-05T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ZHT",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-912",
+      "tour": 4,
+      "date": "2026-04-05",
+      "time": "18:00",
+      "kickoffTime": "2026-04-05T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "AST",
+      "homeScore": 4,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-916",
+      "tour": 4,
+      "date": "2026-04-05",
+      "time": "19:00",
+      "kickoffTime": "2026-04-05T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "OKZ",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-920",
+      "tour": 5,
+      "date": "2026-04-11",
+      "time": "15:00",
+      "kickoffTime": "2026-04-11T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "KSR",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-924",
+      "tour": 5,
+      "date": "2026-04-11",
+      "time": "16:00",
+      "kickoffTime": "2026-04-11T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ELI",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-923",
+      "tour": 5,
+      "date": "2026-04-11",
+      "time": "18:00",
+      "kickoffTime": "2026-04-11T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-919",
+      "tour": 5,
+      "date": "2026-04-11",
+      "time": "20:00",
+      "kickoffTime": "2026-04-11T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ORD",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-922",
+      "tour": 5,
+      "date": "2026-04-12",
+      "time": "14:00",
+      "kickoffTime": "2026-04-12T09:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-918",
+      "tour": 5,
+      "date": "2026-04-12",
+      "time": "15:00",
+      "kickoffTime": "2026-04-12T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-921",
+      "tour": 5,
+      "date": "2026-04-12",
+      "time": "17:00",
+      "kickoffTime": "2026-04-12T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ZHN",
+      "homeScore": 4,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-917",
+      "tour": 5,
+      "date": "2026-04-12",
+      "time": "19:00",
+      "kickoffTime": "2026-04-12T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "KAS",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-928",
+      "tour": 6,
+      "date": "2026-04-18",
+      "time": "15:00",
+      "kickoffTime": "2026-04-18T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ZHT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-927",
+      "tour": 6,
+      "date": "2026-04-18",
+      "time": "17:00",
+      "kickoffTime": "2026-04-18T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "AST",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-930",
+      "tour": 6,
+      "date": "2026-04-18",
+      "time": "19:00",
+      "kickoffTime": "2026-04-18T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-931",
+      "tour": 6,
+      "date": "2026-04-19",
+      "time": "15:00",
+      "kickoffTime": "2026-04-19T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "TOB",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-925",
+      "tour": 6,
+      "date": "2026-04-19",
+      "time": "16:00",
+      "kickoffTime": "2026-04-19T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "KYZ",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-932",
+      "tour": 6,
+      "date": "2026-04-19",
+      "time": "17:00",
+      "kickoffTime": "2026-04-19T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-929",
+      "tour": 6,
+      "date": "2026-04-19",
+      "time": "19:00",
+      "kickoffTime": "2026-04-19T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-926",
+      "tour": 6,
+      "date": "2026-09-05",
+      "time": "17:00",
+      "kickoffTime": "2026-09-05T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "KAI",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-938",
+      "tour": 7,
+      "date": "2026-04-25",
+      "time": "15:00",
+      "kickoffTime": "2026-04-25T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-934",
+      "tour": 7,
+      "date": "2026-04-25",
+      "time": "16:00",
+      "kickoffTime": "2026-04-25T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ZHN",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-936",
+      "tour": 7,
+      "date": "2026-04-25",
+      "time": "17:00",
+      "kickoffTime": "2026-04-25T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ORD",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-933",
+      "tour": 7,
+      "date": "2026-04-25",
+      "time": "19:00",
+      "kickoffTime": "2026-04-25T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "IRT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-940",
+      "tour": 7,
+      "date": "2026-04-26",
+      "time": "15:00",
+      "kickoffTime": "2026-04-26T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ULY",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-939",
+      "tour": 7,
+      "date": "2026-04-26",
+      "time": "16:00",
+      "kickoffTime": "2026-04-26T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "KAS",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-937",
+      "tour": 7,
+      "date": "2026-04-26",
+      "time": "18:00",
+      "kickoffTime": "2026-04-26T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ELI",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-935",
+      "tour": 7,
+      "date": "2026-04-26",
+      "time": "20:00",
+      "kickoffTime": "2026-04-26T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ATY",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-945",
+      "tour": 8,
+      "date": "2026-05-02",
+      "time": "15:00",
+      "kickoffTime": "2026-05-02T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "OKZ",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-943",
+      "tour": 8,
+      "date": "2026-05-02",
+      "time": "17:00",
+      "kickoffTime": "2026-05-02T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "KAI",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-944",
+      "tour": 8,
+      "date": "2026-05-02",
+      "time": "19:00",
+      "kickoffTime": "2026-05-02T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ZHT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-947",
+      "tour": 8,
+      "date": "2026-05-03",
+      "time": "15:00",
+      "kickoffTime": "2026-05-03T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ELI",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-941",
+      "tour": 8,
+      "date": "2026-05-03",
+      "time": "17:00",
+      "kickoffTime": "2026-05-03T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-948",
+      "tour": 8,
+      "date": "2026-05-03",
+      "time": "18:00",
+      "kickoffTime": "2026-05-03T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-942",
+      "tour": 8,
+      "date": "2026-05-03",
+      "time": "19:00",
+      "kickoffTime": "2026-05-03T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "AST",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-946",
+      "tour": 8,
+      "date": "2026-05-03",
+      "time": "20:00",
+      "kickoffTime": "2026-05-03T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "AKT",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-954",
+      "tour": 9,
+      "date": "2026-05-09",
+      "time": "15:00",
+      "kickoffTime": "2026-05-09T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ATY",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-956",
+      "tour": 9,
+      "date": "2026-05-09",
+      "time": "16:00",
+      "kickoffTime": "2026-05-09T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ZHN",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-952",
+      "tour": 9,
+      "date": "2026-05-09",
+      "time": "18:00",
+      "kickoffTime": "2026-05-09T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "KAS",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-951",
+      "tour": 9,
+      "date": "2026-05-09",
+      "time": "19:00",
+      "kickoffTime": "2026-05-09T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "KYZ",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-955",
+      "tour": 9,
+      "date": "2026-05-09",
+      "time": "20:00",
+      "kickoffTime": "2026-05-09T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "IRT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-950",
+      "tour": 9,
+      "date": "2026-05-10",
+      "time": "16:00",
+      "kickoffTime": "2026-05-10T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-949",
+      "tour": 9,
+      "date": "2026-05-10",
+      "time": "17:00",
+      "kickoffTime": "2026-05-10T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "KSR",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-953",
+      "tour": 9,
+      "date": "2026-08-15",
+      "time": "18:00",
+      "kickoffTime": "2026-08-15T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ULY",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-963",
+      "tour": 10,
+      "date": "2026-05-16",
+      "time": "15:00",
+      "kickoffTime": "2026-05-16T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "KAS",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-961",
+      "tour": 10,
+      "date": "2026-05-16",
+      "time": "17:00",
+      "kickoffTime": "2026-05-16T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "AST",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-958",
+      "tour": 10,
+      "date": "2026-05-16",
+      "time": "19:00",
+      "kickoffTime": "2026-05-16T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ELI",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-960",
+      "tour": 10,
+      "date": "2026-05-17",
+      "time": "16:00",
+      "kickoffTime": "2026-05-17T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-964",
+      "tour": 10,
+      "date": "2026-05-17",
+      "time": "17:00",
+      "kickoffTime": "2026-05-17T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-959",
+      "tour": 10,
+      "date": "2026-05-17",
+      "time": "19:00",
+      "kickoffTime": "2026-05-17T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "TOB",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-962",
+      "tour": 10,
+      "date": "2026-05-17",
+      "time": "20:00",
+      "kickoffTime": "2026-05-17T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ZHT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-957",
+      "tour": 10,
+      "date": "2026-08-09",
+      "time": "20:00",
+      "kickoffTime": "2026-08-09T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-966",
+      "tour": 11,
+      "date": "2026-05-22",
+      "time": "15:00",
+      "kickoffTime": "2026-05-22T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "OKZ",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-967",
+      "tour": 11,
+      "date": "2026-05-22",
+      "time": "17:00",
+      "kickoffTime": "2026-05-22T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ULY",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-968",
+      "tour": 11,
+      "date": "2026-05-22",
+      "time": "19:00",
+      "kickoffTime": "2026-05-22T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-972",
+      "tour": 11,
+      "date": "2026-05-23",
+      "time": "16:00",
+      "kickoffTime": "2026-05-23T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ATY",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-969",
+      "tour": 11,
+      "date": "2026-05-23",
+      "time": "17:00",
+      "kickoffTime": "2026-05-23T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ZHN",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-970",
+      "tour": 11,
+      "date": "2026-05-23",
+      "time": "18:00",
+      "kickoffTime": "2026-05-23T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "KSR",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-965",
+      "tour": 11,
+      "date": "2026-05-23",
+      "time": "19:00",
+      "kickoffTime": "2026-05-23T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "KYZ",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-971",
+      "tour": 11,
+      "date": "2026-05-23",
+      "time": "20:00",
+      "kickoffTime": "2026-05-23T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-973",
+      "tour": 12,
+      "date": "2026-05-27",
+      "time": "16:00",
+      "kickoffTime": "2026-05-27T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "AST",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-975",
+      "tour": 12,
+      "date": "2026-05-27",
+      "time": "18:00",
+      "kickoffTime": "2026-05-27T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-978",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "15:00",
+      "kickoffTime": "2026-05-28T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "AKT",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-977",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "16:00",
+      "kickoffTime": "2026-05-28T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ZHT",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-974",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "18:00",
+      "kickoffTime": "2026-05-28T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-976",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "19:00",
+      "kickoffTime": "2026-05-28T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ELI",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-980",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "19:00",
+      "kickoffTime": "2026-05-28T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "KAS",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-979",
+      "tour": 12,
+      "date": "2026-05-28",
+      "time": "20:00",
+      "kickoffTime": "2026-05-28T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "KAI",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-986",
+      "tour": 13,
+      "date": "2026-06-13",
+      "time": "16:00",
+      "kickoffTime": "2026-06-13T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "KYZ",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-988",
+      "tour": 13,
+      "date": "2026-06-13",
+      "time": "17:00",
+      "kickoffTime": "2026-06-13T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-985",
+      "tour": 13,
+      "date": "2026-06-13",
+      "time": "18:00",
+      "kickoffTime": "2026-06-13T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-987",
+      "tour": 13,
+      "date": "2026-06-14",
+      "time": "17:00",
+      "kickoffTime": "2026-06-14T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ZHN",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-982",
+      "tour": 13,
+      "date": "2026-06-14",
+      "time": "19:00",
+      "kickoffTime": "2026-06-14T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-984",
+      "tour": 13,
+      "date": "2026-06-14",
+      "time": "19:00",
+      "kickoffTime": "2026-06-14T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ORD",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-981",
+      "tour": 13,
+      "date": "2026-06-14",
+      "time": "20:00",
+      "kickoffTime": "2026-06-14T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ALT",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-983",
+      "tour": 13,
+      "date": "2026-06-14",
+      "time": "20:00",
+      "kickoffTime": "2026-06-14T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-990",
+      "tour": 14,
+      "date": "2026-06-20",
+      "time": "16:00",
+      "kickoffTime": "2026-06-20T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ZHT",
+      "homeScore": 3,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-996",
+      "tour": 14,
+      "date": "2026-06-20",
+      "time": "18:00",
+      "kickoffTime": "2026-06-20T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "IRT",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-995",
+      "tour": 14,
+      "date": "2026-06-20",
+      "time": "20:00",
+      "kickoffTime": "2026-06-20T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "KAS",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-992",
+      "tour": 14,
+      "date": "2026-06-20",
+      "time": "20:00",
+      "kickoffTime": "2026-06-20T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ULY",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-994",
+      "tour": 14,
+      "date": "2026-06-21",
+      "time": "17:00",
+      "kickoffTime": "2026-06-21T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "TOB",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-993",
+      "tour": 14,
+      "date": "2026-06-21",
+      "time": "18:00",
+      "kickoffTime": "2026-06-21T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "KAI",
+      "homeScore": 2,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-989",
+      "tour": 14,
+      "date": "2026-06-21",
+      "time": "20:00",
+      "kickoffTime": "2026-06-21T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "AST",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-991",
+      "tour": 14,
+      "date": "2026-10-14",
+      "time": "19:00",
+      "kickoffTime": "2026-10-14T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ELI",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1004",
+      "tour": 15,
+      "date": "2026-06-27",
+      "time": "18:00",
+      "kickoffTime": "2026-06-27T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-998",
+      "tour": 15,
+      "date": "2026-06-27",
+      "time": "19:00",
+      "kickoffTime": "2026-06-27T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "KYZ",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-997",
+      "tour": 15,
+      "date": "2026-06-27",
+      "time": "20:00",
+      "kickoffTime": "2026-06-27T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ATY",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-999",
+      "tour": 15,
+      "date": "2026-06-28",
+      "time": "17:00",
+      "kickoffTime": "2026-06-28T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1002",
+      "tour": 15,
+      "date": "2026-06-28",
+      "time": "18:00",
+      "kickoffTime": "2026-06-28T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1001",
+      "tour": 15,
+      "date": "2026-06-28",
+      "time": "18:00",
+      "kickoffTime": "2026-06-28T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ALT",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1003",
+      "tour": 15,
+      "date": "2026-06-28",
+      "time": "19:00",
+      "kickoffTime": "2026-06-28T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "AST",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1000",
+      "tour": 15,
+      "date": "2026-07-02",
+      "time": "19:00",
+      "kickoffTime": "2026-07-02T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "OKZ",
+      "homeScore": 5,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1011",
+      "tour": 16,
+      "date": "2026-06-27",
+      "time": "17:00",
+      "kickoffTime": "2026-06-27T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1007",
+      "tour": 16,
+      "date": "2026-07-03",
+      "time": "19:00",
+      "kickoffTime": "2026-07-03T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ZHN",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1006",
+      "tour": 16,
+      "date": "2026-07-04",
+      "time": "17:00",
+      "kickoffTime": "2026-07-04T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1010",
+      "tour": 16,
+      "date": "2026-07-04",
+      "time": "18:00",
+      "kickoffTime": "2026-07-04T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ELI",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1005",
+      "tour": 16,
+      "date": "2026-07-05",
+      "time": "19:00",
+      "kickoffTime": "2026-07-05T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ZHT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1008",
+      "tour": 16,
+      "date": "2026-07-05",
+      "time": "19:00",
+      "kickoffTime": "2026-07-05T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "KAS",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1012",
+      "tour": 16,
+      "date": "2026-07-05",
+      "time": "20:00",
+      "kickoffTime": "2026-07-05T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1009",
+      "tour": 16,
+      "date": "2026-07-05",
+      "time": "20:00",
+      "kickoffTime": "2026-07-05T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "IRT",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1017",
+      "tour": 17,
+      "date": "2026-06-17",
+      "time": "19:00",
+      "kickoffTime": "2026-06-17T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "KYZ",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1015",
+      "tour": 17,
+      "date": "2026-06-21",
+      "time": "19:00",
+      "kickoffTime": "2026-06-21T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1016",
+      "tour": 17,
+      "date": "2026-07-11",
+      "time": "17:00",
+      "kickoffTime": "2026-07-11T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ZHN",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1020",
+      "tour": 17,
+      "date": "2026-07-11",
+      "time": "18:00",
+      "kickoffTime": "2026-07-11T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ALT",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1014",
+      "tour": 17,
+      "date": "2026-07-11",
+      "time": "20:00",
+      "kickoffTime": "2026-07-11T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ORD",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1019",
+      "tour": 17,
+      "date": "2026-07-12",
+      "time": "18:00",
+      "kickoffTime": "2026-07-12T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1013",
+      "tour": 17,
+      "date": "2026-07-12",
+      "time": "19:00",
+      "kickoffTime": "2026-07-12T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "AKT",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1018",
+      "tour": 17,
+      "date": "2026-07-12",
+      "time": "20:00",
+      "kickoffTime": "2026-07-12T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "OKZ",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1026",
+      "tour": 18,
+      "date": "2026-07-18",
+      "time": "17:00",
+      "kickoffTime": "2026-07-18T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ZHT",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1028",
+      "tour": 18,
+      "date": "2026-07-18",
+      "time": "18:00",
+      "kickoffTime": "2026-07-18T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1025",
+      "tour": 18,
+      "date": "2026-07-18",
+      "time": "18:00",
+      "kickoffTime": "2026-07-18T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1022",
+      "tour": 18,
+      "date": "2026-07-18",
+      "time": "20:00",
+      "kickoffTime": "2026-07-18T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1024",
+      "tour": 18,
+      "date": "2026-07-18",
+      "time": "20:00",
+      "kickoffTime": "2026-07-18T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "KAS",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1021",
+      "tour": 18,
+      "date": "2026-07-19",
+      "time": "17:00",
+      "kickoffTime": "2026-07-19T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "AKT",
+      "homeScore": 2,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-1027",
+      "tour": 18,
+      "date": "2026-07-19",
+      "time": "21:00",
+      "kickoffTime": "2026-07-19T16:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ELI",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1023",
+      "tour": 18,
+      "date": "2026-10-14",
+      "time": "15:00",
+      "kickoffTime": "2026-10-14T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "AST",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1036",
+      "tour": 19,
+      "date": "2026-07-25",
+      "time": "18:00",
+      "kickoffTime": "2026-07-25T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "KYZ",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1035",
+      "tour": 19,
+      "date": "2026-07-25",
+      "time": "18:00",
+      "kickoffTime": "2026-07-25T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "IRT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1029",
+      "tour": 19,
+      "date": "2026-07-25",
+      "time": "20:00",
+      "kickoffTime": "2026-07-25T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1034",
+      "tour": 19,
+      "date": "2026-07-26",
+      "time": "18:00",
+      "kickoffTime": "2026-07-26T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1032",
+      "tour": 19,
+      "date": "2026-07-26",
+      "time": "19:00",
+      "kickoffTime": "2026-07-26T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1030",
+      "tour": 19,
+      "date": "2026-07-26",
+      "time": "19:00",
+      "kickoffTime": "2026-07-26T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ALT",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1033",
+      "tour": 19,
+      "date": "2026-07-26",
+      "time": "19:00",
+      "kickoffTime": "2026-07-26T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ORD",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1031",
+      "tour": 19,
+      "date": "2026-07-26",
+      "time": "20:00",
+      "kickoffTime": "2026-07-26T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ZHN",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1039",
+      "tour": 20,
+      "date": "2026-05-06",
+      "time": "19:00",
+      "kickoffTime": "2026-05-06T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1038",
+      "tour": 20,
+      "date": "2026-08-01",
+      "time": "17:00",
+      "kickoffTime": "2026-08-01T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "KAS",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1040",
+      "tour": 20,
+      "date": "2026-08-01",
+      "time": "19:00",
+      "kickoffTime": "2026-08-01T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "AKT",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1037",
+      "tour": 20,
+      "date": "2026-08-01",
+      "time": "20:00",
+      "kickoffTime": "2026-08-01T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ZHT",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1041",
+      "tour": 20,
+      "date": "2026-08-02",
+      "time": "17:00",
+      "kickoffTime": "2026-08-02T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ALT",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1044",
+      "tour": 20,
+      "date": "2026-08-02",
+      "time": "18:00",
+      "kickoffTime": "2026-08-02T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ELI",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1043",
+      "tour": 20,
+      "date": "2026-08-02",
+      "time": "18:00",
+      "kickoffTime": "2026-08-02T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "AST",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1042",
+      "tour": 20,
+      "date": "2026-08-02",
+      "time": "20:00",
+      "kickoffTime": "2026-08-02T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "TOB",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1045",
+      "tour": 21,
+      "date": "2026-05-17",
+      "time": "18:00",
+      "kickoffTime": "2026-05-17T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1046",
+      "tour": 21,
+      "date": "2026-08-08",
+      "time": "17:00",
+      "kickoffTime": "2026-08-08T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "KYZ",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1052",
+      "tour": 21,
+      "date": "2026-08-08",
+      "time": "18:00",
+      "kickoffTime": "2026-08-08T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-1048",
+      "tour": 21,
+      "date": "2026-08-08",
+      "time": "20:00",
+      "kickoffTime": "2026-08-08T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1047",
+      "tour": 21,
+      "date": "2026-08-09",
+      "time": "18:00",
+      "kickoffTime": "2026-08-09T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1049",
+      "tour": 21,
+      "date": "2026-08-09",
+      "time": "19:00",
+      "kickoffTime": "2026-08-09T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "IRT",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1051",
+      "tour": 21,
+      "date": "2026-08-25",
+      "time": "19:00",
+      "kickoffTime": "2026-08-25T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "KSR",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1050",
+      "tour": 21,
+      "date": "2026-09-09",
+      "time": "19:00",
+      "kickoffTime": "2026-09-09T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ZHN",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1059",
+      "tour": 22,
+      "date": "2026-05-10",
+      "time": "15:00",
+      "kickoffTime": "2026-05-10T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1060",
+      "tour": 22,
+      "date": "2026-08-15",
+      "time": "18:00",
+      "kickoffTime": "2026-08-15T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ZHT",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1056",
+      "tour": 22,
+      "date": "2026-08-15",
+      "time": "20:00",
+      "kickoffTime": "2026-08-15T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1058",
+      "tour": 22,
+      "date": "2026-08-15",
+      "time": "20:00",
+      "kickoffTime": "2026-08-15T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ALT",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1055",
+      "tour": 22,
+      "date": "2026-08-16",
+      "time": "17:00",
+      "kickoffTime": "2026-08-16T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "TOB",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1054",
+      "tour": 22,
+      "date": "2026-08-16",
+      "time": "18:00",
+      "kickoffTime": "2026-08-16T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ELI",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1057",
+      "tour": 22,
+      "date": "2026-08-16",
+      "time": "19:00",
+      "kickoffTime": "2026-08-16T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "AST",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1053",
+      "tour": 22,
+      "date": "2026-08-16",
+      "time": "20:00",
+      "kickoffTime": "2026-08-16T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "OKZ",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1066",
+      "tour": 23,
+      "date": "2026-10-17",
+      "time": "15:00",
+      "kickoffTime": "2026-10-17T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "KYZ",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1068",
+      "tour": 23,
+      "date": "2026-10-17",
+      "time": "16:00",
+      "kickoffTime": "2026-10-17T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "KSR",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1067",
+      "tour": 23,
+      "date": "2026-10-17",
+      "time": "17:00",
+      "kickoffTime": "2026-10-17T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ZHN",
+      "homeScore": 4,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1061",
+      "tour": 23,
+      "date": "2026-10-17",
+      "time": "19:00",
+      "kickoffTime": "2026-10-17T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ORD",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1062",
+      "tour": 23,
+      "date": "2026-10-18",
+      "time": "15:00",
+      "kickoffTime": "2026-10-18T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1064",
+      "tour": 23,
+      "date": "2026-10-18",
+      "time": "16:00",
+      "kickoffTime": "2026-10-18T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ULY",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1065",
+      "tour": 23,
+      "date": "2026-10-18",
+      "time": "18:00",
+      "kickoffTime": "2026-10-18T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "IRT",
+      "homeScore": 5,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1063",
+      "tour": 23,
+      "date": "2026-10-18",
+      "time": "19:00",
+      "kickoffTime": "2026-10-18T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "KAS",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1075",
+      "tour": 24,
+      "date": "2026-08-29",
+      "time": "17:00",
+      "kickoffTime": "2026-08-29T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ZHT",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1076",
+      "tour": 24,
+      "date": "2026-08-29",
+      "time": "18:00",
+      "kickoffTime": "2026-08-29T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ALT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1073",
+      "tour": 24,
+      "date": "2026-08-29",
+      "time": "20:00",
+      "kickoffTime": "2026-08-29T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1074",
+      "tour": 24,
+      "date": "2026-08-29",
+      "time": "20:00",
+      "kickoffTime": "2026-08-29T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "KYZ",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1072",
+      "tour": 24,
+      "date": "2026-08-30",
+      "time": "17:00",
+      "kickoffTime": "2026-08-30T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "AKT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1070",
+      "tour": 24,
+      "date": "2026-08-30",
+      "time": "17:00",
+      "kickoffTime": "2026-08-30T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1069",
+      "tour": 24,
+      "date": "2026-08-30",
+      "time": "20:00",
+      "kickoffTime": "2026-08-30T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "AST",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1071",
+      "tour": 24,
+      "date": "2026-08-31",
+      "time": "19:00",
+      "kickoffTime": "2026-08-31T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "KAI",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1081",
+      "tour": 25,
+      "date": "2026-04-18",
+      "time": "18:00",
+      "kickoffTime": "2026-04-18T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "KAS",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1082",
+      "tour": 25,
+      "date": "2026-09-05",
+      "time": "16:00",
+      "kickoffTime": "2026-09-05T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ORD",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1077",
+      "tour": 25,
+      "date": "2026-09-05",
+      "time": "18:00",
+      "kickoffTime": "2026-09-05T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ZHN",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1084",
+      "tour": 25,
+      "date": "2026-09-05",
+      "time": "18:00",
+      "kickoffTime": "2026-09-05T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "IRT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1080",
+      "tour": 25,
+      "date": "2026-09-05",
+      "time": "19:00",
+      "kickoffTime": "2026-09-05T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ATY",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1078",
+      "tour": 25,
+      "date": "2026-09-06",
+      "time": "17:00",
+      "kickoffTime": "2026-09-06T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "KSR",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1079",
+      "tour": 25,
+      "date": "2026-09-06",
+      "time": "18:00",
+      "kickoffTime": "2026-09-06T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "ELI",
+      "homeScore": 4,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1083",
+      "tour": 25,
+      "date": "2026-09-06",
+      "time": "19:00",
+      "kickoffTime": "2026-09-06T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ULY",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1085",
+      "tour": 26,
+      "date": "2026-09-12",
+      "time": "17:00",
+      "kickoffTime": "2026-09-12T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1086",
+      "tour": 26,
+      "date": "2026-09-12",
+      "time": "18:00",
+      "kickoffTime": "2026-09-12T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "ZHT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1090",
+      "tour": 26,
+      "date": "2026-09-12",
+      "time": "19:00",
+      "kickoffTime": "2026-09-12T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "AST",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1092",
+      "tour": 26,
+      "date": "2026-09-12",
+      "time": "19:00",
+      "kickoffTime": "2026-09-12T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "KYZ",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1089",
+      "tour": 26,
+      "date": "2026-09-12",
+      "time": "20:00",
+      "kickoffTime": "2026-09-12T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1087",
+      "tour": 26,
+      "date": "2026-09-13",
+      "time": "16:00",
+      "kickoffTime": "2026-09-13T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1091",
+      "tour": 26,
+      "date": "2026-09-13",
+      "time": "17:00",
+      "kickoffTime": "2026-09-13T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ALT",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1088",
+      "tour": 26,
+      "date": "2026-09-13",
+      "time": "19:00",
+      "kickoffTime": "2026-09-13T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-1095",
+      "tour": 27,
+      "date": "2026-09-17",
+      "time": "19:00",
+      "kickoffTime": "2026-09-17T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "KAI",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1099",
+      "tour": 27,
+      "date": "2026-09-17",
+      "time": "19:00",
+      "kickoffTime": "2026-09-17T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "ELI",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1096",
+      "tour": 27,
+      "date": "2026-09-17",
+      "time": "20:00",
+      "kickoffTime": "2026-09-17T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "ORD",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1098",
+      "tour": 27,
+      "date": "2026-09-18",
+      "time": "16:00",
+      "kickoffTime": "2026-09-18T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "ZHN",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1100",
+      "tour": 27,
+      "date": "2026-09-18",
+      "time": "17:00",
+      "kickoffTime": "2026-09-18T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "KAS",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1094",
+      "tour": 27,
+      "date": "2026-09-18",
+      "time": "17:00",
+      "kickoffTime": "2026-09-18T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "IRT",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1097",
+      "tour": 27,
+      "date": "2026-09-18",
+      "time": "19:00",
+      "kickoffTime": "2026-09-18T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "KSR",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1093",
+      "tour": 27,
+      "date": "2026-09-18",
+      "time": "20:00",
+      "kickoffTime": "2026-09-18T15:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "ULY",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1103",
+      "tour": 28,
+      "date": "2026-10-10",
+      "time": "15:00",
+      "kickoffTime": "2026-10-10T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "KYZ",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1106",
+      "tour": 28,
+      "date": "2026-10-10",
+      "time": "16:00",
+      "kickoffTime": "2026-10-10T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "AST",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1102",
+      "tour": 28,
+      "date": "2026-10-10",
+      "time": "16:00",
+      "kickoffTime": "2026-10-10T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "AKT",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1104",
+      "tour": 28,
+      "date": "2026-10-10",
+      "time": "17:00",
+      "kickoffTime": "2026-10-10T12:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ZHT",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1108",
+      "tour": 28,
+      "date": "2026-10-10",
+      "time": "19:00",
+      "kickoffTime": "2026-10-10T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "ATY",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1107",
+      "tour": 28,
+      "date": "2026-10-11",
+      "time": "15:00",
+      "kickoffTime": "2026-10-11T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "OKZ",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1101",
+      "tour": 28,
+      "date": "2026-10-11",
+      "time": "16:00",
+      "kickoffTime": "2026-10-11T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "ALT",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1105",
+      "tour": 28,
+      "date": "2026-10-11",
+      "time": "19:00",
+      "kickoffTime": "2026-10-11T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KSR",
+      "awayClubShortName": "ORD",
+      "homeScore": 1,
+      "awayScore": 4
+    },
+    {
+      "externalId": "kff-game-1114",
+      "tour": 29,
+      "date": "2026-10-24",
+      "time": "15:00",
+      "kickoffTime": "2026-10-24T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "OKZ",
+      "awayClubShortName": "KAS",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1116",
+      "tour": 29,
+      "date": "2026-10-24",
+      "time": "15:00",
+      "kickoffTime": "2026-10-24T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "TOB",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1113",
+      "tour": 29,
+      "date": "2026-10-24",
+      "time": "16:00",
+      "kickoffTime": "2026-10-24T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "KYZ",
+      "awayClubShortName": "ULY",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1115",
+      "tour": 29,
+      "date": "2026-10-24",
+      "time": "18:00",
+      "kickoffTime": "2026-10-24T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ORD",
+      "awayClubShortName": "ZHN",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "externalId": "kff-game-1110",
+      "tour": 29,
+      "date": "2026-10-25",
+      "time": "15:00",
+      "kickoffTime": "2026-10-25T10:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ALT",
+      "awayClubShortName": "ELI",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1112",
+      "tour": 29,
+      "date": "2026-10-25",
+      "time": "16:00",
+      "kickoffTime": "2026-10-25T11:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "ATY",
+      "awayClubShortName": "IRT",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "externalId": "kff-game-1109",
+      "tour": 29,
+      "date": "2026-10-25",
+      "time": "18:00",
+      "kickoffTime": "2026-10-25T13:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AKT",
+      "awayClubShortName": "KAI",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "externalId": "kff-game-1111",
+      "tour": 29,
+      "date": "2026-10-25",
+      "time": "19:00",
+      "kickoffTime": "2026-10-25T14:00:00.000Z",
+      "status": "FINISHED",
+      "homeClubShortName": "AST",
+      "awayClubShortName": "KSR",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "externalId": "kff-game-1120",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "KAI",
+      "awayClubShortName": "ALT",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1122",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "ULY",
+      "awayClubShortName": "ATY",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1123",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "ZHN",
+      "awayClubShortName": "KSR",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1124",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "ZHT",
+      "awayClubShortName": "AST",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1121",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "TOB",
+      "awayClubShortName": "AKT",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1118",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "ELI",
+      "awayClubShortName": "OKZ",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1119",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "IRT",
+      "awayClubShortName": "ORD",
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "externalId": "kff-game-1117",
+      "tour": 30,
+      "date": "2026-10-31",
+      "time": "15:00",
+      "kickoffTime": "2026-10-31T10:00:00.000Z",
+      "status": "SCHEDULED",
+      "homeClubShortName": "KAS",
+      "awayClubShortName": "KYZ",
+      "homeScore": null,
+      "awayScore": null
+    }
+  ]
+}

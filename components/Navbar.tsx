@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSquadStore } from "../store/useSquadStore";
+import { Locale, LOCALE_LABELS, TranslationKey, useTranslation } from "../lib/i18n";
 
-function formatDeadlineStatus(deadlineIso?: string, isLocked?: boolean): string {
-  if (!deadlineIso) return "Schedule Pending";
+function formatDeadlineStatus(
+  t: (key: TranslationKey, vars?: Record<string, string | number>) => string,
+  deadlineIso?: string,
+  isLocked?: boolean
+): string {
+  if (!deadlineIso) return t("nav.schedulePending");
   const deadline = new Date(deadlineIso);
   if (isLocked || deadline.getTime() <= Date.now()) {
-    return "Deadline Passed • Locked";
+    return t("nav.locked");
   }
 
   const diffMs = deadline.getTime() - Date.now();
@@ -17,19 +22,24 @@ function formatDeadlineStatus(deadlineIso?: string, isLocked?: boolean): string 
   const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
   const mins = totalMinutes % 60;
 
-  if (days > 0) return `Locks in ${days}d ${hours}h`;
-  if (hours > 0) return `Locks in ${hours}h ${mins}m`;
-  return `Locks in ${mins}m`;
+  let timeStr = `${mins}m`;
+  if (days > 0) timeStr = `${days}d ${hours}h`;
+  else if (hours > 0) timeStr = `${hours}h ${mins}m`;
+
+  return t("nav.locksIn", { time: timeStr });
 }
 
 export default function Navbar() {
   const pathname = usePathname();
   const { squadName, userProfile, activeGameweek, squadTotalPoints } =
     useSquadStore();
+  const { locale, setLocale, t } = useTranslation();
 
   const navItems = [
-    { href: "/squad", label: "Squad & Transfers" },
-    { href: "/leagues", label: "Mini-Leagues" },
+    { href: "/squad", label: t("nav.squad") },
+    { href: "/points", label: t("nav.points") },
+    { href: "/fixtures", label: t("nav.fixtures") },
+    { href: "/leagues", label: t("nav.leagues") },
   ];
 
   return (
@@ -48,7 +58,7 @@ export default function Navbar() {
                 KPL Fantasy
               </span>
               <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                Unofficial Simulator
+                {t("nav.subtitle")}
               </span>
             </div>
           </Link>
@@ -74,11 +84,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Live Gameweek & Manager Pill */}
+        {/* Live Gameweek, Language Switcher & Manager Pill */}
         <div className="flex items-center gap-3">
           {activeGameweek && (
             <div
-              className={`hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border text-xs font-bold ${
+              className={`hidden lg:flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border text-xs font-bold ${
                 activeGameweek.isLocked
                   ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
                   : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
@@ -97,6 +107,7 @@ export default function Navbar() {
               <span className="text-slate-400">•</span>
               <span>
                 {formatDeadlineStatus(
+                  t,
                   activeGameweek.deadline,
                   activeGameweek.isLocked
                 )}
@@ -104,8 +115,30 @@ export default function Navbar() {
             </div>
           )}
 
+          {/* Language Switcher (EN / RU / KZ) */}
+          <div
+            role="group"
+            aria-label="Language switcher"
+            className="flex items-center gap-0.5 bg-slate-900 p-1 rounded-xl border border-slate-800"
+          >
+            {(["en", "ru", "kk"] as Locale[]).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                onClick={() => setLocale(lang)}
+                className={`px-2 py-1 rounded-lg text-[10px] font-black transition-colors ${
+                  locale === lang
+                    ? "bg-emerald-500 text-white"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {LOCALE_LABELS[lang]}
+              </button>
+            ))}
+          </div>
+
           {userProfile && (
-            <div className="flex items-center gap-2.5 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-xl">
+            <div className="hidden sm:flex items-center gap-2.5 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-xl">
               {userProfile.favoriteClub && (
                 <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-black uppercase">
                   {userProfile.favoriteClub.shortName}
@@ -113,10 +146,11 @@ export default function Navbar() {
               )}
               <div className="text-right">
                 <div className="text-xs font-black text-white truncate max-w-[140px]">
-                  {squadName || userProfile.name || "New Manager"}
+                  {squadName || userProfile.name || t("nav.newManager")}
                 </div>
                 <div className="text-[10px] font-bold text-slate-400">
-                  {userProfile.name || "Manager"} • {squadTotalPoints} pts
+                  {userProfile.name || t("nav.manager")} • {squadTotalPoints}{" "}
+                  {t("nav.pts")}
                 </div>
               </div>
             </div>

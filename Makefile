@@ -5,10 +5,8 @@
 .PHONY: help dev build start lint typecheck test test-watch db-up db-down db-seed db-migrate db-reset db-studio clean
 
 # Load .env file if available
-if-[fileexists .env]
-include .env
-export $(shell seed .env | xargs)
-endif
+-include .env
+export
 
 # Colors for terminal formatting
 CYAN    := \033[36m
@@ -40,7 +38,7 @@ dev:
 ## build: Build production application bundle
 build:
 	@echo "$(GREEN)📦 Building production Next.js bundle...$(RESET)"
-	npx next build
+	npx next build --webpack
 
 ## start: Start production server after build
 start:
@@ -54,7 +52,7 @@ start:
 ## lint: Run ESLint checks across project files
 lint:
 	@echo "$(YELLOW)🔍 Running ESLint...$(RESET)"
-	npx next lint
+	npx eslint .
 
 ## typecheck: Run TypeScript type checker without emitting code
 typecheck:
@@ -99,11 +97,10 @@ db-studio:
 	@echo "$(CYAN)📊 Launching Prisma Studio...$(RESET)"
 	npx prisma studio
 
-## db-reset: Wipe database, apply schema migrations, and re-seed
+## db-reset: Reset database and re-seed
 db-reset:
 	@echo "$(RED)⚠️ Resetting database and re-seeding...$(RESET)"
 	npx prisma migrate reset --force
-	@make db-seed
 
 # ==============================================================================
 # HOUSEKEEPING

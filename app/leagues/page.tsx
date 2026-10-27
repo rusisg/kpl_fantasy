@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import { KffAttributionFooter } from "../../components/PageShell";
 import { LeagueSummary } from "../../lib/types";
 import { useSquadStore } from "../../store/useSquadStore";
+import { useTranslation } from "../../lib/i18n";
 
 export default function MiniLeaguesPage() {
   const { setUserProfile, setActiveGameweek, loadSquadFromApi } =
     useSquadStore();
+  const { t } = useTranslation();
 
   const [leagues, setLeagues] = useState<LeagueSummary[]>([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState<string | null>(null);
@@ -178,10 +181,10 @@ export default function MiniLeaguesPage() {
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tight text-white">
-                Mini-Leagues & Standings
+                {t("leagues.title")}
               </h1>
               <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mt-0.5">
-                Compete with friends across the Kazakhstan Premier League
+                {t("leagues.subtitle")}
               </p>
             </div>
           </div>
@@ -189,7 +192,7 @@ export default function MiniLeaguesPage() {
           <div className="flex items-center gap-4 bg-slate-950/60 px-5 py-3 rounded-2xl border border-slate-800">
             <div className="text-center pr-4 border-r border-slate-800">
               <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Active Leagues
+                {t("leagues.activeLeagues")}
               </div>
               <div className="text-2xl font-black text-white">
                 {leagues.length}
@@ -197,7 +200,7 @@ export default function MiniLeaguesPage() {
             </div>
             <div className="text-center pl-1">
               <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Best Rank
+                {t("leagues.bestRank")}
               </div>
               <div className="text-2xl font-black text-emerald-400">
                 {leagues.reduce<number | null>((best, l) => {
@@ -524,6 +527,7 @@ export default function MiniLeaguesPage() {
           </div>
         </div>
       </div>
+      <KffAttributionFooter />
     </div>
   );
 }

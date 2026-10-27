@@ -182,4 +182,11 @@ test("resolveClubShortName - prevents FC prefix and Kairat/Kaisar collisions", (
   assert.equal(zhenis, "ZHN");
   assert.equal(zhetysu, "ZHT");
   assert.notEqual(kairat, kaisar);
+
+  const usedKff = new Set<string>();
+  assert.equal(resolveClubShortName("Ордабасы", usedKff), "ORD");
+  assert.equal(resolveClubShortName("Кайрат", usedKff), "KAI");
+  assert.equal(resolveClubShortName("Кайсар", usedKff), "KSR");
+  assert.equal(resolveClubShortName("Иртыш", usedKff), "IRT");
+  assert.equal(resolveClubShortName("Алтай", usedKff), "ALT");
 });

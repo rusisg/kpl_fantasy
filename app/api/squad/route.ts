@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { resolveAuthenticatedUser } from "../../../lib/session";
-import { Position } from "../../../lib/types";
+import { ChipType, Position } from "../../../lib/types";
 import {
   SQUAD_LIMITS,
   validateFullSquad,
@@ -16,7 +16,7 @@ const SquadSlotSchema = z.object({
   positionOrder: z.number().int().min(1).max(15),
 });
 
-export const SquadSavePayloadSchema = z
+const SquadSavePayloadSchema = z
   .object({
     name: z
       .string()
@@ -98,14 +98,81 @@ export async function GET() {
             },
             orderBy: { positionOrder: "asc" },
           },
+          snapshots: {
+            select: {
+              id: true,
+              gameweekId: true,
+              chipPlayed: true,
+              _count: { select: { players: true } },
+            },
+          },
+          transfers: {
+            select: { gameweekId: true, cost: true },
+          },
         },
       }),
       getActiveGameweekInfo(),
     ]);
 
+    let enrichedSquad = null;
+    if (squad) {
+      const activeGwId = gameweek?.id ?? null;
+      const scoredSnapshotsCount = squad.snapshots.filter(
+        (s) => s._count.players > 0
+      ).length;
+      const currentSnapshot = activeGwId
+        ? squad.snapshots.find((s) => s.gameweekId === activeGwId)
+        : undefined;
+      const activeChip = (currentSnapshot?.chipPlayed as ChipType | null) ?? null;
+
+      const usedChipsSet = new Set<ChipType>();
+      for (const snap of squad.snapshots) {
+        if (snap.gameweekId !== activeGwId && snap.chipPlayed) {
+          usedChipsSet.add(snap.chipPlayed as ChipType);
+        }
+      }
+      if (squad.wildcardUsed && activeChip !== "WILDCARD") {
+        usedChipsSet.add("WILDCARD");
+      }
+      if (squad.tripleCaptainUsed && activeChip !== "TRIPLE_CAPTAIN") {
+        usedChipsSet.add("TRIPLE_CAPTAIN");
+      }
+      if (squad.benchBoostUsed && activeChip !== "BENCH_BOOST") {
+        usedChipsSet.add("BENCH_BOOST");
+      }
+      if (squad.freeHitUsed && activeChip !== "FREE_HIT") {
+        usedChipsSet.add("FREE_HIT");
+      }
+
+      const isUnlimitedTransfers =
+        scoredSnapshotsCount === 0 ||
+        activeChip === "WILDCARD" ||
+        activeChip === "FREE_HIT";
+
+      const gwTransfers = activeGwId
+        ? squad.transfers.filter((t) => t.gameweekId === activeGwId)
+        : [];
+      const transfersThisGw = gwTransfers.length;
+      const pointsHitThisGw = isUnlimitedTransfers
+        ? 0
+        : gwTransfers.reduce((sum, t) => sum + t.cost, 0);
+
+      const { snapshots: _snapshots, transfers: _transfers, ...restSquad } = squad;
+      void _snapshots;
+      void _transfers;
+      enrichedSquad = {
+        ...restSquad,
+        activeChip,
+        usedChips: Array.from(usedChipsSet),
+        isUnlimitedTransfers,
+        transfersThisGw,
+        pointsHitThisGw,
+      };
+    }
+
     return NextResponse.json({
       success: true,
-      data: squad,
+      data: enrichedSquad,
       user: {
         id: user.id,
         name: user.name,
@@ -182,7 +249,17 @@ export async function POST(request: Request) {
       }),
       prisma.squad.findUnique({
         where: { userId: user.id },
-        include: { players: true },
+        include: {
+          players: true,
+          snapshots: {
+            select: {
+              id: true,
+              gameweekId: true,
+              chipPlayed: true,
+              _count: { select: { players: true } },
+            },
+          },
+        },
       }),
     ]);
 
@@ -280,6 +357,20 @@ export async function POST(request: Request) {
         },
       });
 
+      const activeGwId = activeGameweek?.id ?? null;
+      const scoredSnapshotsCount = existingSquad
+        ? existingSquad.snapshots.filter((s) => s._count.players > 0).length
+        : 0;
+      const currentSnapshot =
+        existingSquad && activeGwId
+          ? existingSquad.snapshots.find((s) => s.gameweekId === activeGwId)
+          : undefined;
+      const activeChip = (currentSnapshot?.chipPlayed as ChipType | null) ?? null;
+      const isUnlimitedTransfers =
+        scoredSnapshotsCount === 0 ||
+        activeChip === "WILDCARD" ||
+        activeChip === "FREE_HIT";
+
       // Log transfers if an existing squad swapped players in an active gameweek
       if (existingSquad && existingSquad.players.length === 15 && activeGameweek) {
         const previousIds = new Set(existingSquad.players.map((sp) => sp.playerId));
@@ -294,15 +385,38 @@ export async function POST(request: Request) {
 
         const pairCount = Math.min(playersOut.length, playersIn.length);
         if (pairCount > 0) {
+          const currentFree = existingSquad.freeTransfers;
           await tx.transfer.createMany({
-            data: Array.from({ length: pairCount }, (_, idx) => ({
-              squadId: squadRecord.id,
-              gameweekId: activeGameweek.id,
-              playerOutId: playersOut[idx],
-              playerInId: playersIn[idx],
-              cost: 0,
-            })),
+            data: Array.from({ length: pairCount }, (_, idx) => {
+              const isFree = isUnlimitedTransfers || idx < currentFree;
+              return {
+                squadId: squadRecord.id,
+                gameweekId: activeGameweek.id,
+                playerOutId: playersOut[idx],
+                playerInId: playersIn[idx],
+                isWildcard: activeChip === "WILDCARD",
+                isFreeHit: activeChip === "FREE_HIT",
+                cost: isFree ? 0 : 4,
+              };
+            }),
           });
+
+          if (!isUnlimitedTransfers) {
+            await tx.squad.update({
+              where: { id: squadRecord.id },
+              data: {
+                freeTransfers: Math.max(0, currentFree - pairCount),
+                lastTransfersGameweek: activeGameweek.id,
+              },
+            });
+          } else {
+            await tx.squad.update({
+              where: { id: squadRecord.id },
+              data: {
+                lastTransfersGameweek: activeGameweek.id,
+              },
+            });
+          }
         }
       }
 
@@ -322,7 +436,7 @@ export async function POST(request: Request) {
         })),
       });
 
-      return tx.squad.findUnique({
+      const fullSquad = await tx.squad.findUnique({
         where: { id: squadRecord.id },
         include: {
           players: {
@@ -337,8 +451,61 @@ export async function POST(request: Request) {
             },
             orderBy: { positionOrder: "asc" },
           },
+          snapshots: {
+            select: {
+              id: true,
+              gameweekId: true,
+              chipPlayed: true,
+              _count: { select: { players: true } },
+            },
+          },
+          transfers: {
+            select: { gameweekId: true, cost: true },
+          },
         },
       });
+
+      if (!fullSquad) return null;
+
+      const usedChipsSet = new Set<ChipType>();
+      for (const snap of fullSquad.snapshots) {
+        if (snap.gameweekId !== activeGwId && snap.chipPlayed) {
+          usedChipsSet.add(snap.chipPlayed as ChipType);
+        }
+      }
+      if (fullSquad.wildcardUsed && activeChip !== "WILDCARD") {
+        usedChipsSet.add("WILDCARD");
+      }
+      if (fullSquad.tripleCaptainUsed && activeChip !== "TRIPLE_CAPTAIN") {
+        usedChipsSet.add("TRIPLE_CAPTAIN");
+      }
+      if (fullSquad.benchBoostUsed && activeChip !== "BENCH_BOOST") {
+        usedChipsSet.add("BENCH_BOOST");
+      }
+      if (fullSquad.freeHitUsed && activeChip !== "FREE_HIT") {
+        usedChipsSet.add("FREE_HIT");
+      }
+
+      const gwTransfers = activeGwId
+        ? fullSquad.transfers.filter((t) => t.gameweekId === activeGwId)
+        : [];
+      const transfersThisGw = gwTransfers.length;
+      const pointsHitThisGw = isUnlimitedTransfers
+        ? 0
+        : gwTransfers.reduce((sum, t) => sum + t.cost, 0);
+
+      const { snapshots: _snapshots, transfers: _transfers, ...restSquad } = fullSquad;
+      void _snapshots;
+      void _transfers;
+
+      return {
+        ...restSquad,
+        activeChip,
+        usedChips: Array.from(usedChipsSet),
+        isUnlimitedTransfers,
+        transfersThisGw,
+        pointsHitThisGw,
+      };
     });
 
     return NextResponse.json({

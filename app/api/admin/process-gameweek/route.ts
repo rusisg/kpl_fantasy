@@ -4,6 +4,7 @@ import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
 import { Position } from "../../../../lib/types";
 import {
+  buildFreeHitRestoredSquad,
   calculatePlayerMatchPoints,
   calculateSquadGameweekScore,
 } from "../../../../lib/scoring-engine";
@@ -252,6 +253,10 @@ export async function POST(request: Request) {
             where: { gameweekId: gameweek.id },
             select: { id: true, chipPlayed: true },
           },
+          transfers: {
+            where: { gameweekId: gameweek.id },
+            select: { cost: true },
+          },
         },
       });
 
@@ -273,6 +278,13 @@ export async function POST(request: Request) {
           chipPlayed
         );
 
+        const transferHit =
+          chipPlayed === "WILDCARD" || chipPlayed === "FREE_HIT"
+            ? 0
+            : squad.transfers.reduce((sum, t) => sum + t.cost, 0);
+
+        const netTotalPoints = scoreResult.totalPoints - transferHit;
+
         const snapshot = await tx.squadSnapshot.upsert({
           where: {
             squadId_gameweekId: {
@@ -283,11 +295,11 @@ export async function POST(request: Request) {
           create: {
             squadId: squad.id,
             gameweekId: gameweek.id,
-            totalPoints: scoreResult.totalPoints,
+            totalPoints: netTotalPoints,
             chipPlayed,
           },
           update: {
-            totalPoints: scoreResult.totalPoints,
+            totalPoints: netTotalPoints,
           },
         });
 
@@ -312,7 +324,7 @@ export async function POST(request: Request) {
         snapshotScores.push({
           snapshotId: snapshot.id,
           squadId: squad.id,
-          totalPoints: scoreResult.totalPoints,
+          totalPoints: netTotalPoints,
         });
       }
 
@@ -329,10 +341,11 @@ export async function POST(request: Request) {
         });
       }
 
-      // 7. Recompute cumulative Squad.totalPoints from all SquadSnapshots
+      // 7. Recompute cumulative Squad.totalPoints from all scored SquadSnapshots
       if (squads.length > 0) {
         const squadTotals = await tx.squadSnapshot.groupBy({
           by: ["squadId"],
+          where: { players: { some: {} } },
           _sum: { totalPoints: true },
         });
         for (const st of squadTotals) {
@@ -343,8 +356,90 @@ export async function POST(request: Request) {
         }
       }
 
-      // 8. Optionally mark Gameweek finished and advance isCurrent to next Gameweek
+      // 8. Optionally mark Gameweek finished, revert Free Hit squads, roll over free transfers, and advance isCurrent
       if (payload?.markFinished) {
+        for (const squad of squads) {
+          const chipPlayed = squad.snapshots[0]?.chipPlayed ?? null;
+          const nextFreeTransfers =
+            chipPlayed === "WILDCARD" || chipPlayed === "FREE_HIT"
+              ? 1
+              : Math.min(2, squad.freeTransfers + 1);
+
+          let restoredBudget: number | undefined = undefined;
+
+          if (chipPlayed === "FREE_HIT" && gameweek.id > 1) {
+            const priorSnapshot = await tx.squadSnapshot.findUnique({
+              where: {
+                squadId_gameweekId: {
+                  squadId: squad.id,
+                  gameweekId: gameweek.id - 1,
+                },
+              },
+              include: {
+                players: {
+                  include: {
+                    player: { select: { id: true, price: true } },
+                  },
+                  orderBy: { positionOrder: "asc" },
+                },
+              },
+            });
+
+            if (priorSnapshot && priorSnapshot.players.length === 15) {
+              const currentPurchasePrices = new Map<string, number>();
+              for (const sp of squad.players) {
+                const locked = Number(sp.purchasePrice);
+                if (locked > 0) {
+                  currentPurchasePrices.set(sp.playerId, locked);
+                }
+              }
+
+              const priceByPlayerId = new Map<string, number>();
+              for (const snapPlayer of priorSnapshot.players) {
+                const lockedOrMarket =
+                  currentPurchasePrices.get(snapPlayer.playerId) ??
+                  Number(snapPlayer.player.price);
+                priceByPlayerId.set(snapPlayer.playerId, lockedOrMarket);
+              }
+
+              const restorationPlan = buildFreeHitRestoredSquad(
+                priorSnapshot.players.map((p) => ({
+                  playerId: p.playerId,
+                  positionOrder: p.positionOrder,
+                  isCaptain: p.isCaptain,
+                  isViceCaptain: p.isViceCaptain,
+                })),
+                priceByPlayerId
+              );
+
+              if (restorationPlan) {
+                await tx.squadPlayer.deleteMany({
+                  where: { squadId: squad.id },
+                });
+                await tx.squadPlayer.createMany({
+                  data: restorationPlan.players.map((rp) => ({
+                    squadId: squad.id,
+                    playerId: rp.playerId,
+                    positionOrder: rp.positionOrder,
+                    purchasePrice: rp.purchasePrice,
+                    isCaptain: rp.isCaptain,
+                    isViceCaptain: rp.isViceCaptain,
+                  })),
+                });
+                restoredBudget = restorationPlan.remainingBudget;
+              }
+            }
+          }
+
+          await tx.squad.update({
+            where: { id: squad.id },
+            data: {
+              freeTransfers: nextFreeTransfers,
+              ...(restoredBudget !== undefined ? { budget: restoredBudget } : {}),
+            },
+          });
+        }
+
         await tx.gameweek.update({
           where: { id: gameweek.id },
           data: { isFinished: true, isCurrent: false },

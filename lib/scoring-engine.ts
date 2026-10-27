@@ -35,10 +35,46 @@ export interface EvaluatedSquadSnapshotPlayer {
   minutes: number;
 }
 
+export interface AutoSubstitutionRecord {
+  playerOutId: string;
+  playerInId: string;
+}
+
 export interface SquadGameweekScoreResult {
   totalPoints: number;
   captainPromotedToVice: boolean;
+  substitutions: AutoSubstitutionRecord[];
   players: EvaluatedSquadSnapshotPlayer[];
+}
+
+const FORMATION_LIMITS: Record<Position, { min: number; max: number }> = {
+  [Position.GK]: { min: 1, max: 1 },
+  [Position.DEF]: { min: 3, max: 5 },
+  [Position.MID]: { min: 2, max: 5 },
+  [Position.FWD]: { min: 1, max: 3 },
+};
+
+function isValidLineupPositions(positions: Position[]): boolean {
+  if (positions.length !== 11) return false;
+  const counts: Record<Position, number> = {
+    [Position.GK]: 0,
+    [Position.DEF]: 0,
+    [Position.MID]: 0,
+    [Position.FWD]: 0,
+  };
+  for (const pos of positions) {
+    counts[pos] = (counts[pos] ?? 0) + 1;
+  }
+  return (
+    counts[Position.GK] >= FORMATION_LIMITS[Position.GK].min &&
+    counts[Position.GK] <= FORMATION_LIMITS[Position.GK].max &&
+    counts[Position.DEF] >= FORMATION_LIMITS[Position.DEF].min &&
+    counts[Position.DEF] <= FORMATION_LIMITS[Position.DEF].max &&
+    counts[Position.MID] >= FORMATION_LIMITS[Position.MID].min &&
+    counts[Position.MID] <= FORMATION_LIMITS[Position.MID].max &&
+    counts[Position.FWD] >= FORMATION_LIMITS[Position.FWD].min &&
+    counts[Position.FWD] <= FORMATION_LIMITS[Position.FWD].max
+  );
 }
 
 export const GOAL_POINTS_BY_POSITION: Record<Position, number> = {
@@ -132,8 +168,11 @@ export function calculatePlayerMatchPoints(stat: PlayerMatchStatInput): number {
 }
 
 /**
- * Evaluates a 15-player squad for a Gameweek, applying Captain (`2x`, or `3x` on TRIPLE_CAPTAIN)
- * and Vice-Captain failover (`2x`/`3x` if the Captain played 0 minutes).
+ * Evaluates a 15-player squad for a Gameweek, applying:
+ * 1. Automatic substitutions (unless BENCH_BOOST is played) for 0-minute starters
+ *    from active bench players in bench priority order while preserving valid formations.
+ * 2. Captain (`2x`, or `3x` on TRIPLE_CAPTAIN) and Vice-Captain failover (`2x`/`3x`
+ *    if the Captain played 0 minutes).
  */
 export function calculateSquadGameweekScore(
   squadPlayers: SquadMemberScoringInput[],
@@ -146,8 +185,89 @@ export function calculateSquadGameweekScore(
   const captainMultiplier = chipPlayed === "TRIPLE_CAPTAIN" ? 3 : 2;
   const includeBench = chipPlayed === "BENCH_BOOST";
 
-  const captain = squadPlayers.find((p) => p.isCaptain);
-  const viceCaptain = squadPlayers.find((p) => p.isViceCaptain);
+  const workingPlayers: SquadMemberScoringInput[] = squadPlayers
+    .map((p) => ({ ...p }))
+    .sort((a, b) => a.positionOrder - b.positionOrder);
+
+  const substitutions: AutoSubstitutionRecord[] = [];
+
+  if (!includeBench) {
+    // 1. Goalkeeper auto-sub: if starting GK played 0 mins and bench GK played > 0 mins
+    const starterGk = workingPlayers.find(
+      (p) => p.positionOrder <= 11 && p.position === Position.GK
+    );
+    const benchGk = workingPlayers.find(
+      (p) => p.positionOrder > 11 && p.position === Position.GK
+    );
+    if (
+      starterGk &&
+      benchGk &&
+      (statsByPlayerId.get(starterGk.playerId)?.minutes ?? 0) === 0 &&
+      (statsByPlayerId.get(benchGk.playerId)?.minutes ?? 0) > 0
+    ) {
+      const tempOrder = starterGk.positionOrder;
+      starterGk.positionOrder = benchGk.positionOrder;
+      benchGk.positionOrder = tempOrder;
+      substitutions.push({
+        playerOutId: starterGk.playerId,
+        playerInId: benchGk.playerId,
+      });
+    }
+
+    // 2. Outfield auto-subs: iterate bench outfielders in priority order (13, 14, 15)
+    const benchOutfielders = workingPlayers
+      .filter((p) => p.positionOrder > 11 && p.position !== Position.GK)
+      .sort((a, b) => a.positionOrder - b.positionOrder);
+
+    for (const benchPlayer of benchOutfielders) {
+      const benchMinutes =
+        statsByPlayerId.get(benchPlayer.playerId)?.minutes ?? 0;
+      if (benchMinutes <= 0) continue;
+
+      const currentStarters = workingPlayers
+        .filter((p) => p.positionOrder <= 11)
+        .sort((a, b) => a.positionOrder - b.positionOrder);
+
+      const inactiveOutfieldStarters = currentStarters.filter(
+        (p) =>
+          p.position !== Position.GK &&
+          (statsByPlayerId.get(p.playerId)?.minutes ?? 0) === 0
+      );
+
+      if (inactiveOutfieldStarters.length === 0) break;
+
+      // Prefer replacing an inactive starter of the same position first so positional minimums remain intact,
+      // then fall back to the first inactive starter in positionOrder that keeps the 11-man formation legal.
+      const orderedCandidates = [
+        ...inactiveOutfieldStarters.filter(
+          (s) => s.position === benchPlayer.position
+        ),
+        ...inactiveOutfieldStarters.filter(
+          (s) => s.position !== benchPlayer.position
+        ),
+      ];
+
+      const validTarget = orderedCandidates.find((starterOut) => {
+        const nextPositions = currentStarters.map((s) =>
+          s.playerId === starterOut.playerId ? benchPlayer.position : s.position
+        );
+        return isValidLineupPositions(nextPositions);
+      });
+
+      if (validTarget) {
+        const tempOrder = validTarget.positionOrder;
+        validTarget.positionOrder = benchPlayer.positionOrder;
+        benchPlayer.positionOrder = tempOrder;
+        substitutions.push({
+          playerOutId: validTarget.playerId,
+          playerInId: benchPlayer.playerId,
+        });
+      }
+    }
+  }
+
+  const captain = workingPlayers.find((p) => p.isCaptain);
+  const viceCaptain = workingPlayers.find((p) => p.isViceCaptain);
 
   const captainMinutes = captain
     ? (statsByPlayerId.get(captain.playerId)?.minutes ?? 0)
@@ -160,7 +280,7 @@ export function calculateSquadGameweekScore(
 
   let totalPoints = 0;
 
-  const evaluatedPlayers: EvaluatedSquadSnapshotPlayer[] = squadPlayers
+  const evaluatedPlayers: EvaluatedSquadSnapshotPlayer[] = workingPlayers
     .slice()
     .sort((a, b) => a.positionOrder - b.positionOrder)
     .map((sp) => {
@@ -197,6 +317,70 @@ export function calculateSquadGameweekScore(
   return {
     totalPoints,
     captainPromotedToVice,
+    substitutions,
     players: evaluatedPlayers,
+  };
+}
+
+export interface PriorSnapshotPlayerInput {
+  playerId: string;
+  positionOrder: number;
+  isCaptain: boolean;
+  isViceCaptain: boolean;
+}
+
+export interface RestoredSquadPlayerRecord {
+  playerId: string;
+  positionOrder: number;
+  purchasePrice: number;
+  isCaptain: boolean;
+  isViceCaptain: boolean;
+}
+
+export interface FreeHitRestorationPlan {
+  players: RestoredSquadPlayerRecord[];
+  remainingBudget: number;
+}
+
+/**
+ * Builds a pre-Free Hit restoration plan from the previous Gameweek's SquadSnapshot.
+ * Restores all 15 SquadPlayer slots (1..15), captaincy flags, and recalculates
+ * the squad's remaining budget against the 100.0M salary cap.
+ */
+export function buildFreeHitRestoredSquad(
+  previousSnapshotPlayers: PriorSnapshotPlayerInput[],
+  priceByPlayerId: ReadonlyMap<string, number>,
+  maxBudget = 100.0
+): FreeHitRestorationPlan | null {
+  if (previousSnapshotPlayers.length !== 15) {
+    return null;
+  }
+
+  const players: RestoredSquadPlayerRecord[] = previousSnapshotPlayers
+    .slice()
+    .sort((a, b) => a.positionOrder - b.positionOrder)
+    .map((sp, idx) => {
+      const price = Number(priceByPlayerId.get(sp.playerId) ?? 4.0);
+      return {
+        playerId: sp.playerId,
+        positionOrder: sp.positionOrder >= 1 && sp.positionOrder <= 15 ? sp.positionOrder : idx + 1,
+        purchasePrice: Number(price.toFixed(1)),
+        isCaptain: Boolean(sp.isCaptain),
+        isViceCaptain: Boolean(sp.isViceCaptain),
+      };
+    });
+
+  const totalSpentTenths = players.reduce(
+    (sum, p) => sum + Math.round(p.purchasePrice * 10),
+    0
+  );
+  const maxBudgetTenths = Math.round(maxBudget * 10);
+  const remainingBudget = Number(
+    ((maxBudgetTenths - totalSpentTenths) / 10).toFixed(1)
+  );
+
+  return {
+    players,
+    remainingBudget,
   };
 }

@@ -1,6 +1,7 @@
 import { createHmac, randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { auth } from "../auth";
+import { isGoogleOAuthConfigured } from "../auth.config";
 import { prisma } from "./prisma";
 
 const MANAGER_SESSION_COOKIE = "kpl_manager_session";
@@ -33,26 +34,55 @@ function verifySignedToken(token: string): string | null {
 
 /**
  * Resolves the authenticated User record from PostgreSQL.
- * 1. Uses NextAuth session (`await auth()`) when OAuth/Credentials sign-in is active.
- * 2. Otherwise uses a cryptographically signed HttpOnly manager cookie backed by a real
- *    PostgreSQL `User` row — never a hardcoded static user ID or client-supplied ID.
+ * 1. Uses NextAuth session (`await auth()`) when OAuth/Credentials sign-in is active,
+ *    linking/provisioning the PostgreSQL `User` row by ID or email.
+ * 2. When OAuth env vars (`AUTH_GOOGLE_ID` & `AUTH_GOOGLE_SECRET`) are not set in local
+ *    development/testing, falls back to a cryptographically signed HttpOnly guest manager cookie.
  */
 export async function resolveAuthenticatedUser() {
   try {
     const session = await auth();
-    if (session?.user?.id) {
-      const existing = await prisma.user.findUnique({
-        where: { id: session.user.id },
-        include: {
-          favoriteClub: {
-            select: { id: true, name: true, shortName: true, logoUrl: true },
+    if (session?.user) {
+      if (session.user.id) {
+        const byId = await prisma.user.findUnique({
+          where: { id: session.user.id },
+          include: {
+            favoriteClub: {
+              select: { id: true, name: true, shortName: true, logoUrl: true },
+            },
           },
-        },
-      });
-      if (existing) return existing;
+        });
+        if (byId) return byId;
+      }
+
+      if (session.user.email) {
+        const upserted = await prisma.user.upsert({
+          where: { email: session.user.email },
+          update: {
+            ...(session.user.name ? { name: session.user.name } : {}),
+            ...(session.user.image ? { image: session.user.image } : {}),
+          },
+          create: {
+            email: session.user.email,
+            name: session.user.name ?? session.user.email.split("@")[0],
+            image: session.user.image ?? null,
+          },
+          include: {
+            favoriteClub: {
+              select: { id: true, name: true, shortName: true, logoUrl: true },
+            },
+          },
+        });
+        return upserted;
+      }
     }
   } catch {
-    // NextAuth session unavailable; continue to signed manager cookie
+    // NextAuth session unavailable
+  }
+
+  // If real Google OAuth is configured, require an authenticated NextAuth session
+  if (isGoogleOAuthConfigured) {
+    return null;
   }
 
   const cookieStore = await cookies();
