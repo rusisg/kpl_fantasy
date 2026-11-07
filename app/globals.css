@@ -1,14 +1,279 @@
 @import "tailwindcss";
 
+/*
+ * KPL Fantasy — "Premier Broadcast" design system
+ * Semantic tokens drive every surface so dark (default) and light themes stay in sync.
+ * Use utilities like `bg-surface`, `text-ink`, `text-muted`, `border-line`, `bg-accent`, `text-accent-text`.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-gold: var(--gold);
+  --color-gold-text: var(--gold-text);
+  --color-on-gold: var(--on-gold);
+  --color-success: var(--success);
+  --color-success-text: var(--success-text);
+  --color-danger: var(--danger);
+  --color-danger-text: var(--danger-text);
+  --color-warning: var(--warning);
+  --color-warning-text: var(--warning-text);
+
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-condensed), "Roboto Condensed", "Oswald", var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --font-inter: "Inter";
+    --font-condensed: "Roboto Condensed";
+  }
+
+  :root,
+  html[data-theme="dark"] {
+    --canvas: #070a12;
+    --surface: #0d1424;
+    --surface-2: #121b2f;
+    --surface-3: #1a253d;
+    --line: rgb(255 255 255 / 0.08);
+    --line-strong: rgb(255 255 255 / 0.16);
+    --ink: #f5f7fb;
+    --ink-2: #c3cbdb;
+    --muted: #8a95ab;
+    --accent: #00e5ff;
+    --accent-text: #00e5ff;
+    --on-accent: #02121a;
+    --gold: #ffc107;
+    --gold-text: #ffc940;
+    --on-gold: #1a1200;
+    --success: #32d74b;
+    --success-text: #4ade80;
+    --danger: #ff453a;
+    --danger-text: #ff6b62;
+    --warning: #ff9f0a;
+    --warning-text: #ffb340;
+    --canvas-glow: rgb(0 229 255 / 0.07);
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    --canvas: #eef2f8;
+    --surface: #ffffff;
+    --surface-2: #f5f7fb;
+    --surface-3: #e8edf5;
+    --line: rgb(10 20 40 / 0.09);
+    --line-strong: rgb(10 20 40 / 0.18);
+    --ink: #0a1222;
+    --ink-2: #334155;
+    --muted: #5f6b80;
+    --accent: #00d2f0;
+    --accent-text: #00728c;
+    --on-accent: #02121a;
+    --gold: #ffc107;
+    --gold-text: #9a6200;
+    --on-gold: #1a1200;
+    --success: #16a34a;
+    --success-text: #15803d;
+    --danger: #e5372c;
+    --danger-text: #c62828;
+    --warning: #f59e0b;
+    --warning-text: #a15c00;
+    --canvas-glow: rgb(0 180 220 / 0.08);
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    background-color: #020617;
-    color: #f8fafc;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--canvas);
+    background-image: radial-gradient(1200px 500px at 50% -200px, var(--canvas-glow), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    overflow-x: hidden;
+    min-height: 100dvh;
+  }
+
+  /* Numbers line up in every table, stat tile and price tag */
+  .tabular-nums,
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1em); /* prevent iOS zoom on focus */
+  }
+
+  @media (min-width: 640px) {
+    input,
+    select,
+    textarea {
+      font-size: inherit;
+    }
+  }
+}
+
+@layer components {
+  /* Elevated broadcast card */
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px -16px rgb(0 0 0 / 0.5);
+  }
+
+  html[data-theme="light"] .card {
+    box-shadow: 0 1px 2px rgb(10 20 40 / 0.04), 0 8px 24px -18px rgb(10 20 40 / 0.25);
+  }
+
+  /* Kicker label above titles (broadcast lower-third style) */
+  .kicker {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Stadium pitch — consistent across both themes */
+  .pitch {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 45% at 12% -5%, rgb(255 255 255 / 0.16), transparent 70%),
+      radial-gradient(70% 45% at 88% -5%, rgb(255 255 255 / 0.16), transparent 70%),
+      repeating-linear-gradient(180deg, rgb(255 255 255 / 0.045) 0 9%, transparent 9% 18%),
+      linear-gradient(180deg, #0d7a4c 0%, #075a37 55%, #04402a 100%);
+    box-shadow: inset 0 0 80px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.12);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 80% at 50% 120%, rgb(0 0 0 / 0.35), transparent 60%);
+    pointer-events: none;
+  }
+
+  .dugout {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px -16px rgb(0 0 0 / 0.5);
+  }
+
+  html[data-theme="light"] .dugout {
+    background-color: #ffffff;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 2px rgb(10 20 40 / 0.04), 0 8px 24px -18px rgb(10 20 40 / 0.25);
+  }
+
+  /* Gold foil for captaincy */
+  .foil-gold {
+    background: linear-gradient(135deg, #ffe082 0%, #ffc107 45%, #ff9f00 100%);
+    color: #1a1200;
+    box-shadow: 0 0 0 2px rgb(0 0 0 / 0.55), 0 0 12px rgb(255 193 7 / 0.55);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hyphens-auto {
+    hyphens: auto;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-sheet-up {
+  animation: sheet-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.animate-fade-in {
+  animation: fade-in 160ms ease-out;
+}
+
+.animate-pop-in {
+  animation: pop-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
   }
 }

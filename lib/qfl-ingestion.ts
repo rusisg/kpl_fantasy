@@ -4,6 +4,7 @@ import path from "node:path";
 import { FixtureStatus, Position } from "@prisma/client";
 import { prisma } from "./prisma";
 import { KPL_CLUB_CATALOG } from "./clubs";
+import { seedSystemLeagues } from "./system-leagues";
 
 export interface QFLClub {
   name: string;
@@ -111,6 +112,7 @@ export async function seedQFLDatabase() {
       }
     }
 
+    await seedSystemLeagues(prisma);
     console.log("QFL seeding from kpl-rosters.json completed successfully!");
     return;
   }
@@ -152,5 +154,6 @@ export async function seedQFLDatabase() {
     });
   }
 
+  await seedSystemLeagues(prisma);
   console.log("QFL fallback seeding completed successfully!");
 }

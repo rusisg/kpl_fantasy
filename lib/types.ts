@@ -35,6 +35,33 @@ export interface ClubInfo {
   logoUrl?: string | null;
 }
 
+export interface PlayerUpcomingFixture {
+  fixtureId: string;
+  gameweekId: number;
+  kickoffTime: string;
+  opponentClubId: string;
+  opponentName: string;
+  opponentShortName: string;
+  opponentLogoUrl?: string | null;
+  isHome: boolean;
+  fdr: 1 | 2 | 3 | 4 | 5;
+  tag: string; // e.g. "AST (H)" or "KAI (A)"
+}
+
+export interface PlayerSeasonStats {
+  totalPoints: number;
+  goalsScored: number;
+  assists: number;
+  cleanSheets: number;
+  minutes: number;
+  yellowCards: number;
+  redCards: number;
+  saves: number;
+  bonusPoints: number;
+  appearances: number;
+  form: number; // average points over the last 3 gameweeks
+}
+
 export interface PlayerMarketItem {
   id: string;
   firstName: string;
@@ -44,6 +71,9 @@ export interface PlayerMarketItem {
   totalPoints?: number;
   clubId: string;
   club: ClubInfo;
+  selectedByPercent?: number;
+  upcomingFixtures?: PlayerUpcomingFixture[];
+  stats?: PlayerSeasonStats;
 }
 
 export interface SelectedSlotPlayer extends PlayerMarketItem {
@@ -121,10 +151,14 @@ export interface LeagueStandingRow {
 
 export interface LeagueSummary {
   id: string;
+  slug?: string | null;
   name: string;
   code: string;
   isPrivate: boolean;
-  createdById: string;
+  isSystem?: boolean;
+  clubId?: string | null;
+  club?: ClubInfo | null;
+  createdById: string | null;
   createdAt: string;
   memberCount: number;
   userRank: number | null;
@@ -156,19 +190,77 @@ export interface FixturesApiData {
   fixtures: FixtureItem[];
 }
 
+export type PointBreakdownCategory =
+  | "MINUTES_60_PLUS"
+  | "MINUTES_UNDER_60"
+  | "MINUTES_DNP"
+  | "GOALS"
+  | "ASSISTS"
+  | "CLEAN_SHEET"
+  | "SAVES"
+  | "PENALTIES_SAVED"
+  | "PENALTIES_MISSED"
+  | "GOALS_CONCEDED"
+  | "YELLOW_CARDS"
+  | "RED_CARDS"
+  | "OWN_GOALS"
+  | "BONUS";
+
+export interface MatchPointBreakdownItem {
+  category: PointBreakdownCategory;
+  statValue: number;
+  points: number;
+}
+
+export interface PlayerMatchFixtureSummary {
+  fixtureId: string;
+  homeClub: ClubInfo;
+  awayClub: ClubInfo;
+  homeScore: number | null;
+  awayScore: number | null;
+  isHome: boolean;
+  status: FixtureStatus;
+}
+
+export interface PlayerMatchStatsDetail {
+  minutes: number;
+  goalsScored: number;
+  assists: number;
+  cleanSheets: number;
+  goalsConceded: number;
+  saves: number;
+  penaltiesSaved: number;
+  penaltiesMissed: number;
+  yellowCards: number;
+  redCards: number;
+  ownGoals: number;
+  bonusPoints: number;
+  totalPoints: number;
+}
+
 export interface GameweekPointsPlayer {
   playerId: string;
   firstName: string;
   lastName: string;
   position: Position;
   club: ClubInfo;
-  positionOrder: number; // 1-11 starting XI, 12-15 bench
+  positionOrder: number; // 1-11 starting XI, 12-15 bench (post auto-sub)
+  originalPositionOrder?: number; // 1-11 starting XI, 12-15 bench (pre auto-sub)
   isCaptain: boolean;
   isViceCaptain: boolean;
+  vicePromoted?: boolean;
   multiplier: number;
   basePoints: number; // raw points before captain multiplier
   points: number; // effective points (basePoints * multiplier)
   minutes: number;
+  subbedIn?: boolean;
+  subbedOut?: boolean;
+  subReason?: "AUTO_SUB_IN" | "AUTO_SUB_OUT_DNP" | null;
+  subbedPartnerPlayerId?: string | null;
+  subbedPartnerName?: string | null;
+  stats?: PlayerMatchStatsDetail;
+  breakdown?: MatchPointBreakdownItem[];
+  fixture?: PlayerMatchFixtureSummary | null;
 }
 
 export interface GameweekHistoryRow {
@@ -183,6 +275,8 @@ export interface PointsApiData {
   squadName: string | null;
   seasonTotalPoints: number;
   selectedGameweekId: number | null;
+  activeGameweekId?: number | null;
+  availableGameweekIds?: number[];
   history: GameweekHistoryRow[]; // every processed gameweek for this squad
   snapshot: {
     gameweekId: number;
@@ -191,6 +285,7 @@ export interface PointsApiData {
     chipPlayed: ChipType | null;
     gameweekAverage: number;
     gameweekHighest: number;
+    isLive?: boolean;
     players: GameweekPointsPlayer[];
   } | null;
 }

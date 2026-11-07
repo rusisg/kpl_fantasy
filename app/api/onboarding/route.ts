@@ -4,6 +4,7 @@ import { prisma } from "../../../lib/prisma";
 import { resolveAuthenticatedUser } from "../../../lib/session";
 import { generateAutopickSquad } from "../../../lib/autopick-engine";
 import { SQUAD_LIMITS } from "../../../lib/squad-validation";
+import { enrollSquadInSystemLeagues } from "../../../lib/system-leagues";
 
 const OnboardingPayloadSchema = z.object({
   managerName: z
@@ -122,6 +123,13 @@ export async function POST(request: Request) {
           isCaptain: p.isCaptain,
           isViceCaptain: p.isViceCaptain,
         })),
+      });
+
+      // 4. Automatically enroll squad in Overall Kazakhstan & Club Supporters League
+      await enrollSquadInSystemLeagues(tx, {
+        userId: updatedUser.id,
+        squadId: squad.id,
+        favoriteClubId: updatedUser.favoriteClubId,
       });
 
       const hydratedSquad = await tx.squad.findUnique({

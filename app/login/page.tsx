@@ -3,8 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useTranslation, LOCALES, LOCALE_LABELS } from "../../lib/i18n";
+import { IconSun, IconMoon } from "../../components/Icons";
 
 export default function LoginPage() {
+  const { locale, setLocale, theme, toggleTheme, t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -14,33 +17,77 @@ export default function LoginPage() {
     try {
       await signIn("google", { callbackUrl: "/squad" });
     } catch {
-      setErrorMessage("Failed to initiate Google Sign-In. Please check OAuth configuration.");
+      setErrorMessage(t("login.error"));
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 text-slate-100 font-sans">
-      <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 max-w-md w-full shadow-2xl space-y-6">
+    <div className="min-h-screen flex items-center justify-center p-4 text-ink relative">
+      {/* Top right language & theme bar */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="p-2 rounded-xl bg-surface-2 border border-line text-ink hover:bg-surface-3 transition-colors"
+        >
+          {theme === "light" ? <IconMoon className="w-4 h-4" /> : <IconSun className="w-4 h-4" />}
+        </button>
+
+        <div className="flex items-center bg-surface-2 p-0.5 rounded-xl border border-line">
+          {LOCALES.map((lang) => (
+            <button
+              key={lang}
+              type="button"
+              onClick={() => setLocale(lang)}
+              className={`px-2 py-1 rounded-lg text-[11px] font-display font-black tracking-wider transition-all ${
+                locale === lang
+                  ? "bg-accent text-on-accent shadow-sm"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              {LOCALE_LABELS[lang]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6">
         <div className="flex flex-col items-center text-center space-y-3">
-          <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl shadow-lg flex items-center justify-center border-2 border-emerald-300">
-            <span className="text-xl font-black text-white tracking-tighter">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent to-emerald-400 p-[1px] shadow-lg shadow-accent/20">
+            <div className="w-full h-full bg-canvas rounded-[15px] flex items-center justify-center font-display font-black text-accent text-xl tracking-tighter">
               KPL
-            </span>
+            </div>
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-white">
-            KPL Fantasy Login
-          </h1>
-          <p className="text-sm text-slate-400 font-medium">
-            Sign in with your Google account to save and sync your 15-man KPL squad across all devices.
-          </p>
+          <div>
+            <h1 className="font-display font-black text-2xl sm:text-3xl tracking-tight text-ink uppercase">
+              {t("login.title")}
+            </h1>
+            <p className="text-xs sm:text-sm text-muted mt-1 max-w-sm">
+              {t("login.subtitle")}
+            </p>
+          </div>
+        </div>
+
+        {/* Feature bullets */}
+        <div className="bg-surface-2 rounded-2xl p-4 border border-line space-y-2 text-xs font-medium text-ink-2">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span>{t("login.feature1")}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span>{t("login.feature2")}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span>{t("login.feature3")}</span>
+          </div>
         </div>
 
         {errorMessage && (
-          <div
-            role="alert"
-            className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-bold text-center"
-          >
+          <div role="alert" className="p-3.5 rounded-xl bg-danger/15 border border-danger/30 text-danger-text text-xs font-bold text-center">
             {errorMessage}
           </div>
         )}
@@ -49,29 +96,20 @@ export default function LoginPage() {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black py-3.5 px-6 rounded-2xl shadow-lg shadow-emerald-500/25 border border-emerald-300/40 transition-all disabled:opacity-50"
+          className="h-12 w-full rounded-xl bg-accent hover:opacity-90 text-on-accent font-display font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-accent/25 disabled:opacity-40 flex items-center justify-center gap-2"
         >
-          <span>{loading ? "Redirecting to Google..." : "Sign in with Google"}</span>
+          <span>{loading ? t("login.redirecting") : t("login.google")}</span>
         </button>
 
-        <div className="pt-2 border-t border-slate-800 text-center space-y-2">
+        <div className="pt-2 border-t border-line text-center space-y-2">
           <Link
             href="/squad"
-            className="block text-xs font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+            className="block text-xs font-display font-bold text-muted hover:text-accent uppercase tracking-wider transition-colors"
           >
-            Continue to Squad Builder →
+            ← {t("notFound.back")}
           </Link>
-          <p className="text-[11px] text-slate-500">
-            Данные клубов и матчей:{" "}
-            <a
-              href="https://kffleague.kz"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald-400 hover:underline"
-            >
-              kffleague.kz
-            </a>{" "}
-            (При использовании материалов обязательна ссылка на официальный сайт.)
+          <p className="text-[10px] text-muted leading-relaxed">
+            {t("login.disclaimer")}
           </p>
         </div>
       </div>

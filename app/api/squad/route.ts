@@ -10,6 +10,7 @@ import {
   validateCaptaincy,
   SelectedSquadPlayerInput,
 } from "../../../lib/squad-validation";
+import { enrollSquadInSystemLeagues } from "../../../lib/system-leagues";
 
 const SquadSlotSchema = z.object({
   id: z.string().trim().min(1, "Player ID is required"),
@@ -434,6 +435,13 @@ export async function POST(request: Request) {
           isCaptain: p.id === captainId,
           isViceCaptain: p.id === viceCaptainId,
         })),
+      });
+
+      // Auto-enroll squad into Overall Kazakhstan & Favorite Club Supporters League
+      await enrollSquadInSystemLeagues(tx, {
+        userId: user.id,
+        squadId: squadRecord.id,
+        favoriteClubId: user.favoriteClubId,
       });
 
       const fullSquad = await tx.squad.findUnique({

@@ -6,6 +6,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import { generateDoubleRoundRobin, totalRoundsFor } from "../lib/fixture-scheduler";
 import { KPL_CLUB_CATALOG } from "../lib/clubs";
+import { seedSystemLeagues } from "../lib/system-leagues";
 
 const connectionString = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString });
@@ -92,6 +93,21 @@ async function main() {
   }
 
   console.log("🌱 Starting KPL Fantasy database seeding (source: kffleague.kz)...");
+
+  // Preserve existing users' favoriteClub shortNames across club re-seeding
+  const usersWithFav = await prisma.user.findMany({
+    where: { favoriteClubId: { not: null } },
+    select: {
+      id: true,
+      favoriteClub: { select: { shortName: true } },
+    },
+  });
+  const favShortNameByUserId = new Map<string, string>();
+  for (const u of usersWithFav) {
+    if (u.favoriteClub?.shortName) {
+      favShortNameByUserId.set(u.id, u.favoriteClub.shortName);
+    }
+  }
 
   // 1. Clean existing records
   await prisma.playerPerformance.deleteMany();
@@ -180,6 +196,23 @@ async function main() {
 
   console.log(
     `✅ Seeded ${seedClubs.length} KPL Clubs and ${totalPlayersCreated} Players.`
+  );
+
+  // Restore users' favoriteClubId by shortName if applicable
+  for (const [userId, shortName] of favShortNameByUserId.entries()) {
+    const newClubId = clubIdByShortName.get(shortName);
+    if (newClubId) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { favoriteClubId: newClubId },
+      });
+    }
+  }
+
+  // Seed System Leagues ("overall" + Club Supporters Leagues for every KPL club)
+  const systemLeaguesResult = await seedSystemLeagues(prisma);
+  console.log(
+    `✅ Seeded ${systemLeaguesResult.totalSystemLeagues} System Leagues (1 Overall Kazakhstan + ${systemLeaguesResult.clubLeagues.length} Club Supporters Leagues).`
   );
 
   // 4. Seed Gameweeks & Fixtures from official kffleague.kz schedule (or fallback round-robin)

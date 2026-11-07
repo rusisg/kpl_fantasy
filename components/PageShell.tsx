@@ -2,32 +2,34 @@
 
 import { useCallback, useEffect } from "react";
 import Navbar from "./Navbar";
+import MobileTabBar from "./MobileTabBar";
 import { useSquadStore } from "../store/useSquadStore";
 import { useTranslation } from "../lib/i18n";
+import { IconChevronLeft, IconChevronRight } from "./Icons";
 
 export function KffAttributionFooter() {
   const { t } = useTranslation();
   return (
-    <footer className="max-w-[1400px] mx-auto px-4 md:px-8 pb-8 pt-4">
-      <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+    <footer className="max-w-[1400px] mx-auto px-4 md:px-8 pb-24 lg:pb-8 pt-4">
+      <div className="card px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 text-center sm:text-left">
           <span>{t("footer.attributionPrefix")}</span>
           <a
             href="https://kffleague.kz"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-black text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors"
+            className="font-bold text-accent-text hover:underline transition-colors"
           >
             kffleague.kz
           </a>
-          <span className="text-slate-500">•</span>
-          <span className="text-slate-300 font-medium">
-            При использовании материалов обязательна ссылка на официальный сайт{" "}
+          <span className="text-line-strong">•</span>
+          <span className="text-ink-2 font-medium">
+            {t("footer.attributionRequired")}:{" "}
             <a
               href="https://kffleague.kz"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2"
+              className="text-accent-text hover:underline"
             >
               https://kffleague.kz
             </a>
@@ -38,7 +40,7 @@ export function KffAttributionFooter() {
           href="https://kffleague.kz"
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20 font-bold transition-colors"
+          className="shrink-0 px-3 py-1.5 rounded-xl bg-surface-2 hover:bg-surface-3 border border-line text-ink font-bold text-[11px] transition-colors"
         >
           kffleague.kz ↗
         </a>
@@ -47,11 +49,6 @@ export function KffAttributionFooter() {
   );
 }
 
-/**
- * Hydrates the shared Navbar context (manager profile, active gameweek, squad totals)
- * from /api/squad. Used by secondary pages (Fixtures, Points) that don't otherwise
- * load the squad themselves.
- */
 export function useManagerContext(): void {
   const { setUserProfile, setActiveGameweek, loadSquadFromApi } = useSquadStore();
 
@@ -75,7 +72,7 @@ export function useManagerContext(): void {
 }
 
 interface PageShellProps {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   subtitle: string;
   aside?: React.ReactNode;
@@ -86,26 +83,29 @@ export default function PageShell({ icon, title, subtitle, aside, children }: Pa
   useManagerContext();
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen text-ink flex flex-col transition-colors">
       <Navbar />
-      <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-8">
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 shadow-xl backdrop-blur-md">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl shadow-lg flex items-center justify-center border-2 border-emerald-300">
-              <span className="text-2xl">{icon}</span>
+      <main className="flex-1 max-w-[1400px] w-full mx-auto p-3 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
+        <header className="card p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-surface-2 border border-line-strong flex items-center justify-center text-accent shrink-0 shadow-lg shadow-accent/10">
+              {icon}
             </div>
-            <div>
-              <h1 className="text-3xl font-black tracking-tight text-white">{title}</h1>
-              <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mt-0.5">
+            <div className="min-w-0">
+              <h1 className="font-display font-black text-2xl sm:text-3xl text-ink tracking-tight truncate">
+                {title}
+              </h1>
+              <p className="kicker text-accent-text mt-0.5 truncate">
                 {subtitle}
               </p>
             </div>
           </div>
-          {aside}
+          {aside && <div className="self-stretch sm:self-start md:self-auto shrink-0">{aside}</div>}
         </header>
         {children}
-      </div>
+      </main>
       <KffAttributionFooter />
+      <MobileTabBar />
     </div>
   );
 }
@@ -119,31 +119,36 @@ interface GameweekStepperProps {
 }
 
 export function GameweekStepper({ gameweekId, min, max, onChange, disabled }: GameweekStepperProps) {
+  const { t } = useTranslation();
   const btn =
-    "w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 text-white font-black hover:border-emerald-500 disabled:opacity-30 disabled:hover:border-slate-700 transition-colors";
+    "w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-2 border border-line text-ink font-black hover:border-accent disabled:opacity-30 disabled:hover:border-line transition-colors flex items-center justify-center shrink-0";
   return (
-    <div className="flex items-center gap-3 bg-slate-950/60 px-4 py-3 rounded-2xl border border-slate-800">
+    <div className="flex items-center justify-between sm:justify-center gap-3 bg-surface p-2 rounded-2xl border border-line">
       <button
         type="button"
-        aria-label="Previous gameweek"
+        aria-label={t("common.prev")}
         className={btn}
         disabled={disabled || gameweekId <= min}
         onClick={() => onChange(gameweekId - 1)}
       >
-        ←
+        <IconChevronLeft className="w-4 h-4" />
       </button>
-      <div className="text-center min-w-[110px]">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Gameweek</div>
-        <div className="text-2xl font-black text-white">{gameweekId}</div>
+      <div className="text-center min-w-[90px] sm:min-w-[110px]">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-muted whitespace-nowrap">
+          {t("points.colGw")}
+        </div>
+        <div className="text-xl sm:text-2xl font-display font-black text-ink tabular-nums">
+          {gameweekId}
+        </div>
       </div>
       <button
         type="button"
-        aria-label="Next gameweek"
+        aria-label={t("common.next")}
         className={btn}
         disabled={disabled || gameweekId >= max}
         onClick={() => onChange(gameweekId + 1)}
       >
-        →
+        <IconChevronRight className="w-4 h-4" />
       </button>
     </div>
   );

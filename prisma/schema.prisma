@@ -44,7 +44,7 @@ model User {
   password       String?        // Hashed
   emailVerified  DateTime?
   favoriteClubId String?
-  favoriteClub   Club?          @relation("FavoriteClubUsers", fields: [favoriteClubId], references: [id])
+  favoriteClub   Club?          @relation("FavoriteClubUsers", fields: [favoriteClubId], references: [id], onDelete: SetNull)
   accounts       Account[]
   sessions       Session[]
   squad          Squad?
@@ -58,14 +58,15 @@ model User {
 }
 
 model Club {
-  id            String    @id @default(cuid())
-  name          String    // "FC Astana"
-  shortName     String    @unique // "AST"
-  logoUrl       String?
-  players       Player[]
-  homeFixtures  Fixture[] @relation("HomeFixtures")
-  awayFixtures  Fixture[] @relation("AwayFixtures")
-  favoriteUsers User[]    @relation("FavoriteClubUsers")
+  id               String    @id @default(cuid())
+  name             String    // "FC Astana"
+  shortName        String    @unique // "AST"
+  logoUrl          String?
+  players          Player[]
+  homeFixtures     Fixture[] @relation("HomeFixtures")
+  awayFixtures     Fixture[] @relation("AwayFixtures")
+  favoriteUsers    User[]    @relation("FavoriteClubUsers")
+  supportersLeague League?   @relation("ClubSupportersLeague")
 
   @@index([shortName])
 }
@@ -312,15 +313,21 @@ model PlayerPriceHistory {
 // ============================================
 model League {
   id          String         @id @default(cuid())
+  slug        String?        @unique
   name        String
   code        String         @unique
   isPrivate   Boolean        @default(true)
-  createdById String
-  createdBy   User           @relation("CreatedLeagues", fields: [createdById], references: [id])
+  isSystem    Boolean        @default(false)
+  clubId      String?        @unique
+  club        Club?          @relation("ClubSupportersLeague", fields: [clubId], references: [id], onDelete: SetNull)
+  createdById String?
+  createdBy   User?          @relation("CreatedLeagues", fields: [createdById], references: [id], onDelete: SetNull)
   members     LeagueMember[]
   createdAt   DateTime       @default(now())
 
   @@index([code])
+  @@index([slug])
+  @@index([isSystem])
 }
 
 model LeagueMember {

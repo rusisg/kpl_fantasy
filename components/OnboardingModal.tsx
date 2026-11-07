@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { ClubInfo, SquadApiResponse, UserProfileInfo } from "../lib/types";
+import { useTranslation } from "../lib/i18n";
+import ClubCrest from "./ClubCrest";
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -19,12 +21,12 @@ export default function OnboardingModal({
   onClose,
   onComplete,
 }: OnboardingModalProps) {
+  const { t } = useTranslation();
+
   const [managerName, setManagerName] = useState("");
   const [teamName, setTeamName] = useState("");
   const [favoriteClubId, setFavoriteClubId] = useState("");
-  const [strategy, setStrategy] = useState<"BALANCED" | "PREMIUM_ATTACK">(
-    "BALANCED"
-  );
+  const [strategy, setStrategy] = useState<"BALANCED" | "PREMIUM_ATTACK">("BALANCED");
   const [maximizeFavorite, setMaximizeFavorite] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -51,7 +53,7 @@ export default function OnboardingModal({
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setErrorMessage(data.error || "Failed to initialize squad.");
+        setErrorMessage(data.error || t("common.genericError"));
         setLoading(false);
         return;
       }
@@ -62,193 +64,182 @@ export default function OnboardingModal({
       });
       onClose();
     } catch {
-      setErrorMessage("Network error while creating your squad.");
+      setErrorMessage(t("common.networkError"));
     } finally {
       setLoading(false);
     }
   };
+
+  const selectedClub = clubs.find((c) => c.id === favoriteClubId);
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="onboarding-modal-title"
-      className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-canvas/80 backdrop-blur-md animate-fade-in"
     >
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-lg shadow-2xl rounded-3xl overflow-hidden">
+      <div className="w-full max-w-lg bg-surface border border-line rounded-3xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col animate-pop-in">
         {/* Header Graphic */}
-        <div className="bg-gradient-to-r from-emerald-600 to-green-500 p-8 text-center relative overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)",
-            }}
-          />
-          <h2
-            id="onboarding-modal-title"
-            className="text-3xl font-extrabold text-white tracking-tight relative z-10"
-          >
-            Welcome Manager
-          </h2>
-          <p className="text-emerald-50 mt-2 text-sm font-medium relative z-10">
-            Set up your profile and auto-draft your initial 15-man KPL squad
-          </p>
+        <div className="pitch p-6 sm:p-7 text-center relative border-b border-line">
+          <div className="relative z-10 space-y-1">
+            <span className="kicker text-accent-text">KPL Fantasy</span>
+            <h2
+              id="onboarding-modal-title"
+              className="font-display font-black text-2xl sm:text-3xl text-white tracking-tight"
+            >
+              {t("onb.title")}
+            </h2>
+            <p className="text-white/80 text-xs sm:text-sm font-medium max-w-md mx-auto">
+              {t("onb.subtitle")}
+            </p>
+          </div>
         </div>
 
-        <div className="p-8">
-          <form onSubmit={handleComplete} className="space-y-5">
-            {errorMessage && (
-              <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-bold">
-                {errorMessage}
-              </div>
-            )}
+        <form onSubmit={handleComplete} className="p-5 sm:p-7 space-y-4 overflow-y-auto flex-1">
+          {errorMessage && (
+            <div className="p-3.5 rounded-xl bg-danger/15 border border-danger/30 text-danger-text text-xs font-bold">
+              {errorMessage}
+            </div>
+          )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label
-                  htmlFor="managerName"
-                  className="text-sm font-bold text-slate-300"
-                >
-                  Manager Name
-                </label>
-                <input
-                  id="managerName"
-                  type="text"
-                  required
-                  placeholder="e.g. Samat Smakov"
-                  className="w-full bg-slate-950 border border-slate-700 px-4 py-3 text-white rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all placeholder:text-slate-600 font-medium text-sm"
-                  value={managerName}
-                  onChange={(e) => setManagerName(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="teamName"
-                  className="text-sm font-bold text-slate-300"
-                >
-                  Squad Name
-                </label>
-                <input
-                  id="teamName"
-                  type="text"
-                  required
-                  placeholder="e.g. Almaty All-Stars"
-                  className="w-full bg-slate-950 border border-slate-700 px-4 py-3 text-white rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all placeholder:text-slate-600 font-medium text-sm"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                />
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-1.5">
+              <label htmlFor="managerName" className="text-xs font-display font-bold uppercase tracking-wider text-muted">
+                {t("onb.managerName")}
+              </label>
+              <input
+                id="managerName"
+                type="text"
+                required
+                placeholder={t("onb.managerPlaceholder")}
+                value={managerName}
+                onChange={(e) => setManagerName(e.target.value)}
+                className="w-full bg-surface-2 border border-line text-ink text-sm rounded-xl px-4 py-2.5 focus:border-accent focus:outline-none transition-colors placeholder:text-muted"
+              />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
+              <label htmlFor="teamName" className="text-xs font-display font-bold uppercase tracking-wider text-muted">
+                {t("onb.squadName")}
+              </label>
+              <input
+                id="teamName"
+                type="text"
+                required
+                placeholder={t("onb.squadPlaceholder")}
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
+                className="w-full bg-surface-2 border border-line text-ink text-sm rounded-xl px-4 py-2.5 focus:border-accent focus:outline-none transition-colors placeholder:text-muted"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label htmlFor="favoriteClub" className="text-xs font-display font-bold uppercase tracking-wider text-muted flex items-center justify-between">
+              <span>{t("onb.favClub")}</span>
+              {selectedClub && (
+                <div className="flex items-center gap-1.5 text-accent-text font-black text-[11px]">
+                  <ClubCrest
+                    name={selectedClub.name}
+                    shortName={selectedClub.shortName}
+                    logoUrl={selectedClub.logoUrl}
+                    size="xs"
+                  />
+                  <span>{selectedClub.name}</span>
+                </div>
+              )}
+            </label>
+            <select
+              id="favoriteClub"
+              value={favoriteClubId}
+              onChange={(e) => setFavoriteClubId(e.target.value)}
+              className="w-full bg-surface-2 border border-line text-ink text-sm rounded-xl px-4 py-2.5 focus:border-accent focus:outline-none transition-colors"
+            >
+              <option value="">{t("onb.noClub")}</option>
+              {clubs.map((club) => (
+                <option key={club.id} value={club.id}>
+                  {club.name} ({club.shortName})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {favoriteClubId && (
+            <label className="flex items-center gap-2.5 text-xs font-bold text-muted cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={maximizeFavorite}
+                onChange={(e) => setMaximizeFavorite(e.target.checked)}
+                className="rounded border-line bg-surface-2 text-accent focus:ring-accent"
+              />
+              <span>{t("onb.maximizeFav")}</span>
+            </label>
+          )}
+
+          <div className="space-y-2 pt-1">
+            <span className="text-xs font-display font-bold uppercase tracking-wider text-muted">
+              {t("onb.strategy")}
+            </span>
+            <div className="grid grid-cols-2 gap-3">
               <label
-                htmlFor="favoriteClub"
-                className="text-sm font-bold text-slate-300"
+                className={`card p-3 sm:p-4 rounded-2xl cursor-pointer transition-all ${
+                  strategy === "BALANCED"
+                    ? "border-accent bg-accent/10 shadow-sm"
+                    : "hover:border-line-strong"
+                }`}
               >
-                Favorite KPL Club
-              </label>
-              <select
-                id="favoriteClub"
-                className="w-full bg-slate-950 border border-slate-700 px-4 py-3 text-white rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none font-medium text-sm"
-                value={favoriteClubId}
-                onChange={(e) => setFavoriteClubId(e.target.value)}
-              >
-                <option value="">No club preference</option>
-                {clubs.map((club) => (
-                  <option key={club.id} value={club.id}>
-                    {club.name} ({club.shortName})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {favoriteClubId && (
-              <label className="flex items-center gap-3 text-xs font-bold text-slate-300 cursor-pointer">
                 <input
-                  type="checkbox"
-                  checked={maximizeFavorite}
-                  onChange={(e) => setMaximizeFavorite(e.target.checked)}
-                  className="rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500"
+                  type="radio"
+                  name="strategy"
+                  value="BALANCED"
+                  checked={strategy === "BALANCED"}
+                  onChange={() => setStrategy("BALANCED")}
+                  className="sr-only"
                 />
-                Include up to 3 players from my favorite club in initial draft
+                <div className="font-display font-black text-sm text-ink">{t("onb.balanced")}</div>
+                <div className="text-[11px] text-muted mt-0.5">{t("onb.balancedDesc")}</div>
               </label>
-            )}
 
-            <div className="space-y-3 pt-1">
-              <span className="text-sm font-bold text-slate-300">
-                Autopick Strategy
-              </span>
-
-              <div className="grid grid-cols-2 gap-4">
-                <label
-                  className={`flex flex-col p-4 border-2 rounded-2xl cursor-pointer transition-all ${
-                    strategy === "BALANCED"
-                      ? "border-emerald-500 bg-emerald-500/10"
-                      : "border-slate-800 bg-slate-950 hover:border-slate-700"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="strategy"
-                    value="BALANCED"
-                    checked={strategy === "BALANCED"}
-                    onChange={() => setStrategy("BALANCED")}
-                    className="sr-only"
-                  />
-                  <div className="text-sm font-bold text-white mb-1">
-                    Balanced
-                  </div>
-                  <div className="text-xs text-slate-400 font-medium">
-                    Even budget across the pitch.
-                  </div>
-                </label>
-
-                <label
-                  className={`flex flex-col p-4 border-2 rounded-2xl cursor-pointer transition-all ${
-                    strategy === "PREMIUM_ATTACK"
-                      ? "border-emerald-500 bg-emerald-500/10"
-                      : "border-slate-800 bg-slate-950 hover:border-slate-700"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="strategy"
-                    value="PREMIUM_ATTACK"
-                    checked={strategy === "PREMIUM_ATTACK"}
-                    onChange={() => setStrategy("PREMIUM_ATTACK")}
-                    className="sr-only"
-                  />
-                  <div className="text-sm font-bold text-white mb-1">
-                    Heavy Attack
-                  </div>
-                  <div className="text-xs text-slate-400 font-medium">
-                    Focus funds on goalscorers.
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                type="button"
-                onClick={onClose}
-                disabled={loading}
-                className="px-5 py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm transition-colors"
+              <label
+                className={`card p-3 sm:p-4 rounded-2xl cursor-pointer transition-all ${
+                  strategy === "PREMIUM_ATTACK"
+                    ? "border-accent bg-accent/10 shadow-sm"
+                    : "hover:border-line-strong"
+                }`}
               >
-                Build Manually
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 text-white font-black text-base py-4 rounded-xl hover:from-emerald-400 hover:to-green-400 transition-all shadow-lg shadow-emerald-500/25 disabled:opacity-50"
-              >
-                {loading ? "Drafting 15 Players..." : "Auto-Draft & Enter Game"}
-              </button>
+                <input
+                  type="radio"
+                  name="strategy"
+                  value="PREMIUM_ATTACK"
+                  checked={strategy === "PREMIUM_ATTACK"}
+                  onChange={() => setStrategy("PREMIUM_ATTACK")}
+                  className="sr-only"
+                />
+                <div className="font-display font-black text-sm text-ink">{t("onb.attack")}</div>
+                <div className="text-[11px] text-muted mt-0.5">{t("onb.attackDesc")}</div>
+              </label>
             </div>
-          </form>
-        </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-3">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={loading}
+              className="h-11 px-4 rounded-xl bg-surface-2 hover:bg-surface-3 border border-line text-ink font-display font-bold text-xs uppercase tracking-wider transition-colors select-none"
+            >
+              {t("onb.manual")}
+            </button>
+            <button
+              type="submit"
+              disabled={loading || !teamName.trim()}
+              className="h-11 flex-1 px-5 rounded-xl bg-accent hover:opacity-90 text-on-accent font-display font-black text-xs uppercase tracking-wider transition-all shadow-md shadow-accent/20 disabled:opacity-40 select-none whitespace-nowrap"
+            >
+              {loading ? t("onb.drafting") : t("onb.submit")}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

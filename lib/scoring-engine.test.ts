@@ -3,8 +3,12 @@ import assert from "node:assert/strict";
 import { Position } from "./types.js";
 import {
   buildFreeHitRestoredSquad,
+  buildPlayerPointBreakdown,
   calculatePlayerMatchPoints,
   calculateSquadGameweekScore,
+  serializeGameweekPointsLineup,
+  SerializableLineupPlayerInput,
+  SerializablePlayerPerformanceInput,
   SquadMemberScoringInput,
 } from "./scoring-engine.js";
 
@@ -233,3 +237,146 @@ test("buildFreeHitRestoredSquad - restores 15 pre-Free Hit players, captaincy, a
   // Incomplete prior snapshot (< 15 players) returns null safely
   assert.equal(buildFreeHitRestoredSquad(priorPlayers.slice(0, 11), prices), null);
 });
+
+test("buildPlayerPointBreakdown - itemizes exact point sources and matches calculatePlayerMatchPoints", () => {
+  const midStat = {
+    position: Position.MID,
+    minutes: 85,
+    goalsScored: 1,
+    assists: 1,
+    cleanSheets: 1,
+    yellowCards: 1,
+    bonusPoints: 2,
+  };
+
+  const breakdown = buildPlayerPointBreakdown(midStat);
+  const sumPts = breakdown.reduce((acc, item) => acc + item.points, 0);
+  const calcPts = calculatePlayerMatchPoints(midStat);
+
+  // 85m (+2) + 1G MID (+5) + 1A (+3) + CS MID (+1) + YC (-1) + Bonus (+2) = 12
+  assert.equal(calcPts, 12);
+  assert.equal(sumPts, calcPts);
+  assert.deepEqual(
+    breakdown.map((b) => [b.category, b.points]),
+    [
+      ["MINUTES_60_PLUS", 2],
+      ["GOALS", 5],
+      ["ASSISTS", 3],
+      ["CLEAN_SHEET", 1],
+      ["YELLOW_CARDS", -1],
+      ["BONUS", 2],
+    ]
+  );
+
+  // DNP player returns single MINUTES_DNP 0-pt entry
+  const dnpBreakdown = buildPlayerPointBreakdown({
+    position: Position.FWD,
+    minutes: 0,
+    goalsScored: 1,
+  });
+  assert.deepEqual(dnpBreakdown, [
+    { category: "MINUTES_DNP", statValue: 0, points: 0 },
+  ]);
+});
+
+test("serializeGameweekPointsLineup - serializes 15-player lineup with auto-sub flags, partner names, Triple Captain, and breakdowns", () => {
+  const club = { id: "c-ast", name: "FC Astana", shortName: "AST" };
+  const oppClub = { id: "c-kai", name: "FC Kairat", shortName: "KAI" };
+
+  const lineup: SerializableLineupPlayerInput[] = [
+    { playerId: "gk1", firstName: "Josip", lastName: "Condric", position: Position.GK, club, positionOrder: 1, isCaptain: false, isViceCaptain: false },
+    { playerId: "d1", firstName: "Aleksandr", lastName: "Marochkin", position: Position.DEF, club, positionOrder: 2, isCaptain: false, isViceCaptain: false },
+    { playerId: "d2", firstName: "Yan", lastName: "Vorogovskiy", position: Position.DEF, club, positionOrder: 3, isCaptain: false, isViceCaptain: false },
+    { playerId: "d3", firstName: "Kamo", lastName: "Hovhannisyan", position: Position.DEF, club, positionOrder: 4, isCaptain: false, isViceCaptain: false },
+    { playerId: "d4", firstName: "Abzal", lastName: "Beisebekov", position: Position.DEF, club, positionOrder: 5, isCaptain: false, isViceCaptain: false },
+    { playerId: "m1", firstName: "Marin", lastName: "Tomasov", position: Position.MID, club, positionOrder: 6, isCaptain: true, isViceCaptain: false },
+    { playerId: "m2", firstName: "Max", lastName: "Ebong", position: Position.MID, club, positionOrder: 7, isCaptain: false, isViceCaptain: true },
+    { playerId: "m3", firstName: "Islambek", lastName: "Kuat", position: Position.MID, club, positionOrder: 8, isCaptain: false, isViceCaptain: false },
+    { playerId: "m4", firstName: "Elkhan", lastName: "Astanov", position: Position.MID, club, positionOrder: 9, isCaptain: false, isViceCaptain: false },
+    { playerId: "f1", firstName: "Geoffrey", lastName: "Chinedu", position: Position.FWD, club, positionOrder: 10, isCaptain: false, isViceCaptain: false },
+    { playerId: "f2", firstName: "Ramazan", lastName: "Karimov", position: Position.FWD, club, positionOrder: 11, isCaptain: false, isViceCaptain: false },
+    // Bench
+    { playerId: "gk2", firstName: "Mukhammedzhan", lastName: "Seisen", position: Position.GK, club, positionOrder: 12, isCaptain: false, isViceCaptain: false },
+    { playerId: "m5", firstName: "Bauyrzhan", lastName: "Islamkhan", position: Position.MID, club, positionOrder: 13, isCaptain: false, isViceCaptain: false },
+    { playerId: "d5", firstName: "Timur", lastName: "Dosmagambetov", position: Position.DEF, club, positionOrder: 14, isCaptain: false, isViceCaptain: false },
+    { playerId: "f3", firstName: "Vladislav", lastName: "Prokopenko", position: Position.FWD, club, positionOrder: 15, isCaptain: false, isViceCaptain: false },
+  ];
+
+  const fixture = {
+    fixtureId: "fx-1",
+    homeClub: club,
+    awayClub: oppClub,
+    homeScore: 2,
+    awayScore: 0,
+    isHome: true,
+    status: "FINISHED" as const,
+  };
+
+  const perfs = new Map<string, SerializablePlayerPerformanceInput>();
+  for (const p of lineup) {
+    perfs.set(p.playerId, {
+      minutes: 90,
+      goalsScored: 0,
+      assists: 0,
+      cleanSheets: 1,
+      goalsConceded: 0,
+      fixture,
+    });
+  }
+
+  // Starter m4 (slot 9) plays 0 mins -> should be auto-subbed out for bench slot 13 (m5, Bauyrzhan Islamkhan)
+  perfs.set("m4", { minutes: 0, fixture });
+  // Bench m5 scores 1 goal + 90m + CS = 2 + 5 + 1 = 8 pts
+  perfs.set("m5", {
+    minutes: 90,
+    goalsScored: 1,
+    cleanSheets: 1,
+    goalsConceded: 0,
+    fixture,
+  });
+  // Captain m1 (Marin Tomasov) scores 1 goal + 1 assist + 90m + CS = 2 + 5 + 3 + 1 = 11 base pts -> 3x on TRIPLE_CAPTAIN = 33 pts
+  perfs.set("m1", {
+    minutes: 90,
+    goalsScored: 1,
+    assists: 1,
+    cleanSheets: 1,
+    goalsConceded: 0,
+    fixture,
+  });
+
+  const serialized = serializeGameweekPointsLineup(
+    lineup,
+    perfs,
+    "TRIPLE_CAPTAIN"
+  );
+
+  const subbedInPlayer = serialized.players.find((p) => p.playerId === "m5");
+  const subbedOutPlayer = serialized.players.find((p) => p.playerId === "m4");
+  const captainPlayer = serialized.players.find((p) => p.playerId === "m1");
+
+  assert.ok(subbedInPlayer);
+  assert.equal(subbedInPlayer.subbedIn, true);
+  assert.equal(subbedInPlayer.subbedOut, false);
+  assert.equal(subbedInPlayer.positionOrder, 9); // Moved into starting XI slot 9
+  assert.equal(subbedInPlayer.originalPositionOrder, 13);
+  assert.equal(subbedInPlayer.subbedPartnerPlayerId, "m4");
+  assert.equal(subbedInPlayer.subbedPartnerName, "Elkhan Astanov");
+  assert.equal(subbedInPlayer.points, 8);
+
+  assert.ok(subbedOutPlayer);
+  assert.equal(subbedOutPlayer.subbedOut, true);
+  assert.equal(subbedOutPlayer.subbedIn, false);
+  assert.equal(subbedOutPlayer.positionOrder, 13); // Moved to bench slot 13
+  assert.equal(subbedOutPlayer.originalPositionOrder, 9);
+  assert.equal(subbedOutPlayer.subbedPartnerPlayerId, "m5");
+  assert.equal(subbedOutPlayer.subbedPartnerName, "Bauyrzhan Islamkhan");
+  assert.equal(subbedOutPlayer.points, 0);
+
+  assert.ok(captainPlayer);
+  assert.equal(captainPlayer.multiplier, 3);
+  assert.equal(captainPlayer.basePoints, 11);
+  assert.equal(captainPlayer.points, 33);
+  assert.ok(captainPlayer.breakdown && captainPlayer.breakdown.length === 4);
+  assert.equal(captainPlayer.fixture?.homeScore, 2);
+});
+

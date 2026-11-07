@@ -3,7 +3,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { resolveAuthenticatedUser } from "../../../lib/session";
-import { LeagueStandingRow, LeagueSummary } from "../../../lib/types";
+import {
+  enrollSquadInSystemLeagues,
+  fetchUserLeaguesWithStandings,
+  OVERALL_LEAGUE_CODE,
+  OVERALL_LEAGUE_DEFAULT_NAME,
+  OVERALL_LEAGUE_SLUG,
+} from "../../../lib/system-leagues";
 
 const CreateLeagueSchema = z.object({
   action: z.literal("CREATE"),
@@ -47,115 +53,6 @@ function normalizeInviteCode(raw: string): string {
   return cleaned;
 }
 
-async function fetchUserLeaguesWithStandings(
-  userId: string
-): Promise<LeagueSummary[]> {
-  const activeGw = await prisma.gameweek.findFirst({
-    where: { isCurrent: true },
-    orderBy: { id: "asc" },
-  });
-
-  const leagues = await prisma.league.findMany({
-    where: {
-      members: {
-        some: {
-          OR: [{ userId }, { squad: { userId } }],
-        },
-      },
-    },
-    include: {
-      members: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true },
-          },
-          squad: {
-            include: {
-              user: {
-                select: { id: true, name: true, email: true },
-              },
-              snapshots: {
-                orderBy: { gameweekId: "desc" },
-                take: 1,
-                ...(activeGw ? { where: { gameweekId: activeGw.id } } : {}),
-              },
-            },
-          },
-        },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
-
-  return leagues.map((league) => {
-    const rawRows = league.members.map((m) => {
-      const latestSnapshot = m.squad.snapshots[0];
-      const gwPoints = latestSnapshot?.totalPoints ?? 0;
-      const totalPoints = m.squad.totalPoints ?? 0;
-      const resolvedUser = m.user ?? m.squad.user;
-      const managerName =
-        resolvedUser?.name ||
-        resolvedUser?.email?.split("@")[0] ||
-        "KPL Manager";
-
-      return {
-        memberId: m.id,
-        squadId: m.squadId,
-        userId: resolvedUser?.id ?? m.userId ?? null,
-        teamName: m.squad.name,
-        managerName,
-        gameweekPoints: gwPoints,
-        totalPoints,
-        joinedAtMs: m.joinedAt.getTime(),
-        isCurrentUser: (resolvedUser?.id ?? m.userId) === userId,
-      };
-    });
-
-    rawRows.sort(
-      (a, b) =>
-        b.totalPoints - a.totalPoints ||
-        b.gameweekPoints - a.gameweekPoints ||
-        a.joinedAtMs - b.joinedAtMs
-    );
-
-    let currentRank = 1;
-    const standings: LeagueStandingRow[] = rawRows.map((row, idx) => {
-      if (
-        idx > 0 &&
-        (row.totalPoints < rawRows[idx - 1].totalPoints ||
-          row.gameweekPoints < rawRows[idx - 1].gameweekPoints)
-      ) {
-        currentRank = idx + 1;
-      }
-      return {
-        rank: currentRank,
-        memberId: row.memberId,
-        squadId: row.squadId,
-        userId: row.userId,
-        teamName: row.teamName,
-        managerName: row.managerName,
-        gameweekPoints: row.gameweekPoints,
-        totalPoints: row.totalPoints,
-        isCurrentUser: row.isCurrentUser,
-      };
-    });
-
-    const userRow = standings.find((r) => r.isCurrentUser);
-
-    return {
-      id: league.id,
-      name: league.name,
-      code: league.code,
-      isPrivate: league.isPrivate,
-      createdById: league.createdById,
-      createdAt: league.createdAt.toISOString(),
-      memberCount: standings.length,
-      userRank: userRow?.rank ?? null,
-      standings,
-    };
-  });
-}
-
 export async function GET() {
   try {
     const user = await resolveAuthenticatedUser();
@@ -166,19 +63,43 @@ export async function GET() {
       );
     }
 
-    const [leagues, userSquad] = await Promise.all([
-      fetchUserLeaguesWithStandings(user.id),
-      prisma.squad.findUnique({
-        where: { userId: user.id },
-        select: { id: true, name: true, totalPoints: true },
-      }),
-    ]);
+    const userSquad = await prisma.squad.findUnique({
+      where: { userId: user.id },
+      select: { id: true, name: true, totalPoints: true },
+    });
+
+    if (userSquad) {
+      await enrollSquadInSystemLeagues(prisma, {
+        userId: user.id,
+        squadId: userSquad.id,
+        favoriteClubId: user.favoriteClubId,
+      });
+    } else {
+      await prisma.league.upsert({
+        where: { slug: OVERALL_LEAGUE_SLUG },
+        update: { isPrivate: false, isSystem: true },
+        create: {
+          slug: OVERALL_LEAGUE_SLUG,
+          name: OVERALL_LEAGUE_DEFAULT_NAME,
+          code: OVERALL_LEAGUE_CODE,
+          isPrivate: false,
+          isSystem: true,
+        },
+      });
+    }
+
+    const leagues = await fetchUserLeaguesWithStandings(
+      prisma,
+      user.id,
+      user.favoriteClubId
+    );
 
     return NextResponse.json({
       success: true,
       data: leagues,
       hasSquad: Boolean(userSquad),
       squad: userSquad,
+      favoriteClub: user.favoriteClub ?? null,
     });
   } catch (error) {
     console.error("GET /api/leagues error:", error);
@@ -269,7 +190,11 @@ export async function POST(request: Request) {
         return league;
       });
 
-      const leagues = await fetchUserLeaguesWithStandings(user.id);
+      const leagues = await fetchUserLeaguesWithStandings(
+        prisma,
+        user.id,
+        user.favoriteClubId
+      );
 
       return NextResponse.json({
         success: true,
@@ -301,6 +226,21 @@ export async function POST(request: Request) {
       );
     }
 
+    if (
+      targetLeague.isSystem &&
+      targetLeague.clubId &&
+      targetLeague.clubId !== user.favoriteClubId
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Club Supporters Leagues are reserved for managers who selected that club as their favourite.",
+        },
+        { status: 403 }
+      );
+    }
+
     await prisma.leagueMember.upsert({
       where: {
         leagueId_squadId: {
@@ -318,7 +258,11 @@ export async function POST(request: Request) {
       },
     });
 
-    const leagues = await fetchUserLeaguesWithStandings(user.id);
+    const leagues = await fetchUserLeaguesWithStandings(
+      prisma,
+      user.id,
+      user.favoriteClubId
+    );
 
     return NextResponse.json({
       success: true,

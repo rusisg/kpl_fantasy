@@ -1,39 +1,23 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSquadStore } from "../store/useSquadStore";
-import { Locale, LOCALE_LABELS, TranslationKey, useTranslation } from "../lib/i18n";
-
-function formatDeadlineStatus(
-  t: (key: TranslationKey, vars?: Record<string, string | number>) => string,
-  deadlineIso?: string,
-  isLocked?: boolean
-): string {
-  if (!deadlineIso) return t("nav.schedulePending");
-  const deadline = new Date(deadlineIso);
-  if (isLocked || deadline.getTime() <= Date.now()) {
-    return t("nav.locked");
-  }
-
-  const diffMs = deadline.getTime() - Date.now();
-  const totalMinutes = Math.max(0, Math.floor(diffMs / (1000 * 60)));
-  const days = Math.floor(totalMinutes / (60 * 24));
-  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-  const mins = totalMinutes % 60;
-
-  let timeStr = `${mins}m`;
-  if (days > 0) timeStr = `${days}d ${hours}h`;
-  else if (hours > 0) timeStr = `${hours}h ${mins}m`;
-
-  return t("nav.locksIn", { time: timeStr });
-}
+import { LOCALE_LABELS, LOCALES, useTranslation, formatCountdown } from "../lib/i18n";
+import { IconSun, IconMoon } from "./Icons";
+import ClubCrest from "./ClubCrest";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { squadName, userProfile, activeGameweek, squadTotalPoints } =
-    useSquadStore();
-  const { locale, setLocale, t } = useTranslation();
+  const { squadName, userProfile, activeGameweek, squadTotalPoints } = useSquadStore();
+  const { locale, setLocale, theme, toggleTheme, t } = useTranslation();
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const navItems = [
     { href: "/squad", label: t("nav.squad") },
@@ -42,121 +26,138 @@ export default function Navbar() {
     { href: "/leagues", label: t("nav.leagues") },
   ];
 
+  const deadlineMs = activeGameweek?.deadline ? new Date(activeGameweek.deadline).getTime() : 0;
+  const isLocked = Boolean(activeGameweek?.isLocked || (deadlineMs > 0 && deadlineMs <= now));
+  const msRemaining = Math.max(0, deadlineMs - now);
+
   return (
-    <nav className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Brand & Links */}
-        <div className="flex items-center gap-6">
-          <Link href="/squad" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-600 rounded-xl shadow-md flex items-center justify-center border border-emerald-300/80 group-hover:scale-105 transition-transform">
-              <span className="text-sm font-black text-white tracking-tighter">
-                KPL
-              </span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-base font-black tracking-tight text-white">
-                KPL Fantasy
-              </span>
-              <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                {t("nav.subtitle")}
-              </span>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
-            {navItems.map((item) => {
-              const isActive =
-                pathname === item.href || pathname?.startsWith(`${item.href}/`);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-black tracking-wide transition-all ${
-                    isActive
-                      ? "bg-emerald-500 text-white shadow-sm shadow-emerald-500/30"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Live Gameweek, Language Switcher & Manager Pill */}
-        <div className="flex items-center gap-3">
-          {activeGameweek && (
-            <div
-              className={`hidden lg:flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border text-xs font-bold ${
-                activeGameweek.isLocked
-                  ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
-                  : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-              }`}
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  activeGameweek.isLocked
-                    ? "bg-amber-400"
-                    : "bg-emerald-400 animate-pulse"
-                }`}
-              />
-              <span className="font-black uppercase tracking-wider">
-                GW {activeGameweek.id}
-              </span>
-              <span className="text-slate-400">•</span>
-              <span>
-                {formatDeadlineStatus(
-                  t,
-                  activeGameweek.deadline,
-                  activeGameweek.isLocked
-                )}
-              </span>
-            </div>
-          )}
-
-          {/* Language Switcher (EN / RU / KZ) */}
-          <div
-            role="group"
-            aria-label="Language switcher"
-            className="flex items-center gap-0.5 bg-slate-900 p-1 rounded-xl border border-slate-800"
-          >
-            {(["en", "ru", "kk"] as Locale[]).map((lang) => (
-              <button
-                key={lang}
-                type="button"
-                onClick={() => setLocale(lang)}
-                className={`px-2 py-1 rounded-lg text-[10px] font-black transition-colors ${
-                  locale === lang
-                    ? "bg-emerald-500 text-white"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                {LOCALE_LABELS[lang]}
-              </button>
-            ))}
-          </div>
-
-          {userProfile && (
-            <div className="hidden sm:flex items-center gap-2.5 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-xl">
-              {userProfile.favoriteClub && (
-                <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-black uppercase">
-                  {userProfile.favoriteClub.shortName}
-                </span>
-              )}
-              <div className="text-right">
-                <div className="text-xs font-black text-white truncate max-w-[140px]">
-                  {squadName || userProfile.name || t("nav.newManager")}
-                </div>
-                <div className="text-[10px] font-bold text-slate-400">
-                  {userProfile.name || t("nav.manager")} • {squadTotalPoints}{" "}
-                  {t("nav.pts")}
+    <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-line transition-colors">
+      <div className="max-w-[1400px] mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="h-16 flex items-center justify-between gap-2 sm:gap-4">
+          {/* Brand + Desktop Navigation */}
+          <div className="flex items-center gap-3 lg:gap-6 min-w-0">
+            <Link href="/squad" className="flex items-center gap-2.5 shrink-0 group">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-emerald-400 p-[1px] shadow-lg shadow-accent/20">
+                <div className="w-full h-full bg-canvas rounded-[11px] flex items-center justify-center font-display font-black text-accent text-sm tracking-tighter group-hover:scale-105 transition-transform">
+                  KPL
                 </div>
               </div>
+              <div className="hidden sm:block leading-none">
+                <span className="font-display font-black text-base lg:text-lg tracking-tight text-ink uppercase">
+                  KPL Fantasy
+                </span>
+                <span className="block text-[9px] font-bold text-accent tracking-widest uppercase mt-0.5">
+                  {t("nav.subtitle")}
+                </span>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation Tabs */}
+            <nav className="hidden lg:flex items-center gap-1 bg-surface-2 p-1 rounded-xl border border-line">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-display font-bold tracking-wider uppercase transition-all select-none ${
+                      isActive
+                        ? "bg-accent text-on-accent shadow-sm shadow-accent/30 font-black"
+                        : "text-muted hover:text-ink hover:bg-surface-3"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Right Controls: Gameweek Deadline, Theme, Language, Profile */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {activeGameweek && (
+              <div
+                className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-bold tabular-nums whitespace-nowrap ${
+                  isLocked
+                    ? "bg-warning/10 border-warning/30 text-warning-text"
+                    : "bg-accent/10 border-accent/30 text-accent-text"
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    isLocked ? "bg-warning" : "bg-accent animate-pulse"
+                  }`}
+                />
+                <span className="font-display font-black uppercase tracking-wider">
+                  {t("nav.gwShort", { id: activeGameweek.id })}
+                </span>
+                <span className="text-muted">•</span>
+                <span>
+                  {isLocked ? t("nav.locked") : t("nav.locksIn", { time: formatCountdown(t, msRemaining) })}
+                </span>
+              </div>
+            )}
+
+            {/* Theme Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              title={theme === "light" ? t("theme.dark") : t("theme.light")}
+              className="p-2 sm:px-2.5 sm:py-1.5 rounded-xl bg-surface-2 hover:bg-surface-3 border border-line text-ink transition-colors flex items-center gap-1.5"
+            >
+              {theme === "light" ? <IconMoon className="w-4 h-4" /> : <IconSun className="w-4 h-4" />}
+              <span className="hidden xl:inline text-xs font-bold">
+                {theme === "light" ? t("theme.dark") : t("theme.light")}
+              </span>
+            </button>
+
+            {/* Language Switcher (EN / RU / KZ) */}
+            <div
+              role="group"
+              aria-label="Language selector"
+              className="flex items-center bg-surface-2 p-0.5 rounded-xl border border-line"
+            >
+              {LOCALES.map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => setLocale(lang)}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-display font-black tracking-wider transition-all select-none ${
+                    locale === lang
+                      ? "bg-accent text-on-accent shadow-sm shadow-accent/20"
+                      : "text-muted hover:text-ink"
+                  }`}
+                >
+                  {LOCALE_LABELS[lang]}
+                </button>
+              ))}
             </div>
-          )}
+
+            {/* Manager Points Summary Card */}
+            {userProfile && (
+              <div className="hidden sm:flex items-center gap-2.5 bg-surface-2 border border-line px-3 py-1.5 rounded-xl">
+                {userProfile.favoriteClub && (
+                  <ClubCrest
+                    name={userProfile.favoriteClub.name}
+                    shortName={userProfile.favoriteClub.shortName}
+                    logoUrl={userProfile.favoriteClub.logoUrl}
+                    size="sm"
+                  />
+                )}
+                <div className="text-right leading-tight">
+                  <div className="text-xs font-black text-ink truncate max-w-[120px] lg:max-w-[150px]">
+                    {squadName || userProfile.name || t("nav.newManager")}
+                  </div>
+                  <div className="text-[10px] font-bold text-muted tabular-nums">
+                    <span className="text-accent-text font-black">{squadTotalPoints}</span> {t("nav.pts")}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

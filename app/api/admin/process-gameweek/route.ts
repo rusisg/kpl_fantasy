@@ -312,7 +312,7 @@ export async function POST(request: Request) {
             data: scoreResult.players.map((p) => ({
               snapshotId: snapshot.id,
               playerId: p.playerId,
-              positionOrder: p.positionOrder,
+              positionOrder: p.originalPositionOrder,
               isCaptain: p.isCaptain,
               isViceCaptain: p.isViceCaptain,
               multiplier: p.multiplier,

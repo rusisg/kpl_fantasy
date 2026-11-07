@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gw:simulate": "tsx scripts/simulate-gameweek.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
