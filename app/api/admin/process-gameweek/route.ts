@@ -1,6 +1,7 @@
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { FixtureStatus } from "@prisma/client";
 import { z } from "zod";
+import { verifyAdminRequest } from "../../../../lib/admin-auth";
 import { prisma } from "../../../../lib/prisma";
 import { Position } from "../../../../lib/types";
 import {
@@ -8,6 +9,15 @@ import {
   calculatePlayerMatchPoints,
   calculateSquadGameweekScore,
 } from "../../../../lib/scoring-engine";
+
+const FixtureUpdateSchema = z.object({
+  fixtureId: z.string().trim().min(1),
+  homeScore: z.number().int().min(0).max(30).nullable().optional(),
+  awayScore: z.number().int().min(0).max(30).nullable().optional(),
+  status: z
+    .enum(["SCHEDULED", "LIVE", "FINISHED", "POSTPONED", "CANCELLED"])
+    .optional(),
+});
 
 const MatchStatPayloadSchema = z.object({
   playerId: z.string().trim().min(1),
@@ -30,28 +40,15 @@ const ProcessGameweekPayloadSchema = z
   .object({
     gameweekId: z.number().int().positive().optional(),
     markFinished: z.boolean().default(false),
+    fixtures: z.array(FixtureUpdateSchema).optional(),
     performances: z.array(MatchStatPayloadSchema).optional(),
   })
   .optional();
 
-function verifyAdminSecret(request: Request): boolean {
-  const configuredSecret = process.env.ADMIN_SECRET;
-  const providedSecret = request.headers.get("x-admin-secret");
-  if (!configuredSecret || !providedSecret) {
-    return false;
-  }
-  const a = Buffer.from(configuredSecret, "utf8");
-  const b = Buffer.from(providedSecret, "utf8");
-  if (a.length !== b.length) {
-    return false;
-  }
-  return timingSafeEqual(a, b);
-}
-
 export async function POST(request: Request) {
-  if (!verifyAdminSecret(request)) {
+  if (!(await verifyAdminRequest(request))) {
     return NextResponse.json(
-      { success: false, error: "Forbidden: Invalid or missing x-admin-secret header." },
+      { success: false, error: "Forbidden: Invalid or missing admin authentication." },
       { status: 403 }
     );
   }
@@ -96,6 +93,31 @@ export async function POST(request: Request) {
     }
 
     const result = await prisma.$transaction(async (tx) => {
+      // 1b. If fixture scores/statuses were supplied, update them first
+      if (payload?.fixtures && payload.fixtures.length > 0) {
+        for (const fix of payload.fixtures) {
+          const hasScores =
+            fix.homeScore !== undefined &&
+            fix.homeScore !== null &&
+            fix.awayScore !== undefined &&
+            fix.awayScore !== null;
+          const nextStatus: FixtureStatus | undefined = fix.status
+            ? (fix.status as FixtureStatus)
+            : hasScores
+              ? FixtureStatus.FINISHED
+              : undefined;
+
+          await tx.fixture.updateMany({
+            where: { id: fix.fixtureId, gameweekId: gameweek.id },
+            data: {
+              ...(fix.homeScore !== undefined ? { homeScore: fix.homeScore } : {}),
+              ...(fix.awayScore !== undefined ? { awayScore: fix.awayScore } : {}),
+              ...(nextStatus ? { status: nextStatus } : {}),
+            },
+          });
+        }
+      }
+
       // 2. If new match stats were supplied in the request, upsert them first
       if (payload?.performances && payload.performances.length > 0) {
         const playerIds = payload.performances.map((p) => p.playerId);

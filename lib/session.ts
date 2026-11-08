@@ -1,10 +1,10 @@
 import { createHmac, randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { auth } from "../auth";
-import { isGoogleOAuthConfigured } from "../auth.config";
+import { isGoogleOAuthConfigured, isTelegramAuthConfigured } from "../auth.config";
 import { prisma } from "./prisma";
 
-const MANAGER_SESSION_COOKIE = "kpl_manager_session";
+export const MANAGER_SESSION_COOKIE = "kpl_manager_session";
 
 function getSigningSecret(): string {
   return (
@@ -14,14 +14,14 @@ function getSigningSecret(): string {
   );
 }
 
-function signUserId(userId: string): string {
+export function signUserId(userId: string): string {
   const sig = createHmac("sha256", getSigningSecret())
     .update(userId)
     .digest("hex");
   return `${userId}.${sig}`;
 }
 
-function verifySignedToken(token: string): string | null {
+export function verifySignedToken(token: string): string | null {
   const dotIndex = token.lastIndexOf(".");
   if (dotIndex <= 0) return null;
   const userId = token.slice(0, dotIndex);
@@ -80,11 +80,6 @@ export async function resolveAuthenticatedUser() {
     // NextAuth session unavailable
   }
 
-  // If real Google OAuth is configured, require an authenticated NextAuth session
-  if (isGoogleOAuthConfigured) {
-    return null;
-  }
-
   const cookieStore = await cookies();
   const rawToken = cookieStore.get(MANAGER_SESSION_COOKIE)?.value;
   const verifiedUserId = rawToken ? verifySignedToken(rawToken) : null;
@@ -101,6 +96,11 @@ export async function resolveAuthenticatedUser() {
     if (existing) {
       return existing;
     }
+  }
+
+  // If real Google or Telegram auth is configured, require an authenticated session
+  if (isGoogleOAuthConfigured || isTelegramAuthConfigured) {
+    return null;
   }
 
   // Provision a fresh database-backed User record and set the signed HttpOnly session cookie

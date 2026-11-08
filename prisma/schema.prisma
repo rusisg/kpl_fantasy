@@ -1,5 +1,7 @@
 // schema.prisma
 
+// Prisma 7+ configures pooled `DATABASE_URL` (via @prisma/adapter-pg in lib/prisma.ts)
+// and unpooled `DIRECT_URL` (for migrations/schema push in prisma.config.ts).
 datasource db {
   provider = "postgresql"
 }
@@ -37,23 +39,26 @@ enum FixtureStatus {
 // CORE MODELS
 // ============================================
 model User {
-  id             String         @id @default(cuid())
-  email          String         @unique
-  name           String?
-  image          String?
-  password       String?        // Hashed
-  emailVerified  DateTime?
-  favoriteClubId String?
-  favoriteClub   Club?          @relation("FavoriteClubUsers", fields: [favoriteClubId], references: [id], onDelete: SetNull)
-  accounts       Account[]
-  sessions       Session[]
-  squad          Squad?
-  leagues        LeagueMember[]
-  createdLeagues League[]       @relation("CreatedLeagues")
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  id               String         @id @default(cuid())
+  email            String         @unique
+  name             String?
+  image            String?
+  password         String?        // Hashed
+  emailVerified    DateTime?
+  telegramId       String?        @unique
+  telegramUsername String?
+  favoriteClubId   String?
+  favoriteClub     Club?          @relation("FavoriteClubUsers", fields: [favoriteClubId], references: [id], onDelete: SetNull)
+  accounts         Account[]
+  sessions         Session[]
+  squad            Squad?
+  leagues          LeagueMember[]
+  createdLeagues   League[]       @relation("CreatedLeagues")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   @@index([email])
+  @@index([telegramId])
   @@index([favoriteClubId])
 }
 

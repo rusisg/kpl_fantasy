@@ -69,7 +69,7 @@ export default function RootLayout({
         />
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
       </head>
-      <body className="font-sans antialiased min-h-dvh">{children}</body>
+      <body className="font-sans antialiased min-h-dvh" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

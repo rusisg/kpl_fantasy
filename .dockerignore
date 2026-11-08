@@ -1,0 +1,22 @@
+# Dependencies & build artifacts
+node_modules
+.next
+out
+build
+coverage
+
+# Git & editor metadata
+.git
+.gitignore
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+
+# Local environment secrets (passed at runtime via Docker env/compose)
+.env
+.env.*
+!.env.example

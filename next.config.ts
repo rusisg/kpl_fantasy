@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "standalone",
+  allowedDevOrigins: ["dev.kplfantasy.kz", "localhost"],
 };
 
 export default nextConfig;
+

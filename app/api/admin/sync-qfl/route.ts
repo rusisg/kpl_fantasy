@@ -1,25 +1,11 @@
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { verifyAdminRequest } from "../../../../lib/admin-auth";
 import { seedQFLDatabase } from "../../../../lib/qfl-ingestion";
 
-function verifyAdminSecret(request: Request): boolean {
-  const configuredSecret = process.env.ADMIN_SECRET;
-  const providedSecret = request.headers.get("x-admin-secret");
-  if (!configuredSecret || !providedSecret) {
-    return false;
-  }
-  const a = Buffer.from(configuredSecret, "utf8");
-  const b = Buffer.from(providedSecret, "utf8");
-  if (a.length !== b.length) {
-    return false;
-  }
-  return timingSafeEqual(a, b);
-}
-
 export async function POST(request: Request) {
-  if (!verifyAdminSecret(request)) {
+  if (!(await verifyAdminRequest(request))) {
     return NextResponse.json(
-      { error: "Forbidden: Invalid or missing x-admin-secret header." },
+      { error: "Forbidden: Invalid or missing admin authentication." },
       { status: 403 }
     );
   }
